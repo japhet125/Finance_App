@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "825245416747",
+    "project_id": "finance-app-4b952",
+    "storage_bucket": "finance-app-4b952.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825245416747:android:63e13fb18d04f962e9596e",
+        "android_client_info": {
+          "package_name": "com.ramdefinance.financeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHdHGDwN7D5vvzPv6i-UWazrUeZ6d5j60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

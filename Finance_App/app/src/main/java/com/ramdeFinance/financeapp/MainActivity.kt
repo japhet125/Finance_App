@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.ramdefinance.financeapp.R
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,13 @@ class MainActivity : AppCompatActivity() {
         signUpButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
+        }
+        val auth = FirebaseAuth.getInstance()
+
+        if (auth.currentUser != null) {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         loginButton.setOnClickListener {
