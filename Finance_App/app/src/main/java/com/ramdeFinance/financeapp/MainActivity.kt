@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,5 +27,10 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             Toast.makeText(this, "Login clicked", Toast.LENGTH_SHORT).show()
         }
+        signUpButton.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 }

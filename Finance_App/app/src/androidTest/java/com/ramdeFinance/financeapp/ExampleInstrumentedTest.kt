@@ -1,4 +1,4 @@
-package com.ramdeFinance.financeapp
+package com.ramdefinance.financeapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.ramdeFinance.financeapp", appContext.packageName)
+        assertEquals("com.ramdefinance.financeapp", appContext.packageName)
     }
 }
