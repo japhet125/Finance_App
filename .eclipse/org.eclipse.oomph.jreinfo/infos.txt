@@ -1,0 +1,3 @@
+/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home:21:0:1:64:true:1696513367000:aarch64
+/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home:1:8:0:64:true:1696406154000:aarch64
+/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home:1:8:0:64:false:1696407110000:aarch64
