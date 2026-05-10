@@ -1,11 +1,11 @@
 package com.ramdefinance.financeapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
+import com.ramdefinance.financeapp.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,20 +21,14 @@ class MainActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.btnLogin)
 
         signUpButton.setOnClickListener {
-            Toast.makeText(this, "Sign Up clicked", Toast.LENGTH_SHORT).show()
-        }
-
-        loginButton.setOnClickListener {
-            Toast.makeText(this, "Login clicked", Toast.LENGTH_SHORT).show()
-        }
-        signUpButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
         loginButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
-
 }
+

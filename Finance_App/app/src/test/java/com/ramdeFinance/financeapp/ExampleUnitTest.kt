@@ -1,4 +1,4 @@
-package com.ramdefinance.financeapp
+package com.ramdeFinance.financeapp
 
 import org.junit.Test
 
