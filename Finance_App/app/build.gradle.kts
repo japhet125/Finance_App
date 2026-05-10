@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ramdeFinance.financeapp"
+    namespace = "com.ramdefinance.financeapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.ramdeFinance.financeapp"
+        applicationId = "com.ramdefinance.financeapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
