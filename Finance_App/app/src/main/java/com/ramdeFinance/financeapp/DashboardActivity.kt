@@ -46,5 +46,12 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
         }
+        val loanButton = findViewById<Button>(R.id.btnLoanRequest)
+
+        loanButton.setOnClickListener {
+
+            val intent = Intent(this, LoanRequestActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
