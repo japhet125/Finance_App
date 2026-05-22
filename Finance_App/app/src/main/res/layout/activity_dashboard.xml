@@ -14,6 +14,37 @@
         android:text="Welcome"
         android:textSize="28sp"
         android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/txtTotalRequested"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Requested: $0"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/txtPendingLoans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pending Requests: 0"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtApprovedAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Approved Amount: $0"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtRejectedLoans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rejected Requests: 0"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
