@@ -53,5 +53,12 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, LoanRequestActivity::class.java)
             startActivity(intent)
         }
+        val historyButton = findViewById<Button>(R.id.btnLoanHistory)
+
+        historyButton.setOnClickListener {
+
+            val intent = Intent(this, LoanHistoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
