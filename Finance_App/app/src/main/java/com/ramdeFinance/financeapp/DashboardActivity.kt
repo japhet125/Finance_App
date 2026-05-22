@@ -98,5 +98,12 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, LoanHistoryActivity::class.java)
             startActivity(intent)
         }
+        val adminButton = findViewById<Button>(R.id.btnAdminDashboard)
+
+        adminButton.setOnClickListener {
+
+            val intent = Intent(this, AdminDashboardActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
