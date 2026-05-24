@@ -64,6 +64,12 @@
         android:text="Loan History"
         android:layout_marginTop="16dp"/>
     <Button
+        android:id="@+id/btnPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Payment"
+        android:layout_marginTop="16dp"/>
+    <Button
         android:id="@+id/btnAdminDashboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

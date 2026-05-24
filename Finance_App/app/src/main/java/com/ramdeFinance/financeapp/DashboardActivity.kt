@@ -117,6 +117,13 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, LoanHistoryActivity::class.java)
             startActivity(intent)
         }
+        val paymentButton = findViewById<Button>(R.id.btnPayment)
+
+        paymentButton.setOnClickListener {
+
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
+        }
 
         adminButton.visibility = View.GONE
 
