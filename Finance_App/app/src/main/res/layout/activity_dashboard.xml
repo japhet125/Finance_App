@@ -75,5 +75,25 @@
         android:layout_height="wrap_content"
         android:text="Admin Dashboard"
         android:layout_marginTop="16dp"/>
+    <Button
+        android:id="@+id/btnTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Transactions"
+        android:layout_marginTop="16dp"/>
+    <TextView
+        android:id="@+id/txtCreditScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Credit Score: 500"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+    <Button
+        android:id="@+id/btnProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>

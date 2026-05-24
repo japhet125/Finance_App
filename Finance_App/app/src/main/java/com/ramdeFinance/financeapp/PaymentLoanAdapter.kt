@@ -64,27 +64,59 @@ class PaymentLoanAdapter(
 
             val newBalance = currentBalance - paymentValue
 
+            val db = FirebaseFirestore.getInstance()
+
             val updates = hashMapOf<String, Any>(
                 "remainingBalance" to String.format("%.2f", newBalance)
             )
 
             if (newBalance <= 0.0) {
+
                 updates["remainingBalance"] = "0.00"
                 updates["status"] = "paid"
+
+                val userRef = db.collection("users")
+                    .document(loan.userId)
+
+                userRef.get()
+                    .addOnSuccessListener { userDocument ->
+
+                        val currentScore =
+                            userDocument.getLong("creditScore") ?: 500
+
+                        userRef.update(
+                            "creditScore",
+                            currentScore + 25
+                        )
+                    }
             }
 
-            FirebaseFirestore.getInstance()
-                .collection("loan_requests")
+            db.collection("loan_requests")
                 .document(documentId)
                 .update(updates)
                 .addOnSuccessListener {
-                    Toast.makeText(
-                        holder.itemView.context,
-                        "Payment successful",
-                        Toast.LENGTH_SHORT
-                    ).show()
 
-                    holder.payAmount.text.clear()
+                    val transaction = hashMapOf(
+                        "userId" to loan.userId,
+                        "loanId" to documentId,
+                        "paymentAmount" to String.format("%.2f", paymentValue),
+                        "previousBalance" to String.format("%.2f", currentBalance),
+                        "newBalance" to String.format("%.2f", newBalance.coerceAtLeast(0.0)),
+                        "paymentDate" to System.currentTimeMillis(),
+                        "paymentType" to "loan_repayment"
+                    )
+
+                    db.collection("transactions")
+                        .add(transaction)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "Payment successful",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            holder.payAmount.text.clear()
+                        }
                 }
         }
     }

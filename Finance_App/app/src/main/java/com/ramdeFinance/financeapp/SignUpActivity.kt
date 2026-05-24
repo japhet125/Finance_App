@@ -60,6 +60,7 @@ class SignUpActivity : AppCompatActivity() {
                                     "fullName" to fullName.text.toString().trim(),
                                     "email" to emailText,
                                     "phone" to phone.text.toString().trim(),
+                                    "creditScore" to 500,
                                     "createdAt" to System.currentTimeMillis()
                                 )
 

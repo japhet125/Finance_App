@@ -35,6 +35,8 @@ class DashboardActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
 
         val userId = auth.currentUser?.uid
+        val creditScoreText =
+            findViewById<TextView>(R.id.txtCreditScore)
 
         if (userId != null) {
 
@@ -54,6 +56,11 @@ class DashboardActivity : AppCompatActivity() {
                         if (role == "admin") {
                             adminButton.visibility = View.VISIBLE
                         }
+                        val creditScore =
+                            document.getLong("creditScore") ?: 500
+
+                        creditScoreText.text =
+                            "Credit Score: $creditScore"
 
                     }
 
@@ -122,6 +129,22 @@ class DashboardActivity : AppCompatActivity() {
         paymentButton.setOnClickListener {
 
             val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
+        }
+        val transactionsButton =
+            findViewById<Button>(R.id.btnTransactions)
+
+        transactionsButton.setOnClickListener {
+
+            val intent =
+                Intent(this, TransactionHistoryActivity::class.java)
+
+            startActivity(intent)
+        }
+        val profileButton = findViewById<Button>(R.id.btnProfile)
+
+        profileButton.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
