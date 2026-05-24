@@ -38,10 +38,34 @@ class AdminLoanAdapter(
         holder.reason.text = "Reason: ${loan.reason}"
         holder.status.text = "Status: ${loan.status}"
 
+        if (loan.status == "approved") {
+
+            holder.approveButton.visibility = View.GONE
+            holder.rejectButton.visibility = View.GONE
+
+            holder.status.text = "✓ Approved"
+
+        } else if (loan.status == "rejected") {
+
+            holder.approveButton.visibility = View.GONE
+            holder.rejectButton.visibility = View.GONE
+
+            holder.status.text = "✗ Rejected"
+
+        } else {
+
+            holder.approveButton.visibility = View.VISIBLE
+            holder.rejectButton.visibility = View.VISIBLE
+
+            holder.status.text = "Status: Pending"
+        }
+
         val db = FirebaseFirestore.getInstance()
 
         holder.approveButton.setOnClickListener {
 
+            db.collection("loan_requests")
+                .document(documentId)
             db.collection("loan_requests")
                 .document(documentId)
                 .update("status", "approved")
@@ -53,9 +77,25 @@ class AdminLoanAdapter(
                 .document(documentId)
                 .update("status", "rejected")
         }
+
     }
 
     override fun getItemCount(): Int {
         return loanList.size
+    }
+    private fun calculateMonthlyPayment(amount: String): String {
+
+        val loanAmount = amount.toDoubleOrNull() ?: 0.0
+
+        val payment = loanAmount / 12
+
+        return String.format("%.2f", payment)
+    }
+
+    private fun calculateDueDate(): Long {
+
+        val oneYearMillis = 365L * 24L * 60L * 60L * 1000L
+
+        return System.currentTimeMillis() + oneYearMillis
     }
 }

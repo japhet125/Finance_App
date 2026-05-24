@@ -15,6 +15,12 @@ class LoanAdapter(
         val amount: TextView = itemView.findViewById(R.id.txtAmount)
         val reason: TextView = itemView.findViewById(R.id.txtReason)
         val status: TextView = itemView.findViewById(R.id.txtStatus)
+
+        val plan: TextView = itemView.findViewById(R.id.txtPlan)
+        val interest: TextView = itemView.findViewById(R.id.txtInterest)
+        val totalRepayment: TextView = itemView.findViewById(R.id.txtTotalRepayment)
+        val paymentAmount: TextView = itemView.findViewById(R.id.txtPaymentAmount)
+        val remainingBalance: TextView = itemView.findViewById(R.id.txtRemainingBalance)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
@@ -32,6 +38,13 @@ class LoanAdapter(
         holder.amount.text = "Amount: $${loan.amount}"
         holder.reason.text = "Reason: ${loan.reason}"
         holder.status.text = "Status: ${loan.status}"
+
+
+        holder.plan.text = "Plan: ${loan.paymentFrequency} for ${loan.paymentTerm} payments"
+        holder.interest.text = "Interest: ${loan.interestRate}%"
+        holder.totalRepayment.text = "Total Repayment: $${loan.totalRepayment}"
+        holder.paymentAmount.text = "Payment Amount: $${loan.paymentAmount}"
+        holder.remainingBalance.text = "Remaining Balance: $${loan.remainingBalance}"
     }
 
     override fun getItemCount(): Int {

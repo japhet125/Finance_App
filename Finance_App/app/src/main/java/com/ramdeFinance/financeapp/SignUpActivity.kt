@@ -17,6 +17,12 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        val backButton = findViewById<Button>(R.id.btnBack)
+
+        backButton.setOnClickListener {
+            finish()
+        }
+
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()

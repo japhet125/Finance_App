@@ -70,24 +70,30 @@ class DashboardActivity : AppCompatActivity() {
         if (userId != null) {
             db.collection("loan_requests")
                 .whereEqualTo("userId", userId)
-                .get()
-                .addOnSuccessListener { documents ->
+                .addSnapshotListener { snapshots, error ->
+
+                    if (error != null) {
+                        return@addSnapshotListener
+                    }
 
                     var totalRequested = 0.0
                     var approvedAmount = 0.0
                     var pendingCount = 0
                     var rejectedCount = 0
 
-                    for (document in documents) {
-                        val amount = document.getString("amount")?.toDoubleOrNull() ?: 0.0
-                        val status = document.getString("status") ?: "pending"
+                    if (snapshots != null) {
 
-                        totalRequested += amount
+                        for (document in snapshots.documents) {
+                            val amount = document.getString("amount")?.toDoubleOrNull() ?: 0.0
+                            val status = document.getString("status") ?: "pending"
 
-                        when (status) {
-                            "pending" -> pendingCount++
-                            "approved" -> approvedAmount += amount
-                            "rejected" -> rejectedCount++
+                            totalRequested += amount
+
+                            when (status) {
+                                "pending" -> pendingCount++
+                                "approved" -> approvedAmount += amount
+                                "rejected" -> rejectedCount++
+                            }
                         }
                     }
 

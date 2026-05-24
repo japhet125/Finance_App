@@ -8,6 +8,7 @@
     android:layout_marginBottom="12dp"
     android:background="#EEEEEE">
 
+
     <TextView
         android:id="@+id/txtAdminAmount"
         android:layout_width="wrap_content"

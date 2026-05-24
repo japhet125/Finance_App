@@ -4,11 +4,19 @@
     android:layout_height="match_parent"
     android:background="#F5F7FA">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp">
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginBottom="16dp"/>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,6 +40,38 @@
             android:hint="Reason for Loan"
             android:gravity="top"
             android:layout_marginTop="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Plan"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgPaymentPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbWeekly10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weekly - 10 weeks - 25% interest"/>
+
+            <RadioButton
+                android:id="@+id/rbWeekly14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weekly - 14 weeks - 25% interest"/>
+
+            <RadioButton
+                android:id="@+id/rbMonthly12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly - 12 months - 35% interest"/>
+        </RadioGroup>
 
         <Button
             android:id="@+id/btnSubmitLoan"

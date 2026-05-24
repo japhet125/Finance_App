@@ -1,6 +1,7 @@
 package com.ramdefinance.financeapp
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +16,11 @@ class LoanHistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan_history)
+        val backButton = findViewById<Button>(R.id.btnBack)
+
+        backButton.setOnClickListener {
+            finish()
+        }
 
         recyclerView = findViewById(R.id.recyclerLoans)
 
@@ -32,18 +38,29 @@ class LoanHistoryActivity : AppCompatActivity() {
 
             db.collection("loan_requests")
                 .whereEqualTo("userId", userId)
-                .get()
-                .addOnSuccessListener { documents ->
+                .addSnapshotListener { snapshots, error ->
 
-                    for (document in documents) {
-
-                        val loan = document.toObject(LoanModel::class.java)
-
-                        loanList.add(loan)
+                    if (error != null) {
+                        return@addSnapshotListener
                     }
 
-                    adapter.notifyDataSetChanged()
+                    loanList.clear()
+
+                    if (snapshots != null) {
+
+                        for (document in snapshots.documents) {
+
+                            val loan = document.toObject(LoanModel::class.java)
+
+                            if (loan != null) {
+                                loanList.add(loan)
+                            }
+                        }
+
+                        adapter.notifyDataSetChanged()
+                    }
                 }
         }
     }
+
 }

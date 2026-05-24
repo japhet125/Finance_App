@@ -1,6 +1,7 @@
 package com.ramdefinance.financeapp
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,7 +15,11 @@ class AdminDashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dashboard)
+        val backButton = findViewById<Button>(R.id.btnBack)
 
+        backButton.setOnClickListener {
+            finish()
+        }
         recyclerView = findViewById(R.id.recyclerAdminLoans)
 
         loanList = mutableListOf()
@@ -26,17 +31,28 @@ class AdminDashboardActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("loan_requests")
-            .get()
-            .addOnSuccessListener { documents ->
+            .addSnapshotListener { snapshots, error ->
 
-                for (document in documents) {
-
-                    val loan = document.toObject(AdminLoanModel::class.java)
-
-                    loanList.add(Pair(document.id, loan))
+                if (error != null) {
+                    return@addSnapshotListener
                 }
 
-                adapter.notifyDataSetChanged()
+                loanList.clear()
+
+                if (snapshots != null) {
+
+                    for (document in snapshots.documents) {
+
+                        val loan = document.toObject(AdminLoanModel::class.java)
+
+                        if (loan != null) {
+                            loanList.add(Pair(document.id, loan))
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged()
+                }
             }
     }
+
 }
