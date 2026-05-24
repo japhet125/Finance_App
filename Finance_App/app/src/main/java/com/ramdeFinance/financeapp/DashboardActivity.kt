@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.NumberFormat
+import android.view.View
 class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +28,9 @@ class DashboardActivity : AppCompatActivity() {
         }
         val welcomeText = findViewById<TextView>(R.id.txtWelcome)
 
+        val adminButton = findViewById<Button>(R.id.btnAdminDashboard)
+        adminButton.visibility = View.GONE
+
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
 
@@ -44,9 +48,18 @@ class DashboardActivity : AppCompatActivity() {
                         val fullName = document.getString("fullName")
 
                         welcomeText.text = "Welcome, $fullName"
+
+                        val role = document.getString("role")
+
+                        if (role == "admin") {
+                            adminButton.visibility = View.VISIBLE
+                        }
+
                     }
+
                 }
         }
+
         val totalRequestedText = findViewById<TextView>(R.id.txtTotalRequested)
         val pendingLoansText = findViewById<TextView>(R.id.txtPendingLoans)
         val approvedAmountText = findViewById<TextView>(R.id.txtApprovedAmount)
@@ -98,10 +111,10 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, LoanHistoryActivity::class.java)
             startActivity(intent)
         }
-        val adminButton = findViewById<Button>(R.id.btnAdminDashboard)
+
+        adminButton.visibility = View.GONE
 
         adminButton.setOnClickListener {
-
             val intent = Intent(this, AdminDashboardActivity::class.java)
             startActivity(intent)
         }
