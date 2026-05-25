@@ -51,6 +51,19 @@ class NotificationsActivity : AppCompatActivity() {
 
                             if (notification != null) {
                                 notificationList.add(notification)
+
+                                if (!notification.isRead) {
+                                    db.collection("notifications")
+                                        .document(document.id)
+                                        .update("isRead", true)
+                                        .addOnFailureListener { e ->
+                                            android.widget.Toast.makeText(
+                                                this,
+                                                "Read update failed: ${e.message}",
+                                                android.widget.Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                }
                             }
                         }
                     }

@@ -80,6 +80,13 @@ class LoanRequestActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
             }
+            val millisecondsPerDay = 24L * 60L * 60L * 1000L
+
+            val dueDate = if (paymentFrequency == "weekly") {
+                System.currentTimeMillis() + (paymentTerm * 7L * millisecondsPerDay)
+            } else {
+                System.currentTimeMillis() + (paymentTerm * 30L * millisecondsPerDay)
+            }
 
             val totalRepayment = amountValue + (amountValue * interestRate)
             val paymentAmount = totalRepayment / paymentTerm
@@ -99,7 +106,8 @@ class LoanRequestActivity : AppCompatActivity() {
                     "totalRepayment" to String.format("%.2f", totalRepayment),
                     "paymentAmount" to String.format("%.2f", paymentAmount),
                     "remainingBalance" to String.format("%.2f", totalRepayment),
-                    "createdAt" to System.currentTimeMillis()
+                    "createdAt" to System.currentTimeMillis(),
+                    "dueDate" to dueDate,
                 )
 
                 db.collection("loan_requests")

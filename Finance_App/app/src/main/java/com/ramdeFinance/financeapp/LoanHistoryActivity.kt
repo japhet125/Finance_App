@@ -53,6 +53,57 @@ class LoanHistoryActivity : AppCompatActivity() {
                             val loan = document.toObject(LoanModel::class.java)
 
                             if (loan != null) {
+
+                                val remainingBalance =
+                                    loan.remainingBalance.toDoubleOrNull() ?: 0.0
+
+                                val isLate =
+                                    loan.status == "approved" &&
+                                            loan.dueDate > 0 &&
+                                            System.currentTimeMillis() > loan.dueDate &&
+                                            remainingBalance > 0.0 &&
+                                            !loan.overduePenaltyApplied
+                                if (isLate) {
+                                    val db = FirebaseFirestore.getInstance()
+
+                                    db.collection("loan_requests")
+                                        .document(document.id)
+                                        .update(
+                                            mapOf(
+                                                "status" to "overdue",
+                                                "overduePenaltyApplied" to true
+                                            )
+                                        )
+                                        .addOnSuccessListener {
+
+                                            val notification = hashMapOf(
+                                                "userId" to userId,
+                                                "title" to "Loan Overdue",
+                                                "message" to "Your loan payment is overdue. Please make a payment as soon as possible.",
+                                                "timestamp" to System.currentTimeMillis(),
+                                                "isRead" to false
+                                            )
+
+                                            db.collection("notifications")
+                                                .add(notification)
+
+                                            val userRef = db.collection("users")
+                                                .document(userId)
+
+                                            userRef.get()
+                                                .addOnSuccessListener { userDocument ->
+
+                                                    val currentScore =
+                                                        userDocument.getLong("creditScore") ?: 500
+
+                                                    userRef.update(
+                                                        "creditScore",
+                                                        currentScore - 25
+                                                    )
+                                                }
+                                        }
+                                }
+
                                 loanList.add(loan)
                             }
                         }

@@ -5,62 +5,52 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
-import android.content.Intent
 
-
-class AdminDashboardActivity : AppCompatActivity() {
+class AuditLogActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var loanList: MutableList<Pair<String, AdminLoanModel>>
-    private lateinit var adapter: AdminLoanAdapter
+    private lateinit var auditLogList: MutableList<AuditLogModel>
+    private lateinit var adapter: AuditLogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_dashboard)
+        setContentView(R.layout.activity_audit_log)
+
         val backButton = findViewById<Button>(R.id.btnBack)
 
         backButton.setOnClickListener {
             finish()
         }
-        recyclerView = findViewById(R.id.recyclerAdminLoans)
 
-        loanList = mutableListOf()
+        recyclerView = findViewById(R.id.recyclerAuditLogs)
 
-        adapter = AdminLoanAdapter(loanList)
+        auditLogList = mutableListOf()
+        adapter = AuditLogAdapter(auditLogList)
 
         recyclerView.adapter = adapter
 
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("loan_requests")
+        db.collection("audit_logs")
             .addSnapshotListener { snapshots, error ->
 
                 if (error != null) {
                     return@addSnapshotListener
                 }
 
-                loanList.clear()
+                auditLogList.clear()
 
                 if (snapshots != null) {
-
                     for (document in snapshots.documents) {
+                        val log = document.toObject(AuditLogModel::class.java)
 
-                        val loan = document.toObject(AdminLoanModel::class.java)
-
-                        if (loan != null) {
-                            loanList.add(Pair(document.id, loan))
+                        if (log != null) {
+                            auditLogList.add(log)
                         }
                     }
-
-                    adapter.notifyDataSetChanged()
                 }
+
+                adapter.notifyDataSetChanged()
             }
-        val auditButton = findViewById<Button>(R.id.btnAuditLogs)
-
-        auditButton.setOnClickListener {
-            val intent = Intent(this, AuditLogActivity::class.java)
-            startActivity(intent)
-        }
     }
-
 }

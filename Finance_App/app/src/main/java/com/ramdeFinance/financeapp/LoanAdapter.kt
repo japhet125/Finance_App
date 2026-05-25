@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class LoanAdapter(
     private val loanList: List<LoanModel>
@@ -21,6 +24,7 @@ class LoanAdapter(
         val totalRepayment: TextView = itemView.findViewById(R.id.txtTotalRepayment)
         val paymentAmount: TextView = itemView.findViewById(R.id.txtPaymentAmount)
         val remainingBalance: TextView = itemView.findViewById(R.id.txtRemainingBalance)
+        val dueDate: TextView = itemView.findViewById(R.id.txtDueDate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
@@ -45,6 +49,17 @@ class LoanAdapter(
         holder.totalRepayment.text = "Total Repayment: $${loan.totalRepayment}"
         holder.paymentAmount.text = "Payment Amount: $${loan.paymentAmount}"
         holder.remainingBalance.text = "Remaining Balance: $${loan.remainingBalance}"
+
+        val formattedDueDate = if (loan.dueDate > 0) {
+            SimpleDateFormat(
+                "MMM dd, yyyy",
+                Locale.getDefault()
+            ).format(Date(loan.dueDate))
+        } else {
+            "N/A"
+        }
+
+        holder.dueDate.text = "Due Date: $formattedDueDate"
     }
 
     override fun getItemCount(): Int {

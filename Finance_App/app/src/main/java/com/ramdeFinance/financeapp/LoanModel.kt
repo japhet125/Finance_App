@@ -10,5 +10,7 @@ data class LoanModel(
     val paymentFrequency: String = "",
     val paymentTerm: Long = 0,
     val paymentAmount: String = "",
-    val remainingBalance: String = ""
+    val remainingBalance: String = "",
+    val dueDate: Long = 0,
+    val overduePenaltyApplied: Boolean = false
 )

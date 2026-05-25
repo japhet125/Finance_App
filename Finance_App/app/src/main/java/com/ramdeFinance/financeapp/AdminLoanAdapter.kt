@@ -60,6 +60,16 @@ class AdminLoanAdapter(
 
                     db.collection("notifications").add(notification)
                 }
+            val auditLog = hashMapOf(
+                "actorId" to "admin",
+                "action" to "loan_approved",
+                "targetType" to "loan_request",
+                "targetId" to documentId,
+                "message" to "Loan ${documentId} was approved.",
+                "timestamp" to System.currentTimeMillis()
+            )
+
+            db.collection("audit_logs").add(auditLog)
 
         } else if (loan.status == "rejected") {
 
@@ -82,6 +92,16 @@ class AdminLoanAdapter(
 
                     db.collection("notifications").add(notification)
                 }
+            val auditLog = hashMapOf(
+                "actorId" to "admin",
+                "action" to "loan_rejected",
+                "targetType" to "loan_request",
+                "targetId" to documentId,
+                "message" to "Loan ${documentId} was rejected.",
+                "timestamp" to System.currentTimeMillis()
+            )
+
+            db.collection("audit_logs").add(auditLog)
 
         } else {
 

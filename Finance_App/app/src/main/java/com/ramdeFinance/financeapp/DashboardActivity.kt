@@ -37,6 +37,8 @@ class DashboardActivity : AppCompatActivity() {
         val userId = auth.currentUser?.uid
         val creditScoreText =
             findViewById<TextView>(R.id.txtCreditScore)
+        val unreadNotificationsText =
+            findViewById<TextView>(R.id.txtUnreadNotifications)
 
         if (userId != null) {
 
@@ -64,6 +66,22 @@ class DashboardActivity : AppCompatActivity() {
 
                     }
 
+                }
+        }
+        if (userId != null) {
+            db.collection("notifications")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("isRead", false)
+                .addSnapshotListener { snapshots, error ->
+
+                    if (error != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val unreadCount = snapshots?.size() ?: 0
+
+                    unreadNotificationsText.text =
+                        "Unread Notifications: $unreadCount"
                 }
         }
 
