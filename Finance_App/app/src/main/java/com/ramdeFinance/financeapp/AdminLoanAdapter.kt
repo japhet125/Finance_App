@@ -33,6 +33,7 @@ class AdminLoanAdapter(
     override fun onBindViewHolder(holder: AdminLoanViewHolder, position: Int) {
 
         val (documentId, loan) = loanList[position]
+        val db = FirebaseFirestore.getInstance()
 
         holder.amount.text = "Amount: $${loan.amount}"
         holder.reason.text = "Reason: ${loan.reason}"
@@ -44,6 +45,21 @@ class AdminLoanAdapter(
             holder.rejectButton.visibility = View.GONE
 
             holder.status.text = "✓ Approved"
+            db.collection("loan_requests")
+                .document(documentId)
+                .update("status", "approved")
+                .addOnSuccessListener {
+
+                    val notification = hashMapOf(
+                        "userId" to loan.userId,
+                        "title" to "Loan Approved",
+                        "message" to "Your loan request for $${loan.amount} was approved.",
+                        "timestamp" to System.currentTimeMillis(),
+                        "isRead" to false
+                    )
+
+                    db.collection("notifications").add(notification)
+                }
 
         } else if (loan.status == "rejected") {
 
@@ -51,6 +67,21 @@ class AdminLoanAdapter(
             holder.rejectButton.visibility = View.GONE
 
             holder.status.text = "✗ Rejected"
+            db.collection("loan_requests")
+                .document(documentId)
+                .update("status", "rejected")
+                .addOnSuccessListener {
+
+                    val notification = hashMapOf(
+                        "userId" to loan.userId,
+                        "title" to "Loan Rejected",
+                        "message" to "Your loan request for $${loan.amount} was rejected.",
+                        "timestamp" to System.currentTimeMillis(),
+                        "isRead" to false
+                    )
+
+                    db.collection("notifications").add(notification)
+                }
 
         } else {
 
@@ -60,7 +91,7 @@ class AdminLoanAdapter(
             holder.status.text = "Status: Pending"
         }
 
-        val db = FirebaseFirestore.getInstance()
+
 
         holder.approveButton.setOnClickListener {
 

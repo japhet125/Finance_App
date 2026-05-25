@@ -147,6 +147,12 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+        val notificationsButton = findViewById<Button>(R.id.btnNotifications)
+
+        notificationsButton.setOnClickListener {
+            val intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)
+        }
 
         adminButton.visibility = View.GONE
 
