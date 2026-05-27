@@ -46,8 +46,8 @@ class AdminAnalyticActivity : AppCompatActivity() {
                 val averageCredit =
                     if (userCount > 0) creditTotal / userCount else 0
 
-                totalUsersText.text = "Total Users: $userCount"
-                averageCreditText.text = "Average Credit Score: $averageCredit"
+                totalUsersText.text = "\uD83D\uDC65 Total Users: $userCount"
+                averageCreditText.text = "⭐ Average Credit Score: $averageCredit"
             }
 
         db.collection("loan_requests")
@@ -77,11 +77,11 @@ class AdminAnalyticActivity : AppCompatActivity() {
                     }
                 }
 
-                totalLoansText.text = "Total Loans: $totalLoans"
-                approvedLoansText.text = "Approved Loans: $approvedLoans"
-                overdueLoansText.text = "Overdue Loans: $overdueLoans"
+                totalLoansText.text = "\uD83D\uDCC4 Total Loans: $totalLoans"
+                approvedLoansText.text = "✅ Approved Loans: $approvedLoans"
+                overdueLoansText.text = "⚠\uFE0F Overdue Loans: $overdueLoans"
                 totalLoanedText.text =
-                    "Total Money Loaned: ${currencyFormat.format(totalLoaned)}"
+                    "\uD83D\uDCB0 Total Money Loaned: ${currencyFormat.format(totalLoaned)}"
             }
 
         db.collection("transactions")
@@ -99,7 +99,7 @@ class AdminAnalyticActivity : AppCompatActivity() {
                 }
 
                 totalPaymentsText.text =
-                    "Total Payments Received: ${currencyFormat.format(totalPayments)}"
+                    "\uD83D\uDCB5 Total Payments Received: ${currencyFormat.format(totalPayments)}"
             }
     }
 }

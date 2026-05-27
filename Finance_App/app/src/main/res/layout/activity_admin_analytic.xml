@@ -27,57 +27,79 @@
 
         <TextView
             android:id="@+id/txtTotalUsers"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total Users: 0"
-            android:textSize="18sp" />
+            android:text="👥 Total Users: 0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:layout_marginBottom="12dp" />
 
         <TextView
             android:id="@+id/txtTotalLoans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Loans: 0"
+            android:text="📄 Total Loans: 0"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/txtApprovedLoans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Approved Loans: 0"
+            android:text= "✅ Approved Loans: 0"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/txtOverdueLoans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Overdue Loans: 0"
+            android:text="⚠️ Overdue Loans: 0"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/txtTotalLoaned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Money Loaned: $0"
+            android:text="💰 Total Money Loaned: $0"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/txtTotalPayments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Payments Received: $0"
+            android:text= "💵 Total Payments Received: $0"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/txtAverageCredit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Average Credit Score: 0"
+            android:text="⭐ Average Credit Score: 0"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:layout_marginTop="12dp" />
 
     </LinearLayout>

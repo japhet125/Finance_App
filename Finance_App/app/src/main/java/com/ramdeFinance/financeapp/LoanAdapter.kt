@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.widget.ProgressBar
 
 class LoanAdapter(
     private val loanList: List<LoanModel>
@@ -25,6 +26,8 @@ class LoanAdapter(
         val paymentAmount: TextView = itemView.findViewById(R.id.txtPaymentAmount)
         val remainingBalance: TextView = itemView.findViewById(R.id.txtRemainingBalance)
         val dueDate: TextView = itemView.findViewById(R.id.txtDueDate)
+        val progressText: TextView = itemView.findViewById(R.id.txtLoanProgress)
+        val progressBar: ProgressBar = itemView.findViewById(R.id.progressLoan)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
@@ -60,6 +63,20 @@ class LoanAdapter(
         }
 
         holder.dueDate.text = "Due Date: $formattedDueDate"
+
+        val totalRepayment = loan.totalRepayment.toDoubleOrNull() ?: 0.0
+        val remainingBalance = loan.remainingBalance.toDoubleOrNull() ?: 0.0
+
+        val paidAmount = totalRepayment - remainingBalance
+
+        val progressPercent = if (totalRepayment > 0) {
+            ((paidAmount / totalRepayment) * 100).toInt()
+        } else {
+            0
+        }
+
+        holder.progressText.text = "Progress: $progressPercent%"
+        holder.progressBar.progress = progressPercent
     }
 
     override fun getItemCount(): Int {
