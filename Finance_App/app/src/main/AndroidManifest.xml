@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Finance_App"
         tools:targetApi="31">
         <activity
+            android:name=".AdminAnalyticActivity"
+            android:exported="false" />
+        <activity
             android:name=".AuditLogActivity"
             android:exported="false" />
         <activity

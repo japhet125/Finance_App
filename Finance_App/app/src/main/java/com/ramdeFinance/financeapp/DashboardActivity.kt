@@ -9,27 +9,88 @@ import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.NumberFormat
 import android.view.View
+import android.widget.PopupMenu
+import android.widget.ImageButton
 class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        val logoutButton = findViewById<Button>(R.id.btnLogout)
+        val menuButton = findViewById<ImageButton>(R.id.btnMenu)
+        var isAdminUser = false
+        menuButton.setOnClickListener {
 
-        logoutButton.setOnClickListener {
+            val popupMenu = PopupMenu(this, menuButton)
 
-            FirebaseAuth.getInstance().signOut()
+            popupMenu.menu.add("Request Loan")
+            popupMenu.menu.add("Loan History")
+            popupMenu.menu.add("Make Payment")
+            popupMenu.menu.add("Transactions")
+            popupMenu.menu.add("Profile")
+            popupMenu.menu.add("Notifications")
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            if (isAdminUser) {
+                popupMenu.menu.add("Admin Dashboard")
+            }
 
-            finish()
+            popupMenu.menu.add("Logout")
+
+            popupMenu.setOnMenuItemClickListener { item ->
+
+                when (item.title.toString()) {
+
+                    "Request Loan" -> {
+                        startActivity(Intent(this, LoanRequestActivity::class.java))
+                        true
+                    }
+
+                    "Loan History" -> {
+                        startActivity(Intent(this, LoanHistoryActivity::class.java))
+                        true
+                    }
+
+                    "Make Payment" -> {
+                        startActivity(Intent(this, PaymentActivity::class.java))
+                        true
+                    }
+
+                    "Transactions" -> {
+                        startActivity(Intent(this, TransactionHistoryActivity::class.java))
+                        true
+                    }
+
+                    "Profile" -> {
+                        startActivity(Intent(this, ProfileActivity::class.java))
+                        true
+                    }
+
+                    "Notifications" -> {
+                        startActivity(Intent(this, NotificationsActivity::class.java))
+                        true
+                    }
+
+                    "Admin Dashboard" -> {
+                        startActivity(Intent(this, AdminDashboardActivity::class.java))
+                        true
+                    }
+
+                    "Logout" -> {
+                        FirebaseAuth.getInstance().signOut()
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
         }
+
         val welcomeText = findViewById<TextView>(R.id.txtWelcome)
 
-        val adminButton = findViewById<Button>(R.id.btnAdminDashboard)
-        adminButton.visibility = View.GONE
 
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
@@ -56,13 +117,12 @@ class DashboardActivity : AppCompatActivity() {
                         val role = document.getString("role")
 
                         if (role == "admin") {
-                            adminButton.visibility = View.VISIBLE
+                            isAdminUser = true
                         }
                         val creditScore =
                             document.getLong("creditScore") ?: 500
 
-                        creditScoreText.text =
-                            "Credit Score: $creditScore"
+                        creditScoreText.text = "💳 Credit Score: $creditScore"
 
                     }
 
@@ -80,8 +140,7 @@ class DashboardActivity : AppCompatActivity() {
 
                     val unreadCount = snapshots?.size() ?: 0
 
-                    unreadNotificationsText.text =
-                        "Unread Notifications: $unreadCount"
+                    unreadNotificationsText.text = "🔔 Unread Notifications: $unreadCount"
                 }
         }
 
@@ -122,61 +181,12 @@ class DashboardActivity : AppCompatActivity() {
                         }
                     }
 
-                    totalRequestedText.text = "Total Requested: ${currencyFormat.format(totalRequested)}"
-                    pendingLoansText.text = "Pending Requests: $pendingCount"
-                    approvedAmountText.text = "Approved Amount: ${currencyFormat.format(approvedAmount)}"
-                    rejectedLoansText.text = "Rejected Requests: $rejectedCount"
+                    totalRequestedText.text = "💰 Total Requested: ${currencyFormat.format(totalRequested)}"
+                    pendingLoansText.text = "⏳ Pending Requests: $pendingCount"
+                    approvedAmountText.text = "✅ Approved Amount: ${currencyFormat.format(approvedAmount)}"
+                    rejectedLoansText.text = "❌ Rejected Requests: $rejectedCount"
                 }
         }
-        val loanButton = findViewById<Button>(R.id.btnLoanRequest)
 
-        loanButton.setOnClickListener {
-
-            val intent = Intent(this, LoanRequestActivity::class.java)
-            startActivity(intent)
-        }
-        val historyButton = findViewById<Button>(R.id.btnLoanHistory)
-
-        historyButton.setOnClickListener {
-
-            val intent = Intent(this, LoanHistoryActivity::class.java)
-            startActivity(intent)
-        }
-        val paymentButton = findViewById<Button>(R.id.btnPayment)
-
-        paymentButton.setOnClickListener {
-
-            val intent = Intent(this, PaymentActivity::class.java)
-            startActivity(intent)
-        }
-        val transactionsButton =
-            findViewById<Button>(R.id.btnTransactions)
-
-        transactionsButton.setOnClickListener {
-
-            val intent =
-                Intent(this, TransactionHistoryActivity::class.java)
-
-            startActivity(intent)
-        }
-        val profileButton = findViewById<Button>(R.id.btnProfile)
-
-        profileButton.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-        val notificationsButton = findViewById<Button>(R.id.btnNotifications)
-
-        notificationsButton.setOnClickListener {
-            val intent = Intent(this, NotificationsActivity::class.java)
-            startActivity(intent)
-        }
-
-        adminButton.visibility = View.GONE
-
-        adminButton.setOnClickListener {
-            val intent = Intent(this, AdminDashboardActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

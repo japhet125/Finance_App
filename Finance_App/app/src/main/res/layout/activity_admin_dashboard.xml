@@ -26,6 +26,12 @@
         android:layout_height="wrap_content"
         android:text="Audit Logs"
         android:layout_marginBottom="16dp" />
+    <Button
+        android:id="@+id/btnAdminAnalytics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Analytics"
+        android:layout_marginBottom="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAdminLoans"

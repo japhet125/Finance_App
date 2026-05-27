@@ -1,112 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     android:background="#F5F7FA">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtWelcome"
-        android:text="Welcome"
-        android:textSize="28sp"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/txtTotalRequested"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Requested: $0"
-        android:textSize="18sp"
-        android:layout_marginTop="24dp"/>
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <TextView
-        android:id="@+id/txtPendingLoans"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pending Requests: 0"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"/>
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_sort_by_size"
+            android:contentDescription="Menu" />
 
-    <TextView
-        android:id="@+id/txtApprovedAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Approved Amount: $0"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#0B1F3A"
+            android:layout_marginBottom="24dp" />
 
-    <TextView
-        android:id="@+id/txtRejectedLoans"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rejected Requests: 0"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"/>
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_marginTop="24dp"/>
-    <Button
-        android:id="@+id/btnLoanRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Request Loan"
-        android:layout_marginTop="16dp"/>
-    <Button
-        android:id="@+id/btnLoanHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loan History"
-        android:layout_marginTop="16dp"/>
-    <Button
-        android:id="@+id/btnPayment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Make Payment"
-        android:layout_marginTop="16dp"/>
-    <Button
-        android:id="@+id/btnAdminDashboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Admin Dashboard"
-        android:layout_marginTop="16dp"/>
-    <Button
-        android:id="@+id/btnTransactions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Transactions"
-        android:layout_marginTop="16dp"/>
-    <TextView
-        android:id="@+id/txtCreditScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Credit Score: 500"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"/>
-    <Button
-        android:id="@+id/btnProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        android:layout_marginTop="16dp"/>
-    <Button
-        android:id="@+id/btnNotifications"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notifications"
-        android:layout_marginTop="16dp"/>
-    <TextView
-        android:id="@+id/txtUnreadNotifications"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Unread Notifications: 0"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/txtCreditScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💳 Credit Score\n500"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="#0B1F3A"
+            android:padding="22dp"
+            android:layout_marginBottom="16dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/txtTotalRequested"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💰 Total Requested\n$0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtPendingLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⏳ Pending Requests\n0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtApprovedAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✅ Approved Amount\n$0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtRejectedLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="❌ Rejected Requests\n0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtUnreadNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔔 Unread Notifications\n0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:layout_marginBottom="12dp" />
+
+    </LinearLayout>
+</ScrollView>

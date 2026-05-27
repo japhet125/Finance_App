@@ -55,6 +55,12 @@ class AdminDashboardActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
             }
+        val analyticsButton = findViewById<Button>(R.id.btnAdminAnalytics)
+
+        analyticsButton.setOnClickListener {
+            val intent = Intent(this, AdminAnalyticActivity::class.java)
+            startActivity(intent)
+        }
         val auditButton = findViewById<Button>(R.id.btnAuditLogs)
 
         auditButton.setOnClickListener {
