@@ -1,5 +1,6 @@
 package com.ramdefinance.financeapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -101,5 +102,11 @@ class AdminAnalyticActivity : AppCompatActivity() {
                 totalPaymentsText.text =
                     "\uD83D\uDCB5 Total Payments Received: ${currencyFormat.format(totalPayments)}"
             }
+        val chartButton = findViewById<Button>(R.id.btnLoanStatusChart)
+
+        chartButton.setOnClickListener {
+            val intent = Intent(this, LoanStatusChartActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

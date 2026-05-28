@@ -6,13 +6,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 
 
 class AdminDashboardActivity : AppCompatActivity() {
+    private lateinit var allLoansList: MutableList<Pair<String, AdminLoanModel>>
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var loanList: MutableList<Pair<String, AdminLoanModel>>
     private lateinit var adapter: AdminLoanAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +30,62 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
         recyclerView = findViewById(R.id.recyclerAdminLoans)
 
+        allLoansList = mutableListOf()
         loanList = mutableListOf()
-
         adapter = AdminLoanAdapter(loanList)
 
         recyclerView.adapter = adapter
+
+        val searchInput = findViewById<EditText>(R.id.etSearchLoans)
+
+        searchInput.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+
+                val query = s.toString().lowercase().trim()
+
+                loanList.clear()
+
+                if (query.isBlank()) {
+
+                    loanList.addAll(allLoansList)
+
+                } else {
+
+                    val filtered = allLoansList.filter { pair ->
+
+                        val loan = pair.second
+
+                        loan.status.lowercase().contains(query) ||
+                                loan.reason.lowercase().contains(query) ||
+                                loan.amount.lowercase().contains(query) ||
+                                pair.first.lowercase().contains(query)
+                    }
+
+                    loanList.addAll(filtered)
+                }
+
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+
+
 
         val db = FirebaseFirestore.getInstance()
 
@@ -39,21 +96,22 @@ class AdminDashboardActivity : AppCompatActivity() {
                     return@addSnapshotListener
                 }
 
+                allLoansList.clear()
                 loanList.clear()
 
                 if (snapshots != null) {
-
                     for (document in snapshots.documents) {
-
                         val loan = document.toObject(AdminLoanModel::class.java)
 
                         if (loan != null) {
-                            loanList.add(Pair(document.id, loan))
+                            val pair = Pair(document.id, loan)
+                            allLoansList.add(pair)
+                            loanList.add(pair)
                         }
                     }
-
-                    adapter.notifyDataSetChanged()
                 }
+
+                adapter.notifyDataSetChanged()
             }
         val analyticsButton = findViewById<Button>(R.id.btnAdminAnalytics)
 
@@ -65,6 +123,12 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         auditButton.setOnClickListener {
             val intent = Intent(this, AuditLogActivity::class.java)
+            startActivity(intent)
+        }
+        val usersButton = findViewById<Button>(R.id.btnUserManagement)
+
+        usersButton.setOnClickListener {
+            val intent = Intent(this, UserManagementActivity::class.java)
             startActivity(intent)
         }
     }

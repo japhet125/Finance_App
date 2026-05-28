@@ -20,6 +20,8 @@ class AdminLoanAdapter(
 
         val approveButton: Button = itemView.findViewById(R.id.btnApprove)
         val rejectButton: Button = itemView.findViewById(R.id.btnReject)
+        val recommendation: TextView =
+            itemView.findViewById(R.id.txtRecommendation)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminLoanViewHolder {
@@ -34,42 +36,46 @@ class AdminLoanAdapter(
 
         val (documentId, loan) = loanList[position]
         val db = FirebaseFirestore.getInstance()
+        holder.recommendation.text = "Recommendation: Loading..."
+
 
         holder.amount.text = "Amount: $${loan.amount}"
         holder.reason.text = "Reason: ${loan.reason}"
         holder.status.text = "Status: ${loan.status}"
 
+        db.collection("users")
+            .document(loan.userId)
+            .get()
+            .addOnSuccessListener { userDocument ->
+
+                val creditScore =
+                    userDocument.getLong("creditScore") ?: 500
+
+                val recommendationText = when {
+                    creditScore >= 700 -> {
+                        "✅ Recommendation: Approve — strong credit score"
+                    }
+
+                    creditScore >= 550 -> {
+                        "⚠️ Recommendation: Review — medium risk borrower"
+                    }
+
+                    else -> {
+                        "❌ Recommendation: Reject — high risk borrower"
+                    }
+                }
+
+                holder.recommendation.text = recommendationText
+            }.addOnFailureListener { e ->
+                holder.recommendation.text = "Recommendation unavailable: ${e.message}"
+            }
+
         if (loan.status == "approved") {
 
             holder.approveButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
-
             holder.status.text = "✓ Approved"
-            db.collection("loan_requests")
-                .document(documentId)
-                .update("status", "approved")
-                .addOnSuccessListener {
 
-                    val notification = hashMapOf(
-                        "userId" to loan.userId,
-                        "title" to "Loan Approved",
-                        "message" to "Your loan request for $${loan.amount} was approved.",
-                        "timestamp" to System.currentTimeMillis(),
-                        "isRead" to false
-                    )
-
-                    db.collection("notifications").add(notification)
-                }
-            val auditLog = hashMapOf(
-                "actorId" to "admin",
-                "action" to "loan_approved",
-                "targetType" to "loan_request",
-                "targetId" to documentId,
-                "message" to "Loan ${documentId} was approved.",
-                "timestamp" to System.currentTimeMillis()
-            )
-
-            db.collection("audit_logs").add(auditLog)
 
         } else if (loan.status == "rejected") {
 
@@ -77,31 +83,6 @@ class AdminLoanAdapter(
             holder.rejectButton.visibility = View.GONE
 
             holder.status.text = "✗ Rejected"
-            db.collection("loan_requests")
-                .document(documentId)
-                .update("status", "rejected")
-                .addOnSuccessListener {
-
-                    val notification = hashMapOf(
-                        "userId" to loan.userId,
-                        "title" to "Loan Rejected",
-                        "message" to "Your loan request for $${loan.amount} was rejected.",
-                        "timestamp" to System.currentTimeMillis(),
-                        "isRead" to false
-                    )
-
-                    db.collection("notifications").add(notification)
-                }
-            val auditLog = hashMapOf(
-                "actorId" to "admin",
-                "action" to "loan_rejected",
-                "targetType" to "loan_request",
-                "targetId" to documentId,
-                "message" to "Loan ${documentId} was rejected.",
-                "timestamp" to System.currentTimeMillis()
-            )
-
-            db.collection("audit_logs").add(auditLog)
 
         } else {
 
@@ -133,20 +114,5 @@ class AdminLoanAdapter(
 
     override fun getItemCount(): Int {
         return loanList.size
-    }
-    private fun calculateMonthlyPayment(amount: String): String {
-
-        val loanAmount = amount.toDoubleOrNull() ?: 0.0
-
-        val payment = loanAmount / 12
-
-        return String.format("%.2f", payment)
-    }
-
-    private fun calculateDueDate(): Long {
-
-        val oneYearMillis = 365L * 24L * 60L * 60L * 1000L
-
-        return System.currentTimeMillis() + oneYearMillis
     }
 }

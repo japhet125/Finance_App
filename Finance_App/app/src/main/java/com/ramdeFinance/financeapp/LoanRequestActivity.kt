@@ -88,38 +88,80 @@ class LoanRequestActivity : AppCompatActivity() {
                 System.currentTimeMillis() + (paymentTerm * 30L * millisecondsPerDay)
             }
 
+
             val totalRepayment = amountValue + (amountValue * interestRate)
             val paymentAmount = totalRepayment / paymentTerm
-            val userId = auth.currentUser?.uid
+            val userId = auth.currentUser?.uid ?: return@setOnClickListener
 
-            if (userId != null) {
+            val userRef = db.collection("users").document(userId)
 
-                val loanRequest = hashMapOf(
-                    "userId" to userId,
-                    "amount" to String.format("%.2f", amountValue),
-                    "principalAmount" to String.format("%.2f", amountValue),
-                    "reason" to reasonText,
-                    "status" to "pending",
-                    "paymentFrequency" to paymentFrequency,
-                    "paymentTerm" to paymentTerm,
-                    "interestRate" to if (paymentFrequency == "monthly") 35 else 25,
-                    "totalRepayment" to String.format("%.2f", totalRepayment),
-                    "paymentAmount" to String.format("%.2f", paymentAmount),
-                    "remainingBalance" to String.format("%.2f", totalRepayment),
-                    "createdAt" to System.currentTimeMillis(),
-                    "dueDate" to dueDate,
-                )
+            userRef.get().addOnSuccessListener { userDocument ->
+
+                val creditScore = userDocument.getLong("creditScore") ?: 500
+
+                val maxAllowed = when {
+                    creditScore >= 700 -> 10000.0
+                    creditScore >= 550 -> 2000.0
+                    else -> 500.0
+                }
+
+                if (amountValue > maxAllowed) {
+                    Toast.makeText(
+                        this,
+                        "Loan denied. Your credit score allows up to $${maxAllowed.toInt()}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@addOnSuccessListener
+                }
 
                 db.collection("loan_requests")
-                    .add(loanRequest)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Loan request submitted", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    .whereEqualTo("userId", userId)
+                    .whereEqualTo("status", "overdue")
+                    .get()
+                    .addOnSuccessListener { overdueLoans ->
+
+                        if (!overdueLoans.isEmpty) {
+                            Toast.makeText(
+                                this,
+                                "Loan denied. You have an overdue loan.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@addOnSuccessListener
+                        }
+
+                        // Put your existing loanRequest creation and db.collection("loan_requests").add(loanRequest) here
+                        if (userId != null) {
+
+                            val loanRequest = hashMapOf(
+                                "userId" to userId,
+                                "amount" to String.format("%.2f", amountValue),
+                                "principalAmount" to String.format("%.2f", amountValue),
+                                "reason" to reasonText,
+                                "status" to "pending",
+                                "paymentFrequency" to paymentFrequency,
+                                "paymentTerm" to paymentTerm,
+                                "interestRate" to if (paymentFrequency == "monthly") 35 else 25,
+                                "totalRepayment" to String.format("%.2f", totalRepayment),
+                                "paymentAmount" to String.format("%.2f", paymentAmount),
+                                "remainingBalance" to String.format("%.2f", totalRepayment),
+                                "createdAt" to System.currentTimeMillis(),
+                                "dueDate" to dueDate,
+                            )
+
+                            db.collection("loan_requests")
+                                .add(loanRequest)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Loan request submitted", Toast.LENGTH_SHORT).show()
+                                    finish()
+                                }
+                                .addOnFailureListener { e ->
+                                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                                }
+                        }
                     }
             }
+
+
         }
     }
 
