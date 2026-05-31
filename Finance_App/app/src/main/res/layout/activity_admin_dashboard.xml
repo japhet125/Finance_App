@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <ImageButton
+        android:id="@+id/btnAdminMenu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        android:contentDescription="Admin Menu" />
+
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
@@ -20,35 +29,9 @@
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btnAuditLogs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Audit"
-            android:layout_marginEnd="6dp"/>
 
-        <Button
-            android:id="@+id/btnUserManagement"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Users"
-            android:layout_marginEnd="6dp"/>
 
-        <Button
-            android:id="@+id/btnAdminAnalytics"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Analytics"/>
-    </LinearLayout>
     <EditText
         android:id="@+id/etSearchLoans"
         android:layout_width="match_parent"

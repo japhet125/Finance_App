@@ -33,11 +33,39 @@ class SignUpActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.etPassword)
         val confirmPassword = findViewById<EditText>(R.id.etConfirmPassword)
         val createButton = findViewById<Button>(R.id.btnCreateAccount)
+        val address =
+            findViewById<EditText>(R.id.etAddress)
+
+        val apt =
+            findViewById<EditText>(R.id.etApt)
+
+        val city =
+            findViewById<EditText>(R.id.etCity)
+
+        val state =
+            findViewById<EditText>(R.id.etState)
+
+        val zipCode =
+            findViewById<EditText>(R.id.etZipCode)
+
+        val country =
+            findViewById<EditText>(R.id.etCountry)
+
 
         createButton.setOnClickListener {
             val emailText = email.text.toString().trim()
             val passwordText = password.text.toString().trim()
             val confirmPasswordText = confirmPassword.text.toString().trim()
+            val fullNameText = fullName.text.toString().trim()
+            val phoneText = phone.text.toString().trim()
+
+            val addressText = address.text.toString().trim()
+            val aptText = apt.text.toString().trim()
+            val cityText = city.text.toString().trim()
+            val stateText = state.text.toString().trim()
+            val zipText = zipCode.text.toString().trim()
+            val countryText = country.text.toString().trim()
+
 
             if (
                 fullName.text.isBlank() ||
@@ -50,6 +78,25 @@ class SignUpActivity : AppCompatActivity() {
             } else if (passwordText != confirmPasswordText) {
                 Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
+                db.collection("users")
+                    .whereEqualTo("phone", phoneText)
+                    .get()
+                    .addOnSuccessListener { documents ->
+
+                        if (!documents.isEmpty) {
+
+                            Toast.makeText(
+                                this,
+                                "Phone number already registered",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            return@addOnSuccessListener
+                        }
+
+
+                    }
+
                 auth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -57,11 +104,24 @@ class SignUpActivity : AppCompatActivity() {
 
                             if (userId != null) {
                                 val userProfile = hashMapOf(
-                                    "fullName" to fullName.text.toString().trim(),
+                                    "userId" to userId,
+                                    "fullName" to fullNameText,
                                     "email" to emailText,
-                                    "phone" to phone.text.toString().trim(),
+                                    "phone" to phoneText,
+
+                                    "address" to addressText,
+                                    "apt" to aptText,
+                                    "city" to cityText,
+                                    "state" to stateText,
+                                    "zipCode" to zipText,
+                                    "country" to countryText,
+
                                     "creditScore" to 500,
+                                    "identityVerified" to false,
+                                    "identityStatus" to "pending",
+                                    "role" to "user",
                                     "createdAt" to System.currentTimeMillis()
+
                                 )
 
                                 db.collection("users")
@@ -74,6 +134,7 @@ class SignUpActivity : AppCompatActivity() {
                                         startActivity(intent)
                                         finish()
                                     }
+
                                     .addOnFailureListener { e ->
                                         Toast.makeText(this, "Profile save failed: ${e.message}", Toast.LENGTH_LONG).show()
                                     }

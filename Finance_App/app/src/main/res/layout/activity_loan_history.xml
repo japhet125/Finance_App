@@ -21,6 +21,26 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
 
+    <EditText
+        android:id="@+id/etLoanSearch"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
+        android:hint="Search by reason"
+        android:inputType="text" />
+
+    <Spinner
+        android:id="@+id/spinnerLoanSort"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp" />
+
+    <Spinner
+        android:id="@+id/spinnerLoanFilter"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerLoans"
         android:layout_width="match_parent"

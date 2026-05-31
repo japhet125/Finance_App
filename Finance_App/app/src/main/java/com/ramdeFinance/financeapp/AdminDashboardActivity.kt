@@ -9,6 +9,8 @@ import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.PopupMenu
 
 
 class AdminDashboardActivity : AppCompatActivity() {
@@ -35,6 +37,43 @@ class AdminDashboardActivity : AppCompatActivity() {
         adapter = AdminLoanAdapter(loanList)
 
         recyclerView.adapter = adapter
+        val adminMenuButton = findViewById<ImageButton>(R.id.btnAdminMenu)
+
+        adminMenuButton.setOnClickListener {
+            val popupMenu = PopupMenu(this, adminMenuButton)
+
+            popupMenu.menu.add("Audit Logs")
+            popupMenu.menu.add("Users")
+            popupMenu.menu.add("Analytics")
+            popupMenu.menu.add("Identity Verification")
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.title.toString()) {
+                    "Audit Logs" -> {
+                        startActivity(Intent(this, AuditLogActivity::class.java))
+                        true
+                    }
+                    "Users" -> {
+                        startActivity(Intent(this, AdminUsersActivity::class.java))
+                        true
+                    }
+
+                    "Analytics" -> {
+                        startActivity(Intent(this, AdminAnalyticActivity::class.java))
+                        true
+                    }
+
+                    "Identity Verification" -> {
+                        startActivity(Intent(this, IdentityVerificationActivity::class.java))
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
+        }
 
         val searchInput = findViewById<EditText>(R.id.etSearchLoans)
 
@@ -113,24 +152,7 @@ class AdminDashboardActivity : AppCompatActivity() {
 
                 adapter.notifyDataSetChanged()
             }
-        val analyticsButton = findViewById<Button>(R.id.btnAdminAnalytics)
 
-        analyticsButton.setOnClickListener {
-            val intent = Intent(this, AdminAnalyticActivity::class.java)
-            startActivity(intent)
-        }
-        val auditButton = findViewById<Button>(R.id.btnAuditLogs)
-
-        auditButton.setOnClickListener {
-            val intent = Intent(this, AuditLogActivity::class.java)
-            startActivity(intent)
-        }
-        val usersButton = findViewById<Button>(R.id.btnUserManagement)
-
-        usersButton.setOnClickListener {
-            val intent = Intent(this, UserManagementActivity::class.java)
-            startActivity(intent)
-        }
     }
 
 }
