@@ -1,5 +1,6 @@
 package com.ramdefinance.financeapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,17 @@ class AdminUserAdapter(
         }
 
         holder.identity.text = identityText
+        holder.itemView.setOnClickListener {
+
+            val intent = Intent(
+                holder.itemView.context,
+                AdminUserDetailsActivity::class.java
+            )
+
+            intent.putExtra("USER_ID", userList[position].first)
+
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
