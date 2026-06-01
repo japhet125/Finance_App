@@ -21,6 +21,7 @@ class PaymentLoanAdapter(
         val balance: TextView = itemView.findViewById(R.id.txtPaymentLoanBalance)
         val payAmount: EditText = itemView.findViewById(R.id.etPayAmount)
         val payButton: Button = itemView.findViewById(R.id.btnPayLoan)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentLoanViewHolder {
@@ -41,24 +42,32 @@ class PaymentLoanAdapter(
 
         holder.payButton.setOnClickListener {
             val paymentText = holder.payAmount.text.toString().trim()
-            val paymentValue = paymentText.toDoubleOrNull()
-            val currentBalance = loan.remainingBalance.toDoubleOrNull() ?: 0.0
 
-            if (paymentValue == null || paymentValue <= 0.0) {
+            val paymentValue = parseMoney(paymentText)
+
+            val currentBalance = parseMoney(
+                loan.remainingBalance
+            )
+
+            if (paymentValue <= 0.0) {
+
                 Toast.makeText(
                     holder.itemView.context,
                     "Enter a valid payment amount",
                     Toast.LENGTH_SHORT
                 ).show()
+
                 return@setOnClickListener
             }
 
             if (paymentValue > currentBalance) {
+
                 Toast.makeText(
                     holder.itemView.context,
                     "Payment cannot exceed remaining balance",
                     Toast.LENGTH_SHORT
                 ).show()
+
                 return@setOnClickListener
             }
 
@@ -123,5 +132,16 @@ class PaymentLoanAdapter(
 
     override fun getItemCount(): Int {
         return loanList.size
+    }
+
+    private fun parseMoney(value: String): Double {
+        return value
+            .replace("$", "")
+            .replace("FCFA", "")
+            .replace("F CFA", "")
+            .replace("CFA", "")
+            .replace(",", ".")
+            .trim()
+            .toDoubleOrNull() ?: 0.0
     }
 }

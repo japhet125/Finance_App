@@ -7,6 +7,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.NumberFormat
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarData
 
 class AdminAnalyticActivity : AppCompatActivity() {
 
@@ -25,6 +33,8 @@ class AdminAnalyticActivity : AppCompatActivity() {
         val totalLoanedText = findViewById<TextView>(R.id.txtTotalLoaned)
         val totalPaymentsText = findViewById<TextView>(R.id.txtTotalPayments)
         val averageCreditText = findViewById<TextView>(R.id.txtAverageCredit)
+        val pieLoansStatus = findViewById<PieChart>(R.id.pieLoansStatus)
+        val barPayments = findViewById<BarChart>(R.id.barPayments)
 
         backButton.setOnClickListener {
             finish()
@@ -83,6 +93,17 @@ class AdminAnalyticActivity : AppCompatActivity() {
                 overdueLoansText.text = "⚠\uFE0F Overdue Loans: $overdueLoans"
                 totalLoanedText.text =
                     "\uD83D\uDCB0 Total Money Loaned: ${currencyFormat.format(totalLoaned)}"
+                val pieEntries = listOf(
+                    PieEntry(approvedLoans.toFloat(), "Approved"),
+                    PieEntry(overdueLoans.toFloat(), "Overdue"),
+                    PieEntry(totalLoans.toFloat(), "Total")
+                )
+
+                val pieDataSet = PieDataSet(pieEntries, "Loans by Status")
+                val pieData = PieData(pieDataSet)
+
+                pieLoansStatus.data = pieData
+                pieLoansStatus.invalidate()
             }
 
         db.collection("transactions")
@@ -101,6 +122,15 @@ class AdminAnalyticActivity : AppCompatActivity() {
 
                 totalPaymentsText.text =
                     "\uD83D\uDCB5 Total Payments Received: ${currencyFormat.format(totalPayments)}"
+                val barEntries = listOf(
+                    BarEntry(1f, totalPayments.toFloat())
+                )
+
+                val barDataSet = BarDataSet(barEntries, "Total Payments")
+                val barData = BarData(barDataSet)
+
+                barPayments.data = barData
+                barPayments.invalidate()
             }
         val chartButton = findViewById<Button>(R.id.btnLoanStatusChart)
 

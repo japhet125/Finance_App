@@ -94,53 +94,71 @@ class SignUpActivity : AppCompatActivity() {
                             return@addOnSuccessListener
                         }
 
+                        auth.createUserWithEmailAndPassword(emailText, passwordText)
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    val userId = auth.currentUser?.uid
 
-                    }
+                                    if (userId != null) {
+                                        val userProfile = hashMapOf(
+                                            "userId" to userId,
+                                            "fullName" to fullNameText,
+                                            "email" to emailText,
+                                            "phone" to phoneText,
 
-                auth.createUserWithEmailAndPassword(emailText, passwordText)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            val userId = auth.currentUser?.uid
+                                            "address" to addressText,
+                                            "apt" to aptText,
+                                            "city" to cityText,
+                                            "state" to stateText,
+                                            "zipCode" to zipText,
+                                            "country" to countryText,
+                                            "accountStatus" to "active",
 
-                            if (userId != null) {
-                                val userProfile = hashMapOf(
-                                    "userId" to userId,
-                                    "fullName" to fullNameText,
-                                    "email" to emailText,
-                                    "phone" to phoneText,
+                                            "creditScore" to 500,
+                                            "identityVerified" to false,
+                                            "identityStatus" to "pending",
+                                            "role" to "user",
+                                            "emailVerified" to false,
+                                            "createdAt" to System.currentTimeMillis()
 
-                                    "address" to addressText,
-                                    "apt" to aptText,
-                                    "city" to cityText,
-                                    "state" to stateText,
-                                    "zipCode" to zipText,
-                                    "country" to countryText,
+                                        )
 
-                                    "creditScore" to 500,
-                                    "identityVerified" to false,
-                                    "identityStatus" to "pending",
-                                    "role" to "user",
-                                    "createdAt" to System.currentTimeMillis()
+                                        db.collection("users")
+                                            .document(userId)
+                                            .set(userProfile)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                                                auth.currentUser?.sendEmailVerification()
 
-                                )
+                                                Toast.makeText(
+                                                    this,
+                                                    "Verification email sent. Please check your inbox.",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
 
-                                db.collection("users")
-                                    .document(userId)
-                                    .set(userProfile)
-                                    .addOnSuccessListener {
-                                        Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                                                FirebaseAuth.getInstance().signOut()
 
-                                        val intent = Intent(this, DashboardActivity::class.java)
-                                        startActivity(intent)
-                                        finish()
+                                                val intent = Intent(this, LoginActivity::class.java)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(this, "Profile save failed: ${e.message}", Toast.LENGTH_LONG).show()
+                                            }
                                     }
-
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(this, "Profile save failed: ${e.message}", Toast.LENGTH_LONG).show()
-                                    }
+                                } else {
+                                    Toast.makeText(
+                                        this,
+                                        "Signup failed: ${task.exception?.message}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
-                        }
+
+
                     }
+
             }
         }
     }

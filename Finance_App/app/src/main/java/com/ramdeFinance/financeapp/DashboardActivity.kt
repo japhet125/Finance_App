@@ -11,6 +11,7 @@ import java.text.NumberFormat
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.ImageButton
+import com.google.firebase.messaging.FirebaseMessaging
 class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,8 @@ class DashboardActivity : AppCompatActivity() {
             popupMenu.menu.add("Transactions")
             popupMenu.menu.add("Profile")
             popupMenu.menu.add("Notifications")
+            popupMenu.menu.add("Bank Account")
+            popupMenu.menu.add("Mobile Money")
 
             if (isAdminUser) {
                 popupMenu.menu.add("Admin Dashboard")
@@ -74,6 +77,14 @@ class DashboardActivity : AppCompatActivity() {
                         startActivity(Intent(this, AdminDashboardActivity::class.java))
                         true
                     }
+                    "Bank Account" -> {
+                        startActivity(Intent(this, BankAccountActivity::class.java))
+                        true
+                    }
+                    "Mobile Money" -> {
+                        startActivity(Intent(this, MobileMoneyActivity::class.java))
+                        true
+                    }
 
                     "Logout" -> {
                         FirebaseAuth.getInstance().signOut()
@@ -100,6 +111,21 @@ class DashboardActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.txtCreditScore)
         val unreadNotificationsText =
             findViewById<TextView>(R.id.txtUnreadNotifications)
+
+        if (userId != null) {
+            FirebaseMessaging.getInstance().token
+                .addOnSuccessListener { token ->
+
+                    db.collection("users")
+                        .document(userId)
+                        .update(
+                            mapOf(
+                                "fcmToken" to token,
+                                "fcmTokenUpdatedAt" to System.currentTimeMillis()
+                            )
+                        )
+                }
+        }
 
         if (userId != null) {
 

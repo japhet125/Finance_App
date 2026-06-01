@@ -98,9 +98,32 @@ class AdminLoanAdapter(
 
             db.collection("loan_requests")
                 .document(documentId)
-            db.collection("loan_requests")
-                .document(documentId)
                 .update("status", "approved")
+                .addOnSuccessListener {
+
+                    val notification = hashMapOf(
+                        "userId" to loan.userId,
+                        "title" to "Loan Approved",
+                        "message" to "Your loan request for $${loan.amount} was approved.",
+                        "timestamp" to System.currentTimeMillis(),
+                        "isRead" to false
+                    )
+
+                    db.collection("notifications")
+                        .add(notification)
+
+                    val auditLog = hashMapOf(
+                        "actorId" to "admin",
+                        "action" to "loan_approved",
+                        "targetType" to "loan_request",
+                        "targetId" to documentId,
+                        "message" to "Loan $documentId was approved.",
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    db.collection("audit_logs")
+                        .add(auditLog)
+                }
         }
 
         holder.rejectButton.setOnClickListener {
@@ -108,6 +131,31 @@ class AdminLoanAdapter(
             db.collection("loan_requests")
                 .document(documentId)
                 .update("status", "rejected")
+                .addOnSuccessListener {
+
+                    val notification = hashMapOf(
+                        "userId" to loan.userId,
+                        "title" to "Loan Rejected",
+                        "message" to "Your loan request for $${loan.amount} was rejected.",
+                        "timestamp" to System.currentTimeMillis(),
+                        "isRead" to false
+                    )
+
+                    db.collection("notifications")
+                        .add(notification)
+
+                    val auditLog = hashMapOf(
+                        "actorId" to "admin",
+                        "action" to "loan_rejected",
+                        "targetType" to "loan_request",
+                        "targetId" to documentId,
+                        "message" to "Loan $documentId was rejected.",
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    db.collection("audit_logs")
+                        .add(auditLog)
+                }
         }
 
     }

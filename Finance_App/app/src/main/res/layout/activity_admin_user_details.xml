@@ -53,6 +53,13 @@
             android:id="@+id/txtUserIdentity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/txtAccountStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Account Status: Active"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtTotalLoans"
@@ -64,6 +71,44 @@
             android:id="@+id/txtOutstandingBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnSuspendUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suspend User"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/btnReactivateUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reactivate User"
+            android:layout_marginTop="12dp" />
+        <Button
+            android:id="@+id/btnViewUserLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View User Loans"
+            android:layout_marginTop="16dp" />
+        <Button
+            android:id="@+id/btnPromoteAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Promote to Admin"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnDemoteUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Demote to User"
+            android:layout_marginTop="12dp" />
+        <Button
+            android:id="@+id/btnViewUserTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View User Transactions"
+            android:layout_marginTop="12dp" />
 
     </LinearLayout>
 

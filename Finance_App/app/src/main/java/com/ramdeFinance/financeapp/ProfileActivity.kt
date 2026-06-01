@@ -1,5 +1,6 @@
 package com.ramdefinance.financeapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -19,6 +20,7 @@ class ProfileActivity : AppCompatActivity() {
         val phoneText = findViewById<TextView>(R.id.txtProfilePhone)
         val roleText = findViewById<TextView>(R.id.txtProfileRole)
         val creditScoreText = findViewById<TextView>(R.id.txtProfileCreditScore)
+        val emailVerificationText = findViewById<TextView>(R.id.txtEmailVerification)
 
         backButton.setOnClickListener {
             finish()
@@ -32,9 +34,7 @@ class ProfileActivity : AppCompatActivity() {
                 .document(userId)
                 .addSnapshotListener { document, error ->
 
-                    if (error != null) {
-                        return@addSnapshotListener
-                    }
+                    if (error != null) return@addSnapshotListener
 
                     if (document != null && document.exists()) {
                         val fullName = document.getString("fullName") ?: "N/A"
@@ -42,14 +42,23 @@ class ProfileActivity : AppCompatActivity() {
                         val phone = document.getString("phone") ?: "N/A"
                         val role = document.getString("role") ?: "user"
                         val creditScore = document.getLong("creditScore") ?: 500
+                        val emailVerified = document.getBoolean("emailVerified") ?: false
 
                         nameText.text = "Name: $fullName"
                         emailText.text = "Email: $email"
                         phoneText.text = "Phone: $phone"
                         roleText.text = "Role: $role"
                         creditScoreText.text = "Credit Score: $creditScore"
+
+                        emailVerificationText.text =
+                            if (emailVerified) "✓ Email Verified" else "✗ Email Not Verified"
                     }
                 }
+            val editProfileButton = findViewById<Button>(R.id.btnEditProfile)
+
+            editProfileButton.setOnClickListener {
+                startActivity(Intent(this, EditProfileActivity::class.java))
+            }
         }
     }
 }

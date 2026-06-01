@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bank Account"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" />
+
+        <EditText
+            android:id="@+id/etBankName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Bank Name" />
+
+        <EditText
+            android:id="@+id/etAccountType"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Account Type: Checking or Savings" />
+
+        <EditText
+            android:id="@+id/etRoutingNumber"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Routing Number / Bank Code"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/etAccountNumber"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Account Number"
+            android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/spinnerBankCountry"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etCurrency"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
+            android:hint="Currency" />
+
+        <Button
+            android:id="@+id/btnSaveBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Bank Account"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>

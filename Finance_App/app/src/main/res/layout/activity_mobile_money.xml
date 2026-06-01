@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mobile Money"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" />
+
+        <Spinner
+            android:id="@+id/spinnerMobileMoneyCountry"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <Spinner
+            android:id="@+id/spinnerMobileMoneyProvider"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etMobileMoneyPhone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Mobile Money Phone Number"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/etMobileMoneyName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:hint="Account Holder Name" />
+
+        <EditText
+            android:id="@+id/etMobileMoneyCurrency"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
+            android:hint="Currency" />
+
+        <Button
+            android:id="@+id/btnSaveMobileMoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Mobile Money"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>
