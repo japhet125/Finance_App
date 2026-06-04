@@ -129,6 +129,10 @@ class AdminDashboardActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("loan_requests")
+            .orderBy(
+                "createdAt",
+                com.google.firebase.firestore.Query.Direction.DESCENDING
+            )
             .addSnapshotListener { snapshots, error ->
 
                 if (error != null) {

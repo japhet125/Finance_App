@@ -147,7 +147,11 @@ class LoanHistoryActivity : AppCompatActivity() {
                             if (loan != null) {
 
                                 val remainingBalance =
-                                    loan.remainingBalance.toDoubleOrNull() ?: 0.0
+                                    loan.remainingBalance
+                                        .replace("$", "")
+                                        .replace(",", "")
+                                        .trim()
+                                        .toDoubleOrNull() ?: 0.0
 
                                 val isLate =
                                     loan.status == "approved" &&
@@ -155,6 +159,7 @@ class LoanHistoryActivity : AppCompatActivity() {
                                             System.currentTimeMillis() > loan.dueDate &&
                                             remainingBalance > 0.0 &&
                                             !loan.overduePenaltyApplied
+
                                 if (isLate) {
                                     val db = FirebaseFirestore.getInstance()
 
@@ -171,28 +176,35 @@ class LoanHistoryActivity : AppCompatActivity() {
                                             val notification = hashMapOf(
                                                 "userId" to userId,
                                                 "title" to "Loan Overdue",
-                                                "message" to "Your loan payment is overdue. Please make a payment as soon as possible.",
+                                                "message" to "Your loan is overdue. Please make a payment as soon as possible.",
                                                 "timestamp" to System.currentTimeMillis(),
                                                 "isRead" to false
                                             )
 
-                                            db.collection("notifications")
-                                                .add(notification)
+                                            db.collection("notifications").add(notification)
 
-                                            val userRef = db.collection("users")
-                                                .document(userId)
+                                            val userRef = db.collection("users").document(userId)
 
-                                            userRef.get()
-                                                .addOnSuccessListener { userDocument ->
+                                            userRef.get().addOnSuccessListener { userDocument ->
+                                                val currentScore =
+                                                    userDocument.getLong("creditScore") ?: 500
 
-                                                    val currentScore =
-                                                        userDocument.getLong("creditScore") ?: 500
+                                                userRef.update(
+                                                    "creditScore",
+                                                    currentScore - 25
+                                                )
+                                            }
 
-                                                    userRef.update(
-                                                        "creditScore",
-                                                        currentScore - 25
-                                                    )
-                                                }
+                                            val auditLog = hashMapOf(
+                                                "actorId" to "system",
+                                                "action" to "loan_overdue",
+                                                "targetType" to "loan_request",
+                                                "targetId" to document.id,
+                                                "message" to "Loan ${document.id} was marked overdue.",
+                                                "timestamp" to System.currentTimeMillis()
+                                            )
+
+                                            db.collection("audit_logs").add(auditLog)
                                         }
                                 }
 

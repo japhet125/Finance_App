@@ -32,6 +32,10 @@ class AuditLogActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("audit_logs")
+            .orderBy(
+                "timestamp",
+                com.google.firebase.firestore.Query.Direction.DESCENDING
+            )
             .addSnapshotListener { snapshots, error ->
 
                 if (error != null) {

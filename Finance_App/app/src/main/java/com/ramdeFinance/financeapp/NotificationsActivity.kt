@@ -36,6 +36,10 @@ class NotificationsActivity : AppCompatActivity() {
         if (userId != null) {
             db.collection("notifications")
                 .whereEqualTo("userId", userId)
+                .orderBy(
+                    "timestamp",
+                    com.google.firebase.firestore.Query.Direction.DESCENDING
+                )
                 .addSnapshotListener { snapshots, error ->
 
                     if (error != null) {

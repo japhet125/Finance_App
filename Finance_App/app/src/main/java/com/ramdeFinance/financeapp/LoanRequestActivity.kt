@@ -8,6 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.RadioButton
+import android.text.Editable
+import android.text.TextWatcher
+
 
 class LoanRequestActivity : AppCompatActivity() {
 
@@ -29,7 +33,56 @@ class LoanRequestActivity : AppCompatActivity() {
         val amount = findViewById<EditText>(R.id.etLoanAmount)
         val reason = findViewById<EditText>(R.id.etLoanReason)
         val paymentPlanGroup = findViewById<RadioGroup>(R.id.rgPaymentPlan)
+        val monthlyOption =
+            findViewById<RadioButton>(R.id.rbMonthly12)
+        var userCountry = "USA"
         val submitButton = findViewById<Button>(R.id.btnSubmitLoan)
+
+        val currentUserId = auth.currentUser?.uid
+
+        if (currentUserId != null) {
+            db.collection("users")
+                .document(currentUserId)
+                .get()
+                .addOnSuccessListener { document ->
+                    userCountry = document.getString("country") ?: "USA"
+                }
+        }
+
+        amount.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
+
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                val amountValue =
+                    s.toString().trim().toDoubleOrNull() ?: 0.0
+
+                if (userCountry == "USA" && amountValue < 2000.0) {
+
+                    monthlyOption.isEnabled = false
+
+                    if (monthlyOption.isChecked) {
+                        paymentPlanGroup.clearCheck()
+                    }
+
+                } else {
+                    monthlyOption.isEnabled = true
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
 
         submitButton.setOnClickListener {
 
@@ -63,6 +116,8 @@ class LoanRequestActivity : AppCompatActivity() {
                     interestRate = 0.25
                 }
 
+
+
                 R.id.rbWeekly14 -> {
                     paymentFrequency = "weekly"
                     paymentTerm = 14
@@ -80,6 +135,7 @@ class LoanRequestActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
             }
+
             val millisecondsPerDay = 24L * 60L * 60L * 1000L
 
             val dueDate = if (paymentFrequency == "weekly") {
@@ -96,6 +152,23 @@ class LoanRequestActivity : AppCompatActivity() {
             val userRef = db.collection("users").document(userId)
 
             userRef.get().addOnSuccessListener { userDocument ->
+                val userCountry =
+                    userDocument.getString("country") ?: "USA"
+
+                if (
+                    userCountry == "USA" &&
+                    amountValue < 2000 &&
+                    paymentFrequency == "monthly"
+                ) {
+
+                    Toast.makeText(
+                        this,
+                        "Monthly payment is only available for USA loans of $2,000 or more.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    return@addOnSuccessListener
+                }
 
                 val creditScore = userDocument.getLong("creditScore") ?: 500
 
@@ -128,8 +201,6 @@ class LoanRequestActivity : AppCompatActivity() {
                             ).show()
                             return@addOnSuccessListener
                         }
-
-                        // Put your existing loanRequest creation and db.collection("loan_requests").add(loanRequest) here
                         if (userId != null) {
 
                             val loanRequest = hashMapOf(
