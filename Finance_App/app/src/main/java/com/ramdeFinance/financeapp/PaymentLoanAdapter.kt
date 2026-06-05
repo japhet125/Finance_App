@@ -36,8 +36,15 @@ class PaymentLoanAdapter(
 
         holder.amount.text = "Original Loan: $${loan.amount}"
         holder.reason.text = "Reason: ${loan.reason}"
+        val planText =
+            if (loan.paymentFrequency == "one_time") {
+                "One-Time Payment"
+            } else {
+                "${loan.paymentFrequency} (${loan.paymentTerm} payments)"
+            }
+
         holder.plan.text =
-            "Plan: ${loan.paymentFrequency} | Payment: $${loan.paymentAmount}"
+            "Plan: $planText | Payment: $${loan.paymentAmount}"
         holder.balance.text = "Remaining Balance: $${loan.remainingBalance}"
 
         holder.payButton.setOnClickListener {

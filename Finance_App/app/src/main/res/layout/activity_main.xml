@@ -9,11 +9,20 @@
     android:padding="24dp"
     android:background="#F5F7FA">
 
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/baobab_logo"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+
     <TextView
         android:id="@+id/txtAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ramde Finance"
+        android:text="Baobab"
         android:textSize="32sp"
         android:textStyle="bold"
         android:textColor="#0B1F3A"

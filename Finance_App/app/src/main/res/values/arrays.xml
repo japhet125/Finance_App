@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="supported_countries">
+        <item>United States</item>
+        <item>Burkina Faso</item>
+        <item>Mali</item>
+        <item>Niger</item>
+        <item>Côte d\'Ivoire</item>
+    </string-array>
+
+</resources>

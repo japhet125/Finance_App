@@ -16,6 +16,7 @@ class AdminLoanAdapter(
 
         val amount: TextView = itemView.findViewById(R.id.txtAdminAmount)
         val reason: TextView = itemView.findViewById(R.id.txtAdminReason)
+        val plan: TextView = itemView.findViewById(R.id.txtAdminPlan)
         val status: TextView = itemView.findViewById(R.id.txtAdminStatus)
 
         val approveButton: Button = itemView.findViewById(R.id.btnApprove)
@@ -41,6 +42,15 @@ class AdminLoanAdapter(
 
         holder.amount.text = "Amount: $${loan.amount}"
         holder.reason.text = "Reason: ${loan.reason}"
+
+        val planText =
+            if (loan.paymentFrequency == "one_time") {
+                "One-Time Payment"
+            } else {
+                "${loan.paymentFrequency} (${loan.paymentTerm} payments)"
+            }
+
+        holder.plan.text = "Plan: $planText"
         holder.status.text = "Status: ${loan.status}"
 
         db.collection("users")

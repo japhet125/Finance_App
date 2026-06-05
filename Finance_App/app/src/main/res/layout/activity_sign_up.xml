@@ -75,11 +75,11 @@
             android:layout_height="48dp"
             android:hint="Zip Code" />
 
-        <EditText
-            android:id="@+id/etCountry"
+        <Spinner
+            android:id="@+id/spCountry"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Country" />
+            android:layout_marginTop="12dp" />
 
         <EditText
             android:id="@+id/etPassword"

@@ -47,7 +47,16 @@ class LoanAdapter(
         holder.status.text = "Status: ${loan.status}"
 
 
-        holder.plan.text = "Plan: ${loan.paymentFrequency} for ${loan.paymentTerm} payments"
+        val planText =
+            if (loan.paymentFrequency == "one_time") {
+                "One-Time Payment"
+            } else {
+                loan.paymentFrequency.replaceFirstChar {
+                    it.uppercase()
+                }
+            }
+
+        holder.plan.text = "Plan: $planText"
         holder.interest.text = "Interest: ${loan.interestRate}%"
         holder.totalRepayment.text = "Total Repayment: $${loan.totalRepayment}"
         holder.paymentAmount.text = "Payment Amount: $${loan.paymentAmount}"

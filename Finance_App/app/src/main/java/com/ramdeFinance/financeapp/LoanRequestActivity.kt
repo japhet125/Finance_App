@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.RadioButton
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AlertDialog
 
 
 class LoanRequestActivity : AppCompatActivity() {
@@ -129,6 +130,11 @@ class LoanRequestActivity : AppCompatActivity() {
                     paymentTerm = 12
                     interestRate = 0.35
                 }
+                R.id.rbOneTime -> {
+                    paymentFrequency = "one_time"
+                    paymentTerm = 1
+                    interestRate = 0.25
+                }
 
                 else -> {
                     Toast.makeText(this, "Invalid payment plan", Toast.LENGTH_SHORT).show()
@@ -136,12 +142,25 @@ class LoanRequestActivity : AppCompatActivity() {
                 }
             }
 
+
             val millisecondsPerDay = 24L * 60L * 60L * 1000L
 
-            val dueDate = if (paymentFrequency == "weekly") {
-                System.currentTimeMillis() + (paymentTerm * 7L * millisecondsPerDay)
-            } else {
-                System.currentTimeMillis() + (paymentTerm * 30L * millisecondsPerDay)
+            val dueDate = when (paymentFrequency) {
+                "weekly" -> {
+                    System.currentTimeMillis() + (paymentTerm * 7L * millisecondsPerDay)
+                }
+
+                "monthly" -> {
+                    System.currentTimeMillis() + (paymentTerm * 30L * millisecondsPerDay)
+                }
+
+                "one_time" -> {
+                    System.currentTimeMillis() + (30L * millisecondsPerDay)
+                }
+
+                else -> {
+                    System.currentTimeMillis()
+                }
             }
 
 
@@ -218,16 +237,71 @@ class LoanRequestActivity : AppCompatActivity() {
                                 "createdAt" to System.currentTimeMillis(),
                                 "dueDate" to dueDate,
                             )
+                            val planDisplay = when (paymentFrequency) {
+                                "one_time" -> "One-Time Payment"
+                                "monthly" -> "Monthly (12 Payments)"
+                                "weekly" -> "Weekly ($paymentTerm Payments)"
+                                else -> paymentFrequency
+                            }
 
-                            db.collection("loan_requests")
-                                .add(loanRequest)
-                                .addOnSuccessListener {
-                                    Toast.makeText(this, "Loan request submitted", Toast.LENGTH_SHORT).show()
-                                    finish()
+                            val dueDateDisplay =
+                                java.text.SimpleDateFormat(
+                                    "MMM dd, yyyy",
+                                    java.util.Locale.getDefault()
+                                ).format(java.util.Date(dueDate))
+
+                            val summaryMessage = """
+Loan Amount: $${String.format("%.2f", amountValue)}
+
+Plan: $planDisplay
+
+Interest Rate: ${(interestRate * 100).toInt()}%
+
+Total Repayment:
+$${String.format("%.2f", totalRepayment)}
+
+Payment Amount:
+$${String.format("%.2f", paymentAmount)}
+
+Due Date:
+$dueDateDisplay
+
+Do you want to submit this loan request?
+""".trimIndent()
+
+                            AlertDialog.Builder(this)
+                                .setTitle("Baobab Loan Summary")
+                                .setMessage(summaryMessage)
+
+                                .setNegativeButton("Cancel") { dialog, _ ->
+                                    dialog.dismiss()
                                 }
-                                .addOnFailureListener { e ->
-                                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+
+                                .setPositiveButton("Confirm") { _, _ ->
+
+                                    db.collection("loan_requests")
+                                        .add(loanRequest)
+                                        .addOnSuccessListener {
+
+                                            Toast.makeText(
+                                                this,
+                                                "Loan request submitted",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+
+                                            finish()
+                                        }
+                                        .addOnFailureListener { e ->
+
+                                            Toast.makeText(
+                                                this,
+                                                "Error: ${e.message}",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
                                 }
+
+                                .show()
                         }
                     }
             }

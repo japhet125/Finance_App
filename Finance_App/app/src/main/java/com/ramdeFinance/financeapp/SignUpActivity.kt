@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.Spinner
+import android.widget.ArrayAdapter
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -48,8 +50,19 @@ class SignUpActivity : AppCompatActivity() {
         val zipCode =
             findViewById<EditText>(R.id.etZipCode)
 
-        val country =
-            findViewById<EditText>(R.id.etCountry)
+        val countrySpinner =
+            findViewById<Spinner>(R.id.spCountry)
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.supported_countries,
+            android.R.layout.simple_spinner_item
+        )
+
+        adapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        countrySpinner.adapter = adapter
 
 
         createButton.setOnClickListener {
@@ -64,7 +77,8 @@ class SignUpActivity : AppCompatActivity() {
             val cityText = city.text.toString().trim()
             val stateText = state.text.toString().trim()
             val zipText = zipCode.text.toString().trim()
-            val countryText = country.text.toString().trim()
+            val countryText =
+                countrySpinner.selectedItem.toString()
 
 
             if (
