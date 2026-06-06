@@ -13,5 +13,9 @@ data class LoanModel(
     val remainingBalance: String = "",
     val dueDate: Long = 0,
     val overduePenaltyApplied: Boolean = false,
-    val createdAt: Long = 0
+    val createdAt: Long = 0,
+    val autoPayEnabled: Boolean = false,
+    val autoPayStatus: String = "",
+    val nextPaymentDate: Long = 0,
+    val nextPaymentAmount: String = ""
 )

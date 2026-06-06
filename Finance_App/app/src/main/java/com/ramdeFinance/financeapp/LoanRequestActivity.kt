@@ -12,6 +12,7 @@ import android.widget.RadioButton
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
+import android.widget.CheckBox
 
 
 class LoanRequestActivity : AppCompatActivity() {
@@ -36,6 +37,8 @@ class LoanRequestActivity : AppCompatActivity() {
         val paymentPlanGroup = findViewById<RadioGroup>(R.id.rgPaymentPlan)
         val monthlyOption =
             findViewById<RadioButton>(R.id.rbMonthly12)
+        val autoPayCheckBox =
+            findViewById<CheckBox>(R.id.cbAutoPay)
         var userCountry = "USA"
         val submitButton = findViewById<Button>(R.id.btnSubmitLoan)
 
@@ -205,6 +208,8 @@ class LoanRequestActivity : AppCompatActivity() {
                     ).show()
                     return@addOnSuccessListener
                 }
+                val autoPayEnabled =
+                    autoPayCheckBox.isChecked
 
                 db.collection("loan_requests")
                     .whereEqualTo("userId", userId)
@@ -227,6 +232,10 @@ class LoanRequestActivity : AppCompatActivity() {
                                 "amount" to String.format("%.2f", amountValue),
                                 "principalAmount" to String.format("%.2f", amountValue),
                                 "reason" to reasonText,
+                                "autoPayEnabled" to autoPayEnabled,
+                                "autoPayStatus" to if (autoPayEnabled) "pending_approval" else "disabled",
+                                "nextPaymentDate" to 0L,
+                                "nextPaymentAmount" to String.format("%.2f", paymentAmount),
                                 "status" to "pending",
                                 "paymentFrequency" to paymentFrequency,
                                 "paymentTerm" to paymentTerm,

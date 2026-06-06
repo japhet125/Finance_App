@@ -106,9 +106,34 @@ class AdminLoanAdapter(
 
         holder.approveButton.setOnClickListener {
 
+            val millisecondsPerDay =
+                24L * 60L * 60L * 1000L
+
+            val approvedAt =
+                System.currentTimeMillis()
+
+            val nextPaymentDate =
+                when (loan.paymentFrequency) {
+                    "weekly" -> approvedAt + (7L * millisecondsPerDay)
+                    "monthly" -> approvedAt + (30L * millisecondsPerDay)
+                    "one_time" -> approvedAt + (30L * millisecondsPerDay)
+                    else -> approvedAt
+                }
+
+            val approvalUpdates = hashMapOf<String, Any>(
+                "status" to "approved",
+                "approvedAt" to approvedAt
+            )
+
+            if (loan.autoPayEnabled) {
+                approvalUpdates["autoPayStatus"] = "scheduled"
+                approvalUpdates["nextPaymentDate"] = nextPaymentDate
+                approvalUpdates["nextPaymentAmount"] = loan.paymentAmount
+            }
+
             db.collection("loan_requests")
                 .document(documentId)
-                .update("status", "approved")
+                .update(approvalUpdates)
                 .addOnSuccessListener {
 
                     val notification = hashMapOf(

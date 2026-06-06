@@ -40,6 +40,35 @@
             android:background="#0B1F3A"
             android:padding="22dp"
             android:layout_marginBottom="16dp" />
+        <TextView
+            android:id="@+id/txtAutoPayTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌳 Auto Pay"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/txtAutoPayStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtAutoPayNextDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next Payment:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtAutoPayAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount:"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txtTotalRequested"

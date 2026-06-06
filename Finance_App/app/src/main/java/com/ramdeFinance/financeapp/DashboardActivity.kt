@@ -11,6 +11,7 @@ import java.text.NumberFormat
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.ImageButton
+import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 class DashboardActivity : AppCompatActivity() {
 
@@ -111,6 +112,14 @@ class DashboardActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.txtCreditScore)
         val unreadNotificationsText =
             findViewById<TextView>(R.id.txtUnreadNotifications)
+        val autoPayStatusText =
+            findViewById<TextView>(R.id.txtAutoPayStatus)
+
+        val autoPayNextDateText =
+            findViewById<TextView>(R.id.txtAutoPayNextDate)
+
+        val autoPayAmountText =
+            findViewById<TextView>(R.id.txtAutoPayAmount)
 
         if (userId != null) {
             FirebaseMessaging.getInstance().token
@@ -169,6 +178,56 @@ class DashboardActivity : AppCompatActivity() {
                     unreadNotificationsText.text = "🔔 Unread Notifications: $unreadCount"
                 }
         }
+        if (userId != null) {
+
+            db.collection("loan_requests")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("autoPayEnabled", true)
+                .whereEqualTo("autoPayStatus", "scheduled")
+                .limit(1)
+                .addSnapshotListener { snapshots, error ->
+
+                    if (error != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val loan =
+                        snapshots?.documents?.firstOrNull()
+
+                    if (loan != null) {
+
+                        val nextDate =
+                            loan.getLong("nextPaymentDate") ?: 0L
+
+                        val amount =
+                            loan.getString("nextPaymentAmount") ?: "0.00"
+
+                        val dateText =
+                            java.text.SimpleDateFormat(
+                                "MMM dd, yyyy",
+                                java.util.Locale.getDefault()
+                            ).format(java.util.Date(nextDate))
+
+                        autoPayStatusText.text =
+                            "Status: Scheduled"
+
+                        autoPayNextDateText.text =
+                            "Next Payment: $dateText"
+
+                        autoPayAmountText.text =
+                            "Amount: $$amount"
+
+                    } else {
+
+                        autoPayStatusText.text =
+                            "Status: No Active Auto Pay"
+
+                        autoPayNextDateText.text = ""
+
+                        autoPayAmountText.text = ""
+                    }
+                }
+        }
 
         val totalRequestedText = findViewById<TextView>(R.id.txtTotalRequested)
         val pendingLoansText = findViewById<TextView>(R.id.txtPendingLoans)
@@ -214,5 +273,132 @@ class DashboardActivity : AppCompatActivity() {
                 }
         }
 
+        processAutoPayments()
+
+    }
+    private fun processAutoPayments() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+        val now = System.currentTimeMillis()
+
+        db.collection("loan_requests")
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("autoPayEnabled", true)
+            .whereEqualTo("autoPayStatus", "scheduled")
+            .get()
+            .addOnSuccessListener { loans ->
+
+                for (document in loans.documents) {
+
+                    val nextPaymentDate =
+                    document.getLong("nextPaymentDate") ?: 0L
+
+                    if (nextPaymentDate > now) {
+                        continue
+                    }
+
+
+                    val remainingBalance =
+                        parseMoney(document.getString("remainingBalance") ?: "0")
+
+                    val paymentAmount =
+                        parseMoney(document.getString("nextPaymentAmount") ?: "0")
+
+                    if (remainingBalance <= 0.0 || paymentAmount <= 0.0) {
+                        continue
+                    }
+
+                    val actualPayment =
+                        if (paymentAmount > remainingBalance) {
+                            remainingBalance
+                        } else {
+                            paymentAmount
+                        }
+
+                    val newBalance =
+                        remainingBalance - actualPayment
+
+                    val paymentFrequency =
+                        document.getString("paymentFrequency") ?: "weekly"
+
+                    val millisecondsPerDay =
+                        24L * 60L * 60L * 1000L
+
+                    val nextDate =
+                        when (paymentFrequency) {
+                            "weekly" -> now + (7L * millisecondsPerDay)
+                            "monthly" -> now + (30L * millisecondsPerDay)
+                            "one_time" -> 0L
+                            else -> now + (7L * millisecondsPerDay)
+                        }
+
+                    val updates = hashMapOf<String, Any>(
+                        "remainingBalance" to String.format("%.2f", newBalance),
+                        "lastAutoPaymentAt" to now
+                    )
+
+                    if (newBalance <= 0.0) {
+                        updates["remainingBalance"] = "0.00"
+                        updates["status"] = "paid"
+                        updates["autoPayStatus"] = "completed"
+                        updates["nextPaymentDate"] = 0L
+                    } else {
+                        updates["nextPaymentDate"] = nextDate
+                        updates["autoPayStatus"] = "scheduled"
+                    }
+                    Toast.makeText(
+                        this,
+                        "Auto Pay running for loan ${document.id}",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    db.collection("loan_requests")
+                        .document(document.id)
+                        .update(updates)
+                        .addOnFailureListener { e ->
+                            Toast.makeText(
+                                this,
+                                "Auto Pay failed: ${e.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        .addOnSuccessListener {
+
+                            val transaction = hashMapOf(
+                                "userId" to userId,
+                                "loanId" to document.id,
+                                "paymentAmount" to String.format("%.2f", actualPayment),
+                                "previousBalance" to String.format("%.2f", remainingBalance),
+                                "newBalance" to String.format("%.2f", newBalance.coerceAtLeast(0.0)),
+                                "paymentDate" to now,
+                                "paymentType" to "auto_pay"
+                            )
+
+                            db.collection("transactions")
+                                .add(transaction)
+
+                            val notification = hashMapOf(
+                                "userId" to userId,
+                                "title" to "Auto Pay Processed",
+                                "message" to "Your automatic payment of $${String.format("%.2f", actualPayment)} was processed.",
+                                "timestamp" to now,
+                                "isRead" to false
+                            )
+
+                            db.collection("notifications")
+                                .add(notification)
+                        }
+                }
+            }
+    }
+    private fun parseMoney(value: String): Double {
+        return value
+            .replace("$", "")
+            .replace("FCFA", "")
+            .replace("F CFA", "")
+            .replace("CFA", "")
+            .replace(",", ".")
+            .trim()
+            .toDoubleOrNull() ?: 0.0
     }
 }
