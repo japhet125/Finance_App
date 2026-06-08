@@ -85,5 +85,27 @@
         android:layout_height="wrap_content"
         android:text="Email Verification: Pending"
         android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/txtPhoneVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Verification: Pending"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@+id/txtVerificationLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verification Level"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnVerifyPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verify Phone"
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>

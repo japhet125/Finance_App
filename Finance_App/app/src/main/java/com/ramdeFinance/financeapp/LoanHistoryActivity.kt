@@ -13,6 +13,7 @@ import android.view.View
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.content.Intent
 
 class LoanHistoryActivity : AppCompatActivity() {
 
@@ -28,6 +29,11 @@ class LoanHistoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan_history)
         val backButton = findViewById<Button>(R.id.btnBack)
+        val downloadButton = findViewById<Button>(R.id.btnDownloadStatement)
+
+        downloadButton.setOnClickListener {
+            startActivity(Intent(this, LoanStatementActivity::class.java))
+        }
 
         backButton.setOnClickListener {
             finish()
@@ -143,6 +149,13 @@ class LoanHistoryActivity : AppCompatActivity() {
                         for (document in snapshots.documents) {
 
                             val loan = document.toObject(LoanModel::class.java)
+
+                            if (loan != null) {
+                                val loanWithId =
+                                    loan.copy(loanId = document.id)
+
+                                loanList.add(loanWithId)
+                            }
 
                             if (loan != null) {
 

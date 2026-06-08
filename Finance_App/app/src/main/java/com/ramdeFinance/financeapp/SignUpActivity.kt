@@ -64,6 +64,21 @@ class SignUpActivity : AppCompatActivity() {
 
         countrySpinner.adapter = adapter
 
+        val languageSpinner =
+            findViewById<Spinner>(R.id.spLanguage)
+
+        val languageAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.supported_languages,
+            android.R.layout.simple_spinner_item
+        )
+
+        languageAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        languageSpinner.adapter = languageAdapter
+
 
         createButton.setOnClickListener {
             val emailText = email.text.toString().trim()
@@ -107,6 +122,11 @@ class SignUpActivity : AppCompatActivity() {
 
                             return@addOnSuccessListener
                         }
+                        val selectedLanguage =
+                            languageSpinner.selectedItem.toString()
+
+                        val languageCode =
+                            if (selectedLanguage == "Français") "fr" else "en"
 
                         auth.createUserWithEmailAndPassword(emailText, passwordText)
                             .addOnCompleteListener(this) { task ->
@@ -119,6 +139,8 @@ class SignUpActivity : AppCompatActivity() {
                                             "fullName" to fullNameText,
                                             "email" to emailText,
                                             "phone" to phoneText,
+                                            "phoneVerified" to false,
+                                            "phoneVerifiedAt" to 0L,
 
                                             "address" to addressText,
                                             "apt" to aptText,
@@ -126,6 +148,7 @@ class SignUpActivity : AppCompatActivity() {
                                             "state" to stateText,
                                             "zipCode" to zipText,
                                             "country" to countryText,
+                                            "language" to languageCode,
                                             "accountStatus" to "active",
 
                                             "creditScore" to 500,
@@ -136,6 +159,7 @@ class SignUpActivity : AppCompatActivity() {
                                             "createdAt" to System.currentTimeMillis()
 
                                         )
+
 
                                         db.collection("users")
                                             .document(userId)

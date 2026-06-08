@@ -122,7 +122,8 @@ class AdminLoanAdapter(
 
             val approvalUpdates = hashMapOf<String, Any>(
                 "status" to "approved",
-                "approvedAt" to approvedAt
+                "approvedAt" to approvedAt,
+                "reminderSent" to false
             )
 
             if (loan.autoPayEnabled) {

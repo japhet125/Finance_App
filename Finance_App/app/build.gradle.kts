@@ -54,4 +54,5 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.1.1")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.itextpdf:itext7-core:7.2.5")
 }

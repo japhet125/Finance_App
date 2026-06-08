@@ -81,6 +81,12 @@
             android:layout_marginTop="12dp"
             android:hint="Country" />
 
+        <Spinner
+            android:id="@+id/spEditLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp" />
+
         <Button
             android:id="@+id/btnSaveProfile"
             android:layout_width="match_parent"

@@ -176,6 +176,22 @@ class LoanRequestActivity : AppCompatActivity() {
             userRef.get().addOnSuccessListener { userDocument ->
                 val userCountry =
                     userDocument.getString("country") ?: "USA"
+                val emailVerified =
+                    userDocument.getBoolean("emailVerified") ?: false
+
+                val phoneVerified =
+                    userDocument.getBoolean("phoneVerified") ?: false
+
+                if (!emailVerified || !phoneVerified) {
+
+                    Toast.makeText(
+                        this,
+                        "Please verify both your email and phone number before requesting a loan.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    return@addOnSuccessListener
+                }
 
                 if (
                     userCountry == "USA" &&

@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -24,6 +26,20 @@ class EditProfileActivity : AppCompatActivity() {
         val zipCode = findViewById<EditText>(R.id.etEditZipCode)
         val country = findViewById<EditText>(R.id.etEditCountry)
         val saveButton = findViewById<Button>(R.id.btnSaveProfile)
+        val languageSpinner =
+            findViewById<Spinner>(R.id.spEditLanguage)
+
+        val languageAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.supported_languages,
+            android.R.layout.simple_spinner_item
+        )
+
+        languageAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        languageSpinner.adapter = languageAdapter
 
         backButton.setOnClickListener {
             finish()
@@ -45,6 +61,14 @@ class EditProfileActivity : AppCompatActivity() {
                     state.setText(document.getString("state") ?: "")
                     zipCode.setText(document.getString("zipCode") ?: "")
                     country.setText(document.getString("country") ?: "")
+                    val savedLanguage =
+                        document.getString("language") ?: "en"
+
+                    if (savedLanguage == "fr") {
+                        languageSpinner.setSelection(1)
+                    } else {
+                        languageSpinner.setSelection(0)
+                    }
                 }
         }
 
@@ -57,6 +81,11 @@ class EditProfileActivity : AppCompatActivity() {
             val stateText = state.text.toString().trim()
             val zipText = zipCode.text.toString().trim()
             val countryText = country.text.toString().trim()
+            val selectedLanguage =
+                languageSpinner.selectedItem.toString()
+
+            val languageCode =
+                if (selectedLanguage == "Français") "fr" else "en"
 
             if (
                 fullNameText.isBlank() ||
@@ -85,6 +114,7 @@ class EditProfileActivity : AppCompatActivity() {
                     "state" to stateText,
                     "zipCode" to zipText,
                     "country" to countryText,
+                    "language" to languageCode,
                     "profileUpdatedAt" to System.currentTimeMillis()
                 )
 

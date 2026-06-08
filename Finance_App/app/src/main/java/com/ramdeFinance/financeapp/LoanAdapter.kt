@@ -1,8 +1,10 @@
 package com.ramdefinance.financeapp
 
 import android.view.LayoutInflater
+
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -33,6 +35,7 @@ class LoanAdapter(
         val dueDate: TextView = itemView.findViewById(R.id.txtDueDate)
         val progressText: TextView = itemView.findViewById(R.id.txtLoanProgress)
         val progressBar: ProgressBar = itemView.findViewById(R.id.progressLoan)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
@@ -50,6 +53,8 @@ class LoanAdapter(
         holder.amount.text = "Amount: $${loan.amount}"
         holder.reason.text = "Reason: ${loan.reason}"
         holder.status.text = "Status: ${loan.status}"
+
+
 
 
         val planText =
