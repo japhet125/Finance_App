@@ -150,6 +150,8 @@ class SignUpActivity : AppCompatActivity() {
                                             "country" to countryText,
                                             "language" to languageCode,
                                             "accountStatus" to "active",
+                                            "completedLoans" to 0,
+                                            "borrowerLevel" to "New",
 
                                             "creditScore" to 500,
                                             "identityVerified" to false,

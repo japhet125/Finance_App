@@ -41,6 +41,13 @@
             android:padding="22dp"
             android:layout_marginBottom="16dp" />
         <TextView
+            android:id="@+id/txtBorrowerLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🏅 Borrower Level: New"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+        <TextView
             android:id="@+id/txtAutoPayTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

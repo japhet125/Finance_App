@@ -146,6 +146,8 @@ class DashboardActivity : AppCompatActivity() {
         val userId = auth.currentUser?.uid
         val creditScoreText =
             findViewById<TextView>(R.id.txtCreditScore)
+        val borrowerLevelText =
+            findViewById<TextView>(R.id.txtBorrowerLevel)
         val unreadNotificationsText =
             findViewById<TextView>(R.id.txtUnreadNotifications)
         val autoPayStatusText =
@@ -206,6 +208,15 @@ class DashboardActivity : AppCompatActivity() {
                                 "💳 Score de crédit : $creditScore"
                             } else {
                                 "💳 Credit Score: $creditScore"
+                            }
+                        val borrowerLevel =
+                            document.getString("borrowerLevel") ?: "New"
+
+                        borrowerLevelText.text =
+                            if (userLanguage == "fr") {
+                                "🏅 Niveau emprunteur : $borrowerLevel"
+                            } else {
+                                "🏅 Borrower Level: $borrowerLevel"
                             }
 
                     }
