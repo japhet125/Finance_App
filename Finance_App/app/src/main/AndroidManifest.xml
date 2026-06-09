@@ -62,7 +62,6 @@
         <activity
             android:name=".TransactionHistoryActivity"
             android:exported="false" />
-
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
@@ -110,16 +109,25 @@
             android:name=".LoanStatementActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity
+            android:name=".LanguageSettingsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".IdentityUploadActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

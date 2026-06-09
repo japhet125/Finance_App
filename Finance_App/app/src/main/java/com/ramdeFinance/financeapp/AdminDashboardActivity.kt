@@ -35,6 +35,7 @@ class AdminDashboardActivity : AppCompatActivity() {
         allLoansList = mutableListOf()
         loanList = mutableListOf()
         adapter = AdminLoanAdapter(loanList)
+        var userLanguage = "en"
 
         recyclerView.adapter = adapter
         val adminMenuButton = findViewById<ImageButton>(R.id.btnAdminMenu)
@@ -42,28 +43,38 @@ class AdminDashboardActivity : AppCompatActivity() {
         adminMenuButton.setOnClickListener {
             val popupMenu = PopupMenu(this, adminMenuButton)
 
-            popupMenu.menu.add("Audit Logs")
-            popupMenu.menu.add("Users")
-            popupMenu.menu.add("Analytics")
-            popupMenu.menu.add("Identity Verification")
+            val auditLogsText =
+                if (userLanguage == "fr") "Journaux d'audit" else "Audit Logs"
+
+            val usersText =
+                if (userLanguage == "fr") "Utilisateurs" else "Users"
+
+            val analyticsText =
+                if (userLanguage == "fr") "Analytique" else "Analytics"
+
+            val identityText =
+                if (userLanguage == "fr") "Vérification d'identité" else "Identity Verification"
+
+            popupMenu.menu.add(auditLogsText)
+            popupMenu.menu.add(usersText)
+            popupMenu.menu.add(analyticsText)
+            popupMenu.menu.add(identityText)
 
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.title.toString()) {
-                    "Audit Logs" -> {
+                    auditLogsText -> {
                         startActivity(Intent(this, AuditLogActivity::class.java))
                         true
                     }
-                    "Users" -> {
+                    usersText -> {
                         startActivity(Intent(this, AdminUsersActivity::class.java))
                         true
                     }
-
-                    "Analytics" -> {
+                    analyticsText -> {
                         startActivity(Intent(this, AdminAnalyticActivity::class.java))
                         true
                     }
-
-                    "Identity Verification" -> {
+                    identityText -> {
                         startActivity(Intent(this, IdentityVerificationActivity::class.java))
                         true
                     }
@@ -127,6 +138,31 @@ class AdminDashboardActivity : AppCompatActivity() {
 
 
         val db = FirebaseFirestore.getInstance()
+        val currentUserId =
+            com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
+
+        if (currentUserId != null) {
+            db.collection("users")
+                .document(currentUserId)
+                .get()
+                .addOnSuccessListener { document ->
+
+                    userLanguage =
+                        document.getString("language") ?: "en"
+
+                    adapter.updateLanguage(userLanguage)
+
+                    backButton.text =
+                        if (userLanguage == "fr") "Retour" else "Back"
+
+                    searchInput.hint =
+                        if (userLanguage == "fr") {
+                            "Rechercher des prêts"
+                        } else {
+                            "Search loans"
+                        }
+                }
+        }
 
         db.collection("loan_requests")
             .orderBy(

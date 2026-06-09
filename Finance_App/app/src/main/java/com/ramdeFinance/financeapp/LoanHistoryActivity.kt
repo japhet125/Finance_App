@@ -154,7 +154,7 @@ class LoanHistoryActivity : AppCompatActivity() {
                                 val loanWithId =
                                     loan.copy(loanId = document.id)
 
-                                loanList.add(loanWithId)
+                                allLoans.add(loanWithId)
                             }
 
                             if (loan != null) {
@@ -221,12 +221,21 @@ class LoanHistoryActivity : AppCompatActivity() {
                                         }
                                 }
 
-                                allLoans.add(loan)
+
                             }
                         }
 
                         applyLoanFilter()
                     }
+                }
+        }
+        if (userId != null) {
+            db.collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    val language = document.getString("language") ?: "en"
+                    adapter.updateLanguage(language)
                 }
         }
     }

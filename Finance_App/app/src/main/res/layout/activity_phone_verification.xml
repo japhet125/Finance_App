@@ -14,14 +14,27 @@
         android:text="Phone Verification"
         android:textSize="28sp"
         android:textStyle="bold" />
-
     <TextView
         android:id="@+id/txtOtpInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Demo code: 123456"
+        android:text="Enter your phone number and tap Send Verification Code."
         android:textSize="16sp"
         android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/etPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:hint="+17180000000"
+        android:inputType="phone" />
+    <Button
+        android:id="@+id/btnSendOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Verification Code"
+        android:layout_marginTop="12dp" />
 
     <EditText
         android:id="@+id/etOtpCode"

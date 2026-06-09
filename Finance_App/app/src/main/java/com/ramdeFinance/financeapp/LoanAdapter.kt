@@ -13,7 +13,8 @@ import java.util.Locale
 import android.widget.ProgressBar
 
 class LoanAdapter(
-    private val loanList: List<LoanModel>
+    private val loanList: List<LoanModel>,
+    private var language: String = "en"
 ) : RecyclerView.Adapter<LoanAdapter.LoanViewHolder>() {
 
     class LoanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -50,28 +51,35 @@ class LoanAdapter(
 
         val loan = loanList[position]
 
-        holder.amount.text = "Amount: $${loan.amount}"
-        holder.reason.text = "Reason: ${loan.reason}"
-        holder.status.text = "Status: ${loan.status}"
-
+        if (language == "fr") {
+            holder.amount.text = "Montant : ${loan.amount}"
+            holder.reason.text = "Raison : ${loan.reason}"
+            holder.status.text = "Statut : ${translateStatus(loan.status)}"
+        } else {
+            holder.amount.text = "Amount: $${loan.amount}"
+            holder.reason.text = "Reason: ${loan.reason}"
+            holder.status.text = "Status: ${loan.status}"
+        }
 
 
 
         val planText =
-            if (loan.paymentFrequency == "one_time") {
-                "One-Time Payment"
+            if (language == "fr") {
+                when (loan.paymentFrequency) {
+                    "one_time" -> "Paiement unique"
+                    "monthly" -> "Mensuel"
+                    "weekly" -> "Hebdomadaire"
+                    else -> loan.paymentFrequency
+                }
             } else {
-                loan.paymentFrequency.replaceFirstChar {
-                    it.uppercase()
+                if (loan.paymentFrequency == "one_time") {
+                    "One-Time Payment"
+                } else {
+                    loan.paymentFrequency.replaceFirstChar {
+                        it.uppercase()
+                    }
                 }
             }
-
-        holder.plan.text = "Plan: $planText"
-        holder.interest.text = "Interest: ${loan.interestRate}%"
-        holder.totalRepayment.text = "Total Repayment: $${loan.totalRepayment}"
-        holder.paymentAmount.text = "Payment Amount: $${loan.paymentAmount}"
-        holder.remainingBalance.text = "Remaining Balance: $${loan.remainingBalance}"
-
         val formattedDueDate = if (loan.dueDate > 0) {
             SimpleDateFormat(
                 "MMM dd, yyyy",
@@ -81,7 +89,24 @@ class LoanAdapter(
             "N/A"
         }
 
-        holder.dueDate.text = "Due Date: $formattedDueDate"
+
+        if (language == "fr") {
+            holder.plan.text = "Plan : $planText"
+            holder.interest.text = "Intérêt : ${loan.interestRate}%"
+            holder.totalRepayment.text = "Remboursement total : ${loan.totalRepayment}"
+            holder.paymentAmount.text = "Montant du paiement : ${loan.paymentAmount}"
+            holder.remainingBalance.text = "Solde restant : ${loan.remainingBalance}"
+            holder.dueDate.text = "Date d'échéance : $formattedDueDate"
+        } else {
+            holder.plan.text = "Plan: $planText"
+            holder.interest.text = "Interest: ${loan.interestRate}%"
+            holder.totalRepayment.text = "Total Repayment: $${loan.totalRepayment}"
+            holder.paymentAmount.text = "Payment Amount: $${loan.paymentAmount}"
+            holder.remainingBalance.text = "Remaining Balance: $${loan.remainingBalance}"
+            holder.dueDate.text = "Due Date: $formattedDueDate"
+        }
+
+
 
         val totalRepayment = parseMoney(loan.totalRepayment)
         val remainingBalance = parseMoney(loan.remainingBalance)
@@ -98,32 +123,47 @@ class LoanAdapter(
         holder.progressBar.progress = progressPercent.coerceIn(0, 100)
 
         holder.progressText.text =
-            "Progress: ${progressPercent.coerceIn(0, 100)}%"
+            if (language == "fr") {
+                "Progression : ${progressPercent.coerceIn(0, 100)}%"
+            } else {
+                "Progress: ${progressPercent.coerceIn(0, 100)}%"
+            }
         if (loan.autoPayEnabled) {
-
-            holder.autoPayStatus.text =
-                "Auto Pay: ${loan.autoPayStatus}"
 
             val nextDateText =
                 if (loan.nextPaymentDate > 0) {
-                    java.text.SimpleDateFormat(
+                    SimpleDateFormat(
                         "MMM dd, yyyy",
-                        java.util.Locale.getDefault()
-                    ).format(java.util.Date(loan.nextPaymentDate))
+                        Locale.getDefault()
+                    ).format(Date(loan.nextPaymentDate))
                 } else {
-                    "Pending approval"
+                    if (language == "fr") "En attente d'approbation" else "Pending approval"
                 }
 
-            holder.nextPayment.text =
-                "Next Payment: $${loan.nextPaymentAmount} on $nextDateText"
+            if (language == "fr") {
+                holder.autoPayStatus.text =
+                    "Paiement automatique : ${loan.autoPayStatus}"
+
+                holder.nextPayment.text =
+                    "Prochain paiement : ${loan.nextPaymentAmount} le $nextDateText"
+            } else {
+                holder.autoPayStatus.text =
+                    "Auto Pay: ${loan.autoPayStatus}"
+
+                holder.nextPayment.text =
+                    "Next Payment: $${loan.nextPaymentAmount} on $nextDateText"
+            }
 
         } else {
 
             holder.autoPayStatus.text =
-                "Auto Pay: Disabled"
+                if (language == "fr") {
+                    "Paiement automatique : Désactivé"
+                } else {
+                    "Auto Pay: Disabled"
+                }
 
-            holder.nextPayment.text =
-                ""
+            holder.nextPayment.text = ""
         }
     }
 
@@ -139,5 +179,19 @@ class LoanAdapter(
             .replace(",", ".")
             .trim()
             .toDoubleOrNull() ?: 0.0
+    }
+    private fun translateStatus(status: String): String {
+        return when (status.lowercase()) {
+            "pending" -> "En attente"
+            "approved" -> "Approuvé"
+            "rejected" -> "Rejeté"
+            "overdue" -> "En retard"
+            "paid" -> "Payé"
+            else -> status
+        }
+    }
+    fun updateLanguage(newLanguage: String) {
+        language = newLanguage
+        notifyDataSetChanged()
     }
 }

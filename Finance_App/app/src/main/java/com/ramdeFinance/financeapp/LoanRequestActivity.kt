@@ -13,6 +13,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
 import android.widget.CheckBox
+import android.widget.TextView
 
 
 class LoanRequestActivity : AppCompatActivity() {
@@ -31,6 +32,7 @@ class LoanRequestActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        var userLanguage = "en"
 
         val amount = findViewById<EditText>(R.id.etLoanAmount)
         val reason = findViewById<EditText>(R.id.etLoanReason)
@@ -43,6 +45,18 @@ class LoanRequestActivity : AppCompatActivity() {
         val submitButton = findViewById<Button>(R.id.btnSubmitLoan)
 
         val currentUserId = auth.currentUser?.uid
+        if (currentUserId != null) {
+            db.collection("users")
+                .document(currentUserId)
+                .get()
+                .addOnSuccessListener { document ->
+
+                    userLanguage =
+                        document.getString("language") ?: "en"
+
+                    updateLanguage(userLanguage)
+                }
+        }
 
         if (currentUserId != null) {
             db.collection("users")
@@ -332,6 +346,39 @@ Do you want to submit this loan request?
             }
 
 
+        }
+    }
+    private fun updateLanguage(language: String) {
+        val backButton = findViewById<Button>(R.id.btnBack)
+        val submitButton = findViewById<Button>(R.id.btnSubmitLoan)
+        val amountInput = findViewById<EditText>(R.id.etLoanAmount)
+        val reasonInput = findViewById<EditText>(R.id.etLoanReason)
+        val weekly10 = findViewById<RadioButton>(R.id.rbWeekly10)
+        val weekly14 = findViewById<RadioButton>(R.id.rbWeekly14)
+        val monthly12 = findViewById<RadioButton>(R.id.rbMonthly12)
+        val oneTime = findViewById<RadioButton>(R.id.rbOneTime)
+        val autoPay = findViewById<CheckBox>(R.id.cbAutoPay)
+
+        if (language == "fr") {
+            backButton.text = "Retour"
+            submitButton.text = "Soumettre la demande"
+            amountInput.hint = "Montant du prêt"
+            reasonInput.hint = "Raison du prêt"
+            weekly10.text = "Hebdomadaire 10 paiements"
+            weekly14.text = "Hebdomadaire 14 paiements"
+            monthly12.text = "Mensuel 12 paiements"
+            oneTime.text = "Paiement unique"
+            autoPay.text = "Activer le paiement automatique"
+        } else {
+            backButton.text = "Back"
+            submitButton.text = "Submit Loan"
+            amountInput.hint = "Loan Amount"
+            reasonInput.hint = "Loan Reason"
+            weekly10.text = "Weekly 10 Payments"
+            weekly14.text = "Weekly 14 Payments"
+            monthly12.text = "Monthly 12 Payments"
+            oneTime.text = "One-Time Payment"
+            autoPay.text = "Enable Auto Pay"
         }
     }
 

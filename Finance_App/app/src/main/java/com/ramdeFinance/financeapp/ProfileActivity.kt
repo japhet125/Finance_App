@@ -28,6 +28,14 @@ class ProfileActivity : AppCompatActivity() {
         val creditScoreText = findViewById<TextView>(R.id.txtProfileCreditScore)
         val emailVerificationText = findViewById<TextView>(R.id.txtEmailVerification)
         val phoneVerificationText = findViewById<TextView>(R.id.txtPhoneVerification)
+        val identityUploadButton =
+            findViewById<Button>(R.id.btnIdentityUpload)
+
+        identityUploadButton.setOnClickListener {
+            startActivity(Intent(this, IdentityUploadActivity::class.java))
+        }
+        val identityStatusText =
+            findViewById<TextView>(R.id.txtIdentityStatus)
 
         backButton.setOnClickListener {
             finish()
@@ -44,6 +52,7 @@ class ProfileActivity : AppCompatActivity() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val db = FirebaseFirestore.getInstance()
 
+
         if (userId != null) {
             db.collection("users")
                 .document(userId)
@@ -54,6 +63,9 @@ class ProfileActivity : AppCompatActivity() {
                     }
 
                     if (document != null && document.exists()) {
+
+                        val language = document.getString("language") ?: "en"
+
                         val fullName = document.getString("fullName") ?: "N/A"
                         val email = document.getString("email") ?: "N/A"
                         val phone = document.getString("phone") ?: "N/A"
@@ -61,35 +73,95 @@ class ProfileActivity : AppCompatActivity() {
                         val creditScore = document.getLong("creditScore") ?: 500
                         val emailVerified = document.getBoolean("emailVerified") ?: false
                         val phoneVerified = document.getBoolean("phoneVerified") ?: false
-                        if (emailVerified && phoneVerified) {
+                        val borrowerLevel = document.getString("borrowerLevel") ?: "New"
+                        val identityStatus =
+                            document.getString("identityStatus") ?: "not_submitted"
+
+
+
+                        if (language == "fr") {
+                            identityUploadButton.text = "Soumettre l'identité"
+
+                            nameText.text = "Nom : $fullName"
+                            emailText.text = "Email : $email"
+                            phoneText.text = "Téléphone : $phone"
+                            roleText.text = "Rôle : $role"
+                            creditScoreText.text = "Score de crédit : $creditScore"
+
+                            emailVerificationText.text =
+                                if (emailVerified) "✓ Email vérifié" else "✗ Email non vérifié"
+
+                            phoneVerificationText.text =
+                                if (phoneVerified) "✓ Téléphone vérifié" else "✗ Téléphone non vérifié"
 
                             verificationLevelText.text =
-                                "🟢 Verification Level: Fully Verified"
+                                "🏅 Niveau emprunteur : $borrowerLevel"
 
-                        } else {
+                            verifyPhoneButton.text =
+                                "Vérifier le téléphone"
 
-                            verificationLevelText.text =
-                                "🟡 Verification Level: Pending"
-                        }
+                            editProfileButton.text =
+                                "Modifier le profil"
 
-                        nameText.text = "Name: $fullName"
-                        emailText.text = "Email: $email"
-                        phoneText.text = "Phone: $phone"
-                        roleText.text = "Role: $role"
-                        creditScoreText.text = "Credit Score: $creditScore"
-
-                        emailVerificationText.text =
-                            if (emailVerified) {
-                                "✓ Email Verified"
+                            backButton.text =
+                                "Retour"
+                            identityStatusText.text =
+                                when (identityStatus) {
+                                    "approved" -> "✓ Identité vérifiée"
+                                    "rejected" -> "✗ Identité rejetée"
+                                    "pending" -> "⏳ Vérification en cours"
+                                    else -> "Aucune identité soumise"
+                                }
+                            if (identityStatus == "approved") {
+                                identityUploadButton.visibility = View.GONE
                             } else {
-                                "✗ Email Not Verified"
+                                identityUploadButton.visibility = View.VISIBLE
                             }
 
+                        } else {
+                            identityUploadButton.text = "Submit Identity Verification"
+
+
+                            nameText.text = "Name: $fullName"
+                            emailText.text = "Email: $email"
+                            phoneText.text = "Phone: $phone"
+                            roleText.text = "Role: $role"
+                            creditScoreText.text = "Credit Score: $creditScore"
+
+                            emailVerificationText.text =
+                                if (emailVerified) "✓ Email Verified" else "✗ Email Not Verified"
+
+                            phoneVerificationText.text =
+                                if (phoneVerified) "✓ Phone Verified" else "✗ Phone Not Verified"
+
+                            verificationLevelText.text =
+                                "🏅 Borrower Level: $borrowerLevel"
+
+                            verifyPhoneButton.text =
+                                "Verify Phone"
+
+                            editProfileButton.text =
+                                "Edit Profile"
+
+                            backButton.text =
+                                "Back"
+                            identityStatusText.text =
+                                when (identityStatus) {
+                                    "approved" -> "✓ Identity Verified"
+                                    "rejected" -> "✗ Identity Rejected"
+                                    "pending" -> "⏳ Verification Pending"
+                                    else -> "No Identity Submitted"
+                                }
+                            if (identityStatus == "approved") {
+                                identityUploadButton.visibility = View.GONE
+                            } else {
+                                identityUploadButton.visibility = View.VISIBLE
+                            }
+                        }
+
                         if (phoneVerified) {
-                            phoneVerificationText.text = "✓ Phone Verified"
                             verifyPhoneButton.visibility = View.GONE
                         } else {
-                            phoneVerificationText.text = "✗ Phone Not Verified"
                             verifyPhoneButton.visibility = View.VISIBLE
                         }
                     }

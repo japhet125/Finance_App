@@ -10,7 +10,8 @@ import java.util.Date
 import java.util.Locale
 
 class TransactionAdapter(
-    private val transactionList: List<TransactionModel>
+    private val transactionList: List<TransactionModel>,
+    private var language: String = "en"
 ) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
     class TransactionViewHolder(itemView: View) :
@@ -29,6 +30,11 @@ class TransactionAdapter(
             itemView.findViewById(R.id.txtPaymentDate)
     }
 
+    fun updateLanguage(newLanguage: String) {
+        language = newLanguage
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -44,25 +50,38 @@ class TransactionAdapter(
         holder: TransactionViewHolder,
         position: Int
     ) {
-
         val transaction = transactionList[position]
-
-        holder.amount.text =
-            "Payment: $${transaction.paymentAmount}"
-
-        holder.previousBalance.text =
-            "Previous Balance: $${transaction.previousBalance}"
-
-        holder.newBalance.text =
-            "New Balance: $${transaction.newBalance}"
 
         val formattedDate = SimpleDateFormat(
             "MMM dd, yyyy HH:mm",
             Locale.getDefault()
         ).format(Date(transaction.paymentDate))
 
-        holder.paymentDate.text =
-            "Date: $formattedDate"
+        if (language == "fr") {
+            holder.amount.text =
+                "Paiement : ${transaction.paymentAmount}"
+
+            holder.previousBalance.text =
+                "Solde précédent : ${transaction.previousBalance}"
+
+            holder.newBalance.text =
+                "Nouveau solde : ${transaction.newBalance}"
+
+            holder.paymentDate.text =
+                "Date : $formattedDate"
+        } else {
+            holder.amount.text =
+                "Payment: $${transaction.paymentAmount}"
+
+            holder.previousBalance.text =
+                "Previous Balance: $${transaction.previousBalance}"
+
+            holder.newBalance.text =
+                "New Balance: $${transaction.newBalance}"
+
+            holder.paymentDate.text =
+                "Date: $formattedDate"
+        }
     }
 
     override fun getItemCount(): Int {

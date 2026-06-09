@@ -68,6 +68,26 @@ class IdentityVerificationAdapter(
                     holder.status.text = "✓ Identity Verified"
                     holder.verifyButton.visibility = View.GONE
                     holder.rejectButton.visibility = View.GONE
+                    val notification = hashMapOf(
+                        "userId" to documentId,
+                        "title" to "Identity Verified",
+                        "message" to "Your identity has been verified successfully.",
+                        "timestamp" to System.currentTimeMillis(),
+                        "isRead" to false
+                    )
+
+                    db.collection("notifications").add(notification)
+
+                    val auditLog = hashMapOf(
+                        "actorId" to "admin",
+                        "action" to "identity_verified",
+                        "targetType" to "user",
+                        "targetId" to documentId,
+                        "message" to "User identity was verified.",
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    db.collection("audit_logs").add(auditLog)
 
                     Toast.makeText(
                         holder.itemView.context,
@@ -97,6 +117,26 @@ class IdentityVerificationAdapter(
                     holder.status.text = "✗ Identity Rejected"
                     holder.verifyButton.visibility = View.GONE
                     holder.rejectButton.visibility = View.GONE
+                    val notification = hashMapOf(
+                        "userId" to documentId,
+                        "title" to "Identity Rejected",
+                        "message" to "Your identity verification was rejected. Please update your information and try again.",
+                        "timestamp" to System.currentTimeMillis(),
+                        "isRead" to false
+                    )
+
+                    db.collection("notifications").add(notification)
+
+                    val auditLog = hashMapOf(
+                        "actorId" to "admin",
+                        "action" to "identity_rejected",
+                        "targetType" to "user",
+                        "targetId" to documentId,
+                        "message" to "User identity was rejected.",
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    db.collection("audit_logs").add(auditLog)
 
                     Toast.makeText(
                         holder.itemView.context,

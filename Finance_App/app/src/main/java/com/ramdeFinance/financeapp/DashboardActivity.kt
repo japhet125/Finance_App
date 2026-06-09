@@ -22,6 +22,8 @@ class DashboardActivity : AppCompatActivity() {
 
         val menuButton = findViewById<ImageButton>(R.id.btnMenu)
         var isAdminUser = false
+        val languageSettingsText =
+            if (userLanguage == "fr") "Langue" else "Language"
 
         menuButton.setOnClickListener {
 
@@ -67,6 +69,7 @@ class DashboardActivity : AppCompatActivity() {
             popupMenu.menu.add(notificationsText)
             popupMenu.menu.add(bankAccountText)
             popupMenu.menu.add(mobileMoneyText)
+            popupMenu.menu.add(languageSettingsText)
 
             if (isAdminUser) {
                 popupMenu.menu.add(adminDashboardText)
@@ -76,6 +79,10 @@ class DashboardActivity : AppCompatActivity() {
             popupMenu.setOnMenuItemClickListener { item ->
 
                 when (item.title.toString()) {
+                    languageSettingsText -> {
+                        startActivity(Intent(this, LanguageSettingsActivity::class.java))
+                        true
+                    }
 
                     requestLoanText -> {
                         startActivity(Intent(this, LoanRequestActivity::class.java))

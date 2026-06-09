@@ -75,5 +75,17 @@ class NotificationsActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
         }
+        if (userId != null) {
+            db.collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    val language = document.getString("language") ?: "en"
+                    adapter.updateLanguage(language)
+
+                    backButton.text =
+                        if (language == "fr") "Retour" else "Back"
+                }
+        }
     }
 }

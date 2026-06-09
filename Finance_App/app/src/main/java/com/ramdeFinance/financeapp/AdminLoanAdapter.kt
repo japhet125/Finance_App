@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdminLoanAdapter(
-    private val loanList: List<Pair<String, AdminLoanModel>>
+    private val loanList: List<Pair<String, AdminLoanModel>>,
+    private var language: String = "en"
 ) : RecyclerView.Adapter<AdminLoanAdapter.AdminLoanViewHolder>() {
 
     class AdminLoanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,21 +38,43 @@ class AdminLoanAdapter(
 
         val (documentId, loan) = loanList[position]
         val db = FirebaseFirestore.getInstance()
-        holder.recommendation.text = "Recommendation: Loading..."
-
-
-        holder.amount.text = "Amount: $${loan.amount}"
-        holder.reason.text = "Reason: ${loan.reason}"
-
         val planText =
-            if (loan.paymentFrequency == "one_time") {
-                "One-Time Payment"
+            if (language == "fr") {
+                when (loan.paymentFrequency) {
+                    "one_time" -> "Paiement unique"
+                    "weekly" -> "Hebdomadaire (${loan.paymentTerm} paiements)"
+                    "monthly" -> "Mensuel (${loan.paymentTerm} paiements)"
+                    else -> loan.paymentFrequency
+                }
             } else {
-                "${loan.paymentFrequency} (${loan.paymentTerm} payments)"
+                if (loan.paymentFrequency == "one_time") {
+                    "One-Time Payment"
+                } else {
+                    "${loan.paymentFrequency} (${loan.paymentTerm} payments)"
+                }
             }
 
-        holder.plan.text = "Plan: $planText"
-        holder.status.text = "Status: ${loan.status}"
+        if (language == "fr") {
+            holder.amount.text = "Montant : ${loan.amount}"
+            holder.reason.text = "Raison : ${loan.reason}"
+            holder.plan.text = "Plan : $planText"
+            holder.status.text = "Statut : ${translateStatus(loan.status)}"
+            holder.approveButton.text = "Approuver"
+            holder.rejectButton.text = "Rejeter"
+            holder.recommendation.text = "Recommandation : Chargement..."
+        } else {
+            holder.amount.text = "Amount: $${loan.amount}"
+            holder.reason.text = "Reason: ${loan.reason}"
+            holder.plan.text = "Plan: $planText"
+            holder.status.text = "Status: ${loan.status}"
+            holder.approveButton.text = "Approve"
+            holder.rejectButton.text = "Reject"
+            holder.recommendation.text = "Recommendation: Loading..."
+        }
+
+
+
+
 
         db.collection("users")
             .document(loan.userId)
@@ -61,19 +84,30 @@ class AdminLoanAdapter(
                 val creditScore =
                     userDocument.getLong("creditScore") ?: 500
 
-                val recommendationText = when {
-                    creditScore >= 700 -> {
-                        "✅ Recommendation: Approve — strong credit score"
-                    }
+                val recommendationText =
+                    if (language == "fr") {
+                        when {
+                            creditScore >= 700 ->
+                                "✅ Recommandation : Approuver — bon score de crédit"
 
-                    creditScore >= 550 -> {
-                        "⚠️ Recommendation: Review — medium risk borrower"
-                    }
+                            creditScore >= 550 ->
+                                "⚠️ Recommandation : Réviser — risque moyen"
 
-                    else -> {
-                        "❌ Recommendation: Reject — high risk borrower"
+                            else ->
+                                "❌ Recommandation : Rejeter — risque élevé"
+                        }
+                    } else {
+                        when {
+                            creditScore >= 700 ->
+                                "✅ Recommendation: Approve — strong credit score"
+
+                            creditScore >= 550 ->
+                                "⚠️ Recommendation: Review — medium risk borrower"
+
+                            else ->
+                                "❌ Recommendation: Reject — high risk borrower"
+                        }
                     }
-                }
 
                 holder.recommendation.text = recommendationText
             }.addOnFailureListener { e ->
@@ -81,25 +115,22 @@ class AdminLoanAdapter(
             }
 
         if (loan.status == "approved") {
-
             holder.approveButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
-            holder.status.text = "✓ Approved"
-
+            holder.status.text =
+                if (language == "fr") "✓ Approuvé" else "✓ Approved"
 
         } else if (loan.status == "rejected") {
-
             holder.approveButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
-
-            holder.status.text = "✗ Rejected"
+            holder.status.text =
+                if (language == "fr") "✗ Rejeté" else "✗ Rejected"
 
         } else {
-
             holder.approveButton.visibility = View.VISIBLE
             holder.rejectButton.visibility = View.VISIBLE
-
-            holder.status.text = "Status: Pending"
+            holder.status.text =
+                if (language == "fr") "Statut : En attente" else "Status: Pending"
         }
 
 
@@ -198,5 +229,19 @@ class AdminLoanAdapter(
 
     override fun getItemCount(): Int {
         return loanList.size
+    }
+    private fun translateStatus(status: String): String {
+        return when (status.lowercase()) {
+            "pending" -> "En attente"
+            "approved" -> "Approuvé"
+            "rejected" -> "Rejeté"
+            "overdue" -> "En retard"
+            "paid" -> "Payé"
+            else -> status
+        }
+    }
+    fun updateLanguage(newLanguage: String) {
+        language = newLanguage
+        notifyDataSetChanged()
     }
 }

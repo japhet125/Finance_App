@@ -12,5 +12,15 @@
         <item>English</item>
         <item>Français</item>
     </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Français</item>
+    </string-array>
+    <string-array name="id_types">
+        <item>Driver License</item>
+        <item>Passport</item>
+        <item>National ID</item>
+        <item>Voter ID</item>
+    </string-array>
 
 </resources>

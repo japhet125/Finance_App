@@ -32,30 +32,25 @@ class LoanStatementActivity : AppCompatActivity() {
         }
 
         FirebaseFirestore.getInstance()
-            .collection("loan_requests")
-            .whereEqualTo("userId", userId)
+            .collection("users")
+            .document(userId)
             .get()
-            .addOnSuccessListener { loans ->
+            .addOnSuccessListener { userDoc ->
 
-                if (loans.isEmpty) {
-                    Toast.makeText(this, "No loans found", Toast.LENGTH_SHORT).show()
-                    finish()
-                    return@addOnSuccessListener
-                }
+                val language =
+                    userDoc.getString("language") ?: "en"
 
-                createPdf(loans.documents)
+                loadLoans(userId, language)
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(
-                    this,
-                    "Failed to load loans: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-                finish()
+            .addOnFailureListener {
+                loadLoans(userId, "en")
             }
     }
 
-    private fun createPdf(loans: List<DocumentSnapshot>) {
+    private fun createPdf(
+        loans: List<DocumentSnapshot>,
+        language: String
+    ) {
         val pdfDocument = PdfDocument()
         val paint = Paint()
 
@@ -65,8 +60,15 @@ class LoanStatementActivity : AppCompatActivity() {
 
         paint.textSize = 22f
         paint.isFakeBoldText = true
-        canvas.drawText("Baobab Loan Statement", 50f, 60f, paint)
-
+        canvas.drawText(
+            if (language == "fr")
+                "Relevé de prêt Baobab"
+            else
+                "Baobab Loan Statement",
+            50f,
+            60f,
+            paint
+        )
         paint.textSize = 14f
         paint.isFakeBoldText = false
 
@@ -77,9 +79,25 @@ class LoanStatementActivity : AppCompatActivity() {
 
         var y = 100f
 
-        canvas.drawText("Statement Date: $today", 50f, y, paint)
+        canvas.drawText(
+            if (language == "fr")
+                "Date du relevé : $today"
+            else
+                "Statement Date: $today",
+            50f,
+            y,
+            paint
+        )
         y += 35f
-        canvas.drawText("Total Loans: ${loans.size}", 50f, y, paint)
+        canvas.drawText(
+            if (language == "fr")
+                "Nombre total de prêts : ${loans.size}"
+            else
+                "Total Loans: ${loans.size}",
+            50f,
+            y,
+            paint
+        )
         y += 45f
 
         var pageNumber = 1
@@ -115,21 +133,54 @@ class LoanStatementActivity : AppCompatActivity() {
             paint.isFakeBoldText = false
 
             y += 25f
-            canvas.drawText("Amount: $$amount", 70f, y, paint)
-            y += 22f
-            canvas.drawText("Reason: $reason", 70f, y, paint)
-            y += 22f
-            canvas.drawText("Status: $status", 70f, y, paint)
-            y += 22f
-            canvas.drawText("Remaining Balance: $$balance", 70f, y, paint)
-            y += 22f
-            canvas.drawText("Payment Plan: $paymentFrequency", 70f, y, paint)
-            y += 22f
-            canvas.drawText("Payment Amount: $$paymentAmount", 70f, y, paint)
-            y += 22f
-            canvas.drawText("Auto Pay Status: $autoPayStatus", 70f, y, paint)
 
-            y += 35f
+            if (language == "fr") {
+
+                canvas.drawText("Montant : $amount", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Raison : $reason", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Statut : $status", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Solde restant : $balance", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Plan de paiement : $paymentFrequency", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Montant du paiement : $paymentAmount", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Paiement automatique : $autoPayStatus", 70f, y, paint)
+                y += 35f
+
+            } else {
+
+                canvas.drawText("Amount: $$amount", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Reason: $reason", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Status: $status", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Remaining Balance: $$balance", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Payment Plan: $paymentFrequency", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Payment Amount: $$paymentAmount", 70f, y, paint)
+                y += 22f
+
+                canvas.drawText("Auto Pay Status: $autoPayStatus", 70f, y, paint)
+                y += 35f
+
+            }
         }
 
         pdfDocument.finishPage(page)
@@ -189,5 +240,32 @@ class LoanStatementActivity : AppCompatActivity() {
         )
 
         finish()
+    }
+    private fun loadLoans(
+        userId: String,
+        language: String
+    ) {
+        FirebaseFirestore.getInstance()
+            .collection("loan_requests")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { loans ->
+
+                if (loans.isEmpty) {
+                    Toast.makeText(
+                        this,
+                        if (language == "fr")
+                            "Aucun prêt trouvé"
+                        else
+                            "No loans found",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    finish()
+                    return@addOnSuccessListener
+                }
+
+                createPdf(loans.documents, language)
+            }
     }
 }

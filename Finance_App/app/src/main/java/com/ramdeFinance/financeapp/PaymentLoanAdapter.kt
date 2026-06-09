@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PaymentLoanAdapter(
-    private val loanList: List<Pair<String, PaymentLoanModel>>
+    private val loanList: List<Pair<String, PaymentLoanModel>>,
+    private var language: String = "en"
 ) : RecyclerView.Adapter<PaymentLoanAdapter.PaymentLoanViewHolder>() {
 
     class PaymentLoanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,19 +34,38 @@ class PaymentLoanAdapter(
 
     override fun onBindViewHolder(holder: PaymentLoanViewHolder, position: Int) {
         val (documentId, loan) = loanList[position]
-
-        holder.amount.text = "Original Loan: $${loan.amount}"
-        holder.reason.text = "Reason: ${loan.reason}"
         val planText =
-            if (loan.paymentFrequency == "one_time") {
-                "One-Time Payment"
+            if (language == "fr") {
+                when (loan.paymentFrequency) {
+                    "one_time" -> "Paiement unique"
+                    "weekly" -> "Hebdomadaire (${loan.paymentTerm} paiements)"
+                    "monthly" -> "Mensuel (${loan.paymentTerm} paiements)"
+                    else -> loan.paymentFrequency
+                }
             } else {
-                "${loan.paymentFrequency} (${loan.paymentTerm} payments)"
+                if (loan.paymentFrequency == "one_time") {
+                    "One-Time Payment"
+                } else {
+                    "${loan.paymentFrequency} (${loan.paymentTerm} payments)"
+                }
             }
 
-        holder.plan.text =
-            "Plan: $planText | Payment: $${loan.paymentAmount}"
-        holder.balance.text = "Remaining Balance: $${loan.remainingBalance}"
+        if (language == "fr") {
+            holder.amount.text = "Prêt initial : ${loan.amount}"
+            holder.reason.text = "Raison : ${loan.reason}"
+            holder.plan.text = "Plan : $planText | Paiement : ${loan.paymentAmount}"
+            holder.balance.text = "Solde restant : ${loan.remainingBalance}"
+            holder.payAmount.hint = "Montant du paiement"
+            holder.payButton.text = "Payer"
+        } else {
+            holder.amount.text = "Original Loan: $${loan.amount}"
+            holder.reason.text = "Reason: ${loan.reason}"
+            holder.plan.text = "Plan: $planText | Payment: $${loan.paymentAmount}"
+            holder.balance.text = "Remaining Balance: $${loan.remainingBalance}"
+            holder.payAmount.hint = "Payment Amount"
+            holder.payButton.text = "Pay"
+        }
+
 
         holder.payButton.setOnClickListener {
             val paymentText = holder.payAmount.text.toString().trim()
@@ -60,7 +80,11 @@ class PaymentLoanAdapter(
 
                 Toast.makeText(
                     holder.itemView.context,
-                    "Enter a valid payment amount",
+                    if (language == "fr") {
+                        "Entrez un montant de paiement valide"
+                    } else {
+                        "Enter a valid payment amount"
+                    },
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -71,7 +95,11 @@ class PaymentLoanAdapter(
 
                 Toast.makeText(
                     holder.itemView.context,
-                    "Payment cannot exceed remaining balance",
+                    if (language == "fr") {
+                        "Le paiement ne peut pas dépasser le solde restant"
+                    } else {
+                        "Payment cannot exceed remaining balance"
+                    },
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -155,7 +183,11 @@ class PaymentLoanAdapter(
                         .addOnSuccessListener {
                             Toast.makeText(
                                 holder.itemView.context,
-                                "Payment successful",
+                                if (language == "fr") {
+                                    "Paiement réussi"
+                                } else {
+                                    "Payment successful"
+                                },
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -178,5 +210,9 @@ class PaymentLoanAdapter(
             .replace(",", ".")
             .trim()
             .toDoubleOrNull() ?: 0.0
+    }
+    fun updateLanguage(newLanguage: String) {
+        language = newLanguage
+        notifyDataSetChanged()
     }
 }

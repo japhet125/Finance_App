@@ -93,6 +93,13 @@
         android:textSize="18sp"
         android:layout_marginTop="8dp"/>
     <TextView
+        android:id="@+id/txtIdentityStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Identity Status:"
+        android:textSize="18sp"
+        android:layout_marginTop="12dp" />
+    <TextView
         android:id="@+id/txtVerificationLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,5 +114,12 @@
         android:layout_height="wrap_content"
         android:text="Verify Phone"
         android:layout_marginTop="12dp" />
+    <Button
+        android:id="@+id/btnIdentityUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Identity Verification"
+        android:layout_marginTop="12dp" />
+
 
 </LinearLayout>
