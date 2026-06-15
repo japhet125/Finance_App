@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import android.content.Intent
+import android.net.Uri
 
 class IdentityVerificationAdapter(
     private val userList: List<Pair<String, IdentityUserModel>>
@@ -19,6 +21,8 @@ class IdentityVerificationAdapter(
         val phone: TextView = itemView.findViewById(R.id.txtIdentityPhone)
         val address: TextView = itemView.findViewById(R.id.txtIdentityAddress)
         val status: TextView = itemView.findViewById(R.id.txtIdentityStatus)
+        val viewIdButton: Button =
+            itemView.findViewById(R.id.btnViewId)
         val verifyButton: Button = itemView.findViewById(R.id.btnVerifyIdentity)
         val rejectButton: Button = itemView.findViewById(R.id.btnRejectIdentity)
     }
@@ -38,6 +42,11 @@ class IdentityVerificationAdapter(
         holder.phone.text = "Phone: ${user.phone}"
         holder.address.text =
             "Address: ${user.address}, Apt ${user.apt}, ${user.city}, ${user.state} ${user.zipCode}, ${user.country}"
+        if (user.identityDocumentUrl.isBlank()) {
+            holder.viewIdButton.visibility = View.GONE
+        } else {
+            holder.viewIdButton.visibility = View.VISIBLE
+        }
         if (user.identityStatus == "approved") {
             holder.status.text = "✓ Identity Verified"
             holder.verifyButton.visibility = View.GONE
@@ -53,6 +62,15 @@ class IdentityVerificationAdapter(
         }
 
         val db = FirebaseFirestore.getInstance()
+        holder.viewIdButton.setOnClickListener {
+
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(user.identityDocumentUrl)
+            )
+
+            holder.itemView.context.startActivity(intent)
+        }
 
         holder.verifyButton.setOnClickListener {
             db.collection("users")
@@ -68,6 +86,7 @@ class IdentityVerificationAdapter(
                     holder.status.text = "✓ Identity Verified"
                     holder.verifyButton.visibility = View.GONE
                     holder.rejectButton.visibility = View.GONE
+                    holder.viewIdButton.visibility = View.GONE
                     val notification = hashMapOf(
                         "userId" to documentId,
                         "title" to "Identity Verified",
@@ -101,6 +120,7 @@ class IdentityVerificationAdapter(
                         Toast.LENGTH_LONG
                     ).show()
                 }
+
         }
 
         holder.rejectButton.setOnClickListener {
@@ -117,6 +137,7 @@ class IdentityVerificationAdapter(
                     holder.status.text = "✗ Identity Rejected"
                     holder.verifyButton.visibility = View.GONE
                     holder.rejectButton.visibility = View.GONE
+                    holder.viewIdButton.visibility = View.GONE
                     val notification = hashMapOf(
                         "userId" to documentId,
                         "title" to "Identity Rejected",
@@ -150,6 +171,7 @@ class IdentityVerificationAdapter(
                         Toast.LENGTH_LONG
                     ).show()
                 }
+
         }
     }
 

@@ -12,5 +12,6 @@ data class IdentityUserModel(
     val zipCode: String = "",
     val country: String = "",
     val identityStatus: String = "",
-    val identityVerified: Boolean = false
+    val identityVerified: Boolean = false,
+    val identityDocumentUrl: String = ""
 )
