@@ -39,6 +39,12 @@
         android:text="Recommendation:"
         android:textStyle="bold"
         android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/txtRiskFlags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Risk Flags:"
+        android:layout_marginTop="8dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"

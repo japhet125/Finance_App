@@ -101,6 +101,40 @@
             android:background="#FFFFFF"
             android:padding="20dp"
             android:layout_marginTop="12dp" />
+
+
+        <TextView
+            android:id="@+id/txtVerifiedUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verified Users:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtFlaggedUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Flagged Users:"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:id="@+id/txtRejectedLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rejected Loans:"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:id="@+id/txtOutstandingBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Outstanding Balance:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
         <Button
             android:id="@+id/btnLoanStatusChart"
             android:layout_width="match_parent"

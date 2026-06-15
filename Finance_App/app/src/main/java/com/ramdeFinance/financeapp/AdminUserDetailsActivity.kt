@@ -6,6 +6,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import androidx.appcompat.app.AlertDialog
+import android.widget.EditText
+import android.widget.Toast
 
 class AdminUserDetailsActivity : AppCompatActivity() {
 
@@ -26,6 +29,9 @@ class AdminUserDetailsActivity : AppCompatActivity() {
         val txtOutstandingBalance = findViewById<TextView>(R.id.txtOutstandingBalance)
         val suspendButton = findViewById<Button>(R.id.btnSuspendUser)
         val reactivateButton = findViewById<Button>(R.id.btnReactivateUser)
+        val flagButton = findViewById<Button>(R.id.btnFlagUser)
+        val clearFlagButton = findViewById<Button>(R.id.btnClearFlag)
+        val txtFlagStatus = findViewById<TextView>(R.id.txtFlagStatus)
         val viewLoansButton =
             findViewById<Button>(R.id.btnViewUserLoans)
 
@@ -55,6 +61,7 @@ class AdminUserDetailsActivity : AppCompatActivity() {
 
                     suspendButton.isEnabled = false
                     reactivateButton.isEnabled = true
+
                     val auditLog = hashMapOf(
                         "actorId" to "admin",
                         "action" to "user_suspended",
@@ -221,6 +228,21 @@ class AdminUserDetailsActivity : AppCompatActivity() {
                     promoteButton.isEnabled = true
                     demoteButton.isEnabled = false
                 }
+                val accountFlagged =
+                    document.getBoolean("accountFlagged") ?: false
+
+                val flagReason =
+                    document.getString("flagReason") ?: ""
+
+                if (accountFlagged) {
+                    txtFlagStatus.text = "🚩 Flag Status: Flagged - $flagReason"
+                    flagButton.isEnabled = false
+                    clearFlagButton.isEnabled = true
+                } else {
+                    txtFlagStatus.text = "Flag Status: Not Flagged"
+                    flagButton.isEnabled = true
+                    clearFlagButton.isEnabled = false
+                }
 
                 txtUserCredit.text =
                     "Credit Score: ${document.getLong("creditScore") ?: 500}"
@@ -286,5 +308,94 @@ class AdminUserDetailsActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+
+        flagButton.setOnClickListener {
+
+            val input = EditText(this)
+            input.hint = "Reason for flag"
+
+            AlertDialog.Builder(this)
+                .setTitle("Flag User")
+                .setMessage("Enter the reason for flagging this user.")
+                .setView(input)
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Flag") { _, _ ->
+
+                    val reason =
+                        input.text.toString().trim()
+
+                    if (reason.isBlank()) {
+                        Toast.makeText(
+                            this,
+                            "Flag reason required",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setPositiveButton
+                    }
+
+                    db.collection("users")
+                        .document(userId)
+                        .update(
+                            mapOf(
+                                "accountFlagged" to true,
+                                "flagReason" to reason,
+                                "flaggedAt" to System.currentTimeMillis()
+                            )
+                        )
+                        .addOnSuccessListener {
+
+                            txtFlagStatus.text =
+                                "🚩 Flag Status: Flagged - $reason"
+
+                            flagButton.isEnabled = false
+                            clearFlagButton.isEnabled = true
+
+                            val auditLog = hashMapOf(
+                                "actorId" to "admin",
+                                "action" to "user_flagged",
+                                "targetType" to "user",
+                                "targetId" to userId,
+                                "message" to "User $userId was flagged. Reason: $reason",
+                                "timestamp" to System.currentTimeMillis()
+                            )
+
+                            db.collection("audit_logs").add(auditLog)
+                        }
+                }
+                .show()
+        }
+        clearFlagButton.setOnClickListener {
+
+            db.collection("users")
+                .document(userId)
+                .update(
+                    mapOf(
+                        "accountFlagged" to false,
+                        "flagReason" to "",
+                        "flagClearedAt" to System.currentTimeMillis()
+                    )
+                )
+                .addOnSuccessListener {
+
+                    txtFlagStatus.text = "Flag Status: Not Flagged"
+
+                    flagButton.isEnabled = true
+                    clearFlagButton.isEnabled = false
+
+                    val auditLog = hashMapOf(
+                        "actorId" to "admin",
+                        "action" to "user_flag_cleared",
+                        "targetType" to "user",
+                        "targetId" to userId,
+                        "message" to "User $userId flag was cleared.",
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    db.collection("audit_logs").add(auditLog)
+                }
+        }
+
     }
 }

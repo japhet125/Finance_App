@@ -24,6 +24,8 @@ class AdminLoanAdapter(
         val rejectButton: Button = itemView.findViewById(R.id.btnReject)
         val recommendation: TextView =
             itemView.findViewById(R.id.txtRecommendation)
+        val riskFlags: TextView =
+            itemView.findViewById(R.id.txtRiskFlags)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminLoanViewHolder {
@@ -83,6 +85,70 @@ class AdminLoanAdapter(
 
                 val creditScore =
                     userDocument.getLong("creditScore") ?: 500
+                val borrowerLevel =
+                    userDocument.getString("borrowerLevel") ?: "New"
+
+                val identityVerified =
+                    userDocument.getBoolean("identityVerified") ?: false
+                val accountFlagged =
+                    userDocument.getBoolean("accountFlagged") ?: false
+
+                val flagReason =
+                    userDocument.getString("flagReason") ?: ""
+
+
+                val completedLoans =
+                    userDocument.getLong("completedLoans") ?: 0
+
+                val riskFlags = mutableListOf<String>()
+                if (accountFlagged) {
+                    riskFlags.add(
+                        if (language == "fr")
+                            "🚩 Utilisateur signalé : $flagReason"
+                        else
+                            "🚩 Flagged User: $flagReason"
+                    )
+                }
+
+                if (!identityVerified) {
+                    riskFlags.add(
+                        if (language == "fr")
+                            "⚠️ Identité non vérifiée"
+                        else
+                            "⚠️ Identity not verified"
+                    )
+                }
+
+                if (completedLoans == 0L) {
+                    riskFlags.add(
+                        if (language == "fr")
+                            "⚠️ Nouvel emprunteur"
+                        else
+                            "⚠️ New borrower"
+                    )
+                }
+
+                if (borrowerLevel == "New") {
+                    riskFlags.add(
+                        if (language == "fr")
+                            "ℹ️ Niveau emprunteur : Nouveau"
+                        else
+                            "ℹ️ Borrower level: New"
+                    )
+                }
+
+                holder.riskFlags.text =
+                    if (riskFlags.isEmpty()) {
+                        if (language == "fr") {
+                            "✅ Aucun signal de risque majeur"
+                        } else {
+                            "✅ No major risk flags"
+                        }
+                    } else {
+                        riskFlags.joinToString("\n")
+                    }
+
+
 
                 val recommendationText =
                     if (language == "fr") {
@@ -117,12 +183,14 @@ class AdminLoanAdapter(
         if (loan.status == "approved") {
             holder.approveButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
+            holder.riskFlags.visibility = View.GONE
             holder.status.text =
                 if (language == "fr") "✓ Approuvé" else "✓ Approved"
 
         } else if (loan.status == "rejected") {
             holder.approveButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
+            holder.riskFlags.visibility = View.GONE
             holder.status.text =
                 if (language == "fr") "✗ Rejeté" else "✗ Rejected"
 
@@ -132,6 +200,7 @@ class AdminLoanAdapter(
             holder.status.text =
                 if (language == "fr") "Statut : En attente" else "Status: Pending"
         }
+
 
 
 
@@ -225,7 +294,9 @@ class AdminLoanAdapter(
                 }
         }
 
+
     }
+
 
     override fun getItemCount(): Int {
         return loanList.size

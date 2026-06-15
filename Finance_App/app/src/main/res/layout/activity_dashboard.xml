@@ -48,6 +48,27 @@
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
         <TextView
+            android:id="@+id/txtIdentityBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+        <TextView
+            android:id="@+id/txtLoanLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💰 Available Loan Limit:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+        <TextView
+            android:id="@+id/txtNextLevelProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+        <TextView
             android:id="@+id/txtAutoPayTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

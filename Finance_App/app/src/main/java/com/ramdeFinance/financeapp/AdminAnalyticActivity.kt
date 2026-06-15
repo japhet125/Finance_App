@@ -35,6 +35,10 @@ class AdminAnalyticActivity : AppCompatActivity() {
         val averageCreditText = findViewById<TextView>(R.id.txtAverageCredit)
         val pieLoansStatus = findViewById<PieChart>(R.id.pieLoansStatus)
         val barPayments = findViewById<BarChart>(R.id.barPayments)
+        val verifiedUsersText = findViewById<TextView>(R.id.txtVerifiedUsers)
+        val flaggedUsersText = findViewById<TextView>(R.id.txtFlaggedUsers)
+        val rejectedLoansText = findViewById<TextView>(R.id.txtRejectedLoans)
+        val outstandingBalanceText = findViewById<TextView>(R.id.txtOutstandingBalance)
 
         backButton.setOnClickListener {
             finish()
@@ -46,12 +50,27 @@ class AdminAnalyticActivity : AppCompatActivity() {
 
                 var creditTotal = 0L
                 var userCount = 0
+                var verifiedUsers = 0
+                var flaggedUsers = 0
 
                 snapshots?.documents?.forEach { document ->
                     userCount++
 
                     val creditScore = document.getLong("creditScore") ?: 500
                     creditTotal += creditScore
+                    val identityVerified =
+                        document.getBoolean("identityVerified") ?: false
+
+                    val accountFlagged =
+                        document.getBoolean("accountFlagged") ?: false
+
+                    if (identityVerified) {
+                        verifiedUsers++
+                    }
+
+                    if (accountFlagged) {
+                        flaggedUsers++
+                    }
                 }
 
                 val averageCredit =
@@ -59,6 +78,8 @@ class AdminAnalyticActivity : AppCompatActivity() {
 
                 totalUsersText.text = "\uD83D\uDC65 Total Users: $userCount"
                 averageCreditText.text = "⭐ Average Credit Score: $averageCredit"
+                verifiedUsersText.text = "🛡️ Verified Users: $verifiedUsers"
+                flaggedUsersText.text = "🚩 Flagged Users: $flaggedUsers"
             }
 
         db.collection("loan_requests")
@@ -69,6 +90,8 @@ class AdminAnalyticActivity : AppCompatActivity() {
                 var approvedLoans = 0
                 var overdueLoans = 0
                 var totalLoaned = 0.0
+                var rejectedLoans = 0
+                var outstandingBalance = 0.0
 
                 snapshots?.documents?.forEach { document ->
                     totalLoans++
@@ -77,6 +100,10 @@ class AdminAnalyticActivity : AppCompatActivity() {
                     val principal =
                         document.getString("principalAmount")
                             ?.toDoubleOrNull() ?: 0.0
+                    val remainingBalance =
+                        document.getString("remainingBalance")
+                            ?.replace(",", ".")
+                            ?.toDoubleOrNull() ?: 0.0
 
                     when (status) {
                         "approved", "paid", "overdue" -> {
@@ -84,9 +111,23 @@ class AdminAnalyticActivity : AppCompatActivity() {
                             totalLoaned += principal
                         }
 
-                        "overdue" -> overdueLoans++
+                        "rejected" -> {
+                            rejectedLoans++
+                        }
+                    }
+
+                    if (status == "approved" || status == "overdue") {
+                        outstandingBalance += remainingBalance
+                    }
+
+                    if (status == "overdue") {
+                        overdueLoans++
                     }
                 }
+                rejectedLoansText.text = "❌ Rejected Loans: $rejectedLoans"
+
+                outstandingBalanceText.text =
+                    "💰 Outstanding Balance: ${currencyFormat.format(outstandingBalance)}"
 
                 totalLoansText.text = "\uD83D\uDCC4 Total Loans: $totalLoans"
                 approvedLoansText.text = "✅ Approved Loans: $approvedLoans"

@@ -222,20 +222,45 @@ class LoanRequestActivity : AppCompatActivity() {
                     return@addOnSuccessListener
                 }
 
-                val creditScore = userDocument.getLong("creditScore") ?: 500
+                val identityVerified =
+                    userDocument.getBoolean("identityVerified") ?: false
 
-                val maxAllowed = when {
-                    creditScore >= 700 -> 10000.0
-                    creditScore >= 550 -> 2000.0
-                    else -> 500.0
+                val borrowerLevel =
+                    userDocument.getString("borrowerLevel") ?: "New"
+
+                if (!identityVerified) {
+                    Toast.makeText(
+                        this,
+                        if (userLanguage == "fr") {
+                            "Veuillez vérifier votre identité avant de demander un prêt."
+                        } else {
+                            "Please verify your identity before requesting a loan."
+                        },
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    return@addOnSuccessListener
+                }
+
+                val maxAllowed = when (borrowerLevel) {
+                    "Platinum" -> 1500.0
+                    "Gold" -> 1000.0
+                    "Silver" -> 750.0
+                    "Bronze" -> 500.0
+                    else -> 250.0
                 }
 
                 if (amountValue > maxAllowed) {
                     Toast.makeText(
                         this,
-                        "Loan denied. Your credit score allows up to $${maxAllowed.toInt()}",
+                        if (userLanguage == "fr") {
+                            "Prêt refusé. Votre niveau emprunteur permet jusqu'à $${maxAllowed.toInt()}."
+                        } else {
+                            "Loan denied. Your borrower level allows up to $${maxAllowed.toInt()}."
+                        },
                         Toast.LENGTH_LONG
                     ).show()
+
                     return@addOnSuccessListener
                 }
                 val autoPayEnabled =
@@ -289,12 +314,55 @@ class LoanRequestActivity : AppCompatActivity() {
                                     java.util.Locale.getDefault()
                                 ).format(java.util.Date(dueDate))
 
-                            val summaryMessage = """
-Loan Amount: $${String.format("%.2f", amountValue)}
+                            val summaryMessage =
+                                if (userLanguage == "fr") {
+                                    """
+Niveau emprunteur : $borrowerLevel
 
-Plan: $planDisplay
+Limite actuelle :
+$${maxAllowed.toInt()}
 
-Interest Rate: ${(interestRate * 100).toInt()}%
+Identité :
+${if (identityVerified) "Vérifiée" else "Non vérifiée"}
+
+Montant du prêt :
+$${String.format("%.2f", amountValue)}
+
+Plan :
+$planDisplay
+
+Taux d'intérêt :
+${(interestRate * 100).toInt()}%
+
+Remboursement total :
+$${String.format("%.2f", totalRepayment)}
+
+Montant du paiement :
+$${String.format("%.2f", paymentAmount)}
+
+Date d'échéance :
+$dueDateDisplay
+
+Voulez-vous soumettre cette demande de prêt ?
+""".trimIndent()
+                                } else {
+                                    """
+Borrower Level: $borrowerLevel
+
+Current Limit:
+$${maxAllowed.toInt()}
+
+Identity:
+${if (identityVerified) "Verified" else "Not Verified"}
+
+Loan Amount:
+$${String.format("%.2f", amountValue)}
+
+Plan:
+$planDisplay
+
+Interest Rate:
+${(interestRate * 100).toInt()}%
 
 Total Repayment:
 $${String.format("%.2f", totalRepayment)}
@@ -307,16 +375,26 @@ $dueDateDisplay
 
 Do you want to submit this loan request?
 """.trimIndent()
+                                }
 
                             AlertDialog.Builder(this)
-                                .setTitle("Baobab Loan Summary")
+                                .setTitle(
+                                    if (userLanguage == "fr")
+                                        "Résumé du prêt Baobab"
+                                    else
+                                        "Baobab Loan Summary"
+                                )
                                 .setMessage(summaryMessage)
 
-                                .setNegativeButton("Cancel") { dialog, _ ->
+                                .setNegativeButton(
+                                    if (userLanguage == "fr") "Annuler" else "Cancel"
+                                ) { dialog, _ ->
                                     dialog.dismiss()
                                 }
 
-                                .setPositiveButton("Confirm") { _, _ ->
+                                .setPositiveButton(
+                                    if (userLanguage == "fr") "Confirmer" else "Confirm"
+                                ) { _, _ ->
 
                                     db.collection("loan_requests")
                                         .add(loanRequest)

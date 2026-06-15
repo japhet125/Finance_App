@@ -155,6 +155,12 @@ class DashboardActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.txtCreditScore)
         val borrowerLevelText =
             findViewById<TextView>(R.id.txtBorrowerLevel)
+        val loanLimitText =
+            findViewById<TextView>(R.id.txtLoanLimit)
+        val nextLevelProgressText =
+            findViewById<TextView>(R.id.txtNextLevelProgress)
+        val identityBadgeText =
+            findViewById<TextView>(R.id.txtIdentityBadge)
         val unreadNotificationsText =
             findViewById<TextView>(R.id.txtUnreadNotifications)
         val autoPayStatusText =
@@ -219,14 +225,112 @@ class DashboardActivity : AppCompatActivity() {
                         val borrowerLevel =
                             document.getString("borrowerLevel") ?: "New"
 
+
                         borrowerLevelText.text =
                             if (userLanguage == "fr") {
                                 "🏅 Niveau emprunteur : $borrowerLevel"
                             } else {
                                 "🏅 Borrower Level: $borrowerLevel"
                             }
+                        val completedLoans =
+                            document.getLong("completedLoans") ?: 0
+                        val progressMessage =
+                            when (borrowerLevel) {
+
+                                "New" -> {
+                                    val remaining = (3 - completedLoans).coerceAtLeast(0)
+                                    Pair(
+                                        remaining,
+                                        if (userLanguage == "fr") "Bronze" else "Bronze"
+                                    )
+                                }
+
+                                "Bronze" -> {
+                                    val remaining = (5 - completedLoans).coerceAtLeast(0)
+                                    Pair(
+                                        remaining,
+                                        if (userLanguage == "fr") "Argent" else "Silver"
+                                    )
+                                }
+
+                                "Silver" -> {
+                                    val remaining = (8 - completedLoans).coerceAtLeast(0)
+                                    Pair(
+                                        remaining,
+                                        if (userLanguage == "fr") "Or" else "Gold"
+                                    )
+                                }
+
+                                "Gold" -> {
+                                    val remaining = (15 - completedLoans).coerceAtLeast(0)
+                                    Pair(
+                                        remaining,
+                                        if (userLanguage == "fr") "Platine" else "Platinum"
+                                    )
+                                }
+
+                                else -> {
+                                    Pair(0, "")
+                                }
+                            }
+                        if (borrowerLevel == "Platinum") {
+
+                            nextLevelProgressText.text =
+                                if (userLanguage == "fr") {
+                                    "🏆 Niveau maximum atteint"
+                                } else {
+                                    "🏆 Maximum Level Reached"
+                                }
+
+                        } else {
+
+                            nextLevelProgressText.text =
+                                if (userLanguage == "fr") {
+                                    "📈 ${progressMessage.first} prêts supplémentaires pour atteindre ${progressMessage.second}"
+                                } else {
+                                    "📈 ${progressMessage.first} more completed loans to reach ${progressMessage.second}"
+                                }
+                        }
+
+
+
+                        val identityVerified =
+                            document.getBoolean("identityVerified") ?: false
+
+                        val maxLoanLimit =
+                            if (!identityVerified) {
+                                0
+                            } else {
+                                when (borrowerLevel) {
+                                    "Platinum" -> 1500
+                                    "Gold" -> 1000
+                                    "Silver" -> 750
+                                    "Bronze" -> 500
+                                    else -> 250
+                                }
+                            }
+
+                        loanLimitText.text =
+                            if (userLanguage == "fr") {
+                                if (maxLoanLimit == 0) {
+                                    "⚠️ Vérifiez votre identité pour débloquer les prêts"
+                                } else {
+                                    "💰 Limite de prêt disponible : $${maxLoanLimit}"
+                                }
+                            } else {
+                                if (maxLoanLimit == 0) {
+                                    "⚠️ Verify your identity to unlock loans"
+                                } else {
+                                    "💰 Available Loan Limit: $${maxLoanLimit}"
+                                }
+                            }
+
 
                     }
+
+                    val identityStatus =
+                        document.getString("identityStatus")
+                            ?: "not_submitted"
                     if (userId != null) {
                         db.collection("notifications")
                             .whereEqualTo("userId", userId)
@@ -367,6 +471,21 @@ class DashboardActivity : AppCompatActivity() {
 
                                     rejectedLoansText.text =
                                         "❌ Demandes refusées : $rejectedCount"
+                                    identityBadgeText.text =
+                                        when(identityStatus) {
+
+                                            "approved" ->
+                                                "🛡️ Identité vérifiée"
+
+                                            "pending" ->
+                                                "⏳ Vérification en cours"
+
+                                            "rejected" ->
+                                                "❌ Vérification refusée"
+
+                                            else ->
+                                                "⚠️ Aucune identité soumise"
+                                        }
 
                                 } else {
 
@@ -381,6 +500,21 @@ class DashboardActivity : AppCompatActivity() {
 
                                     rejectedLoansText.text =
                                         "❌ Rejected Requests: $rejectedCount"
+                                    identityBadgeText.text =
+                                        when(identityStatus) {
+
+                                            "approved" ->
+                                                "🛡️ Identity Verified"
+
+                                            "pending" ->
+                                                "⏳ Verification Pending"
+
+                                            "rejected" ->
+                                                "❌ Verification Rejected"
+
+                                            else ->
+                                                "⚠️ No Identity Submitted"
+                                        }
                                 }
                             }
                     }

@@ -71,6 +71,14 @@
             android:id="@+id/txtOutstandingBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/txtFlagStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Flag Status: Not Flagged"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="12dp" />
         <Button
             android:id="@+id/btnSuspendUser"
             android:layout_width="match_parent"
@@ -83,6 +91,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Reactivate User"
+            android:layout_marginTop="12dp" />
+        <Button
+            android:id="@+id/btnFlagUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Flag User"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnClearFlag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear Flag"
             android:layout_marginTop="12dp" />
         <Button
             android:id="@+id/btnViewUserLoans"
