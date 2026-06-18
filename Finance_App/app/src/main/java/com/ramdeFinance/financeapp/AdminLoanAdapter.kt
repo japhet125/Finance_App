@@ -248,6 +248,59 @@ class AdminLoanAdapter(
                     db.collection("notifications")
                         .add(notification)
 
+                    db.collection("users")
+                        .document(loan.userId)
+                        .get()
+                        .addOnSuccessListener { userDocument ->
+
+                            val fullName = userDocument.getString("fullName") ?: "Customer"
+                            val email = userDocument.getString("email") ?: ""
+                            val userLanguage = userDocument.getString("language") ?: "en"
+
+                            val subject =
+                                if (userLanguage == "fr") {
+                                    "Prêt approuvé 🎉"
+                                } else {
+                                    "Loan Approved 🎉"
+                                }
+
+                            val message =
+                                if (userLanguage == "fr") {
+                                    """
+                Bonjour $fullName,
+
+                Félicitations ! Votre demande de prêt de $${loan.amount} a été approuvée.
+
+                Merci d'avoir choisi Baobab Finance.
+
+                L'équipe Baobab
+                """.trimIndent()
+                                } else {
+                                    """
+                Hello $fullName,
+
+                Congratulations! Your loan request for $${loan.amount} has been approved.
+
+                Thank you for choosing Baobab Finance.
+
+                Baobab Team
+                """.trimIndent()
+                                }
+
+                            val emailRequest = hashMapOf(
+                                "userId" to loan.userId,
+                                "fullName" to fullName,
+                                "email" to email,
+                                "type" to "loan_approved",
+                                "subject" to subject,
+                                "message" to message,
+                                "status" to "pending",
+                                "createdAt" to System.currentTimeMillis()
+                            )
+
+                            db.collection("email_requests").add(emailRequest)
+                        }
+
                     val auditLog = hashMapOf(
                         "actorId" to "admin",
                         "action" to "loan_approved",
@@ -279,6 +332,58 @@ class AdminLoanAdapter(
 
                     db.collection("notifications")
                         .add(notification)
+                    db.collection("users")
+                        .document(loan.userId)
+                        .get()
+                        .addOnSuccessListener { userDocument ->
+
+                            val fullName = userDocument.getString("fullName") ?: "Customer"
+                            val email = userDocument.getString("email") ?: ""
+                            val userLanguage = userDocument.getString("language") ?: "en"
+
+                            val subject =
+                                if (userLanguage == "fr") {
+                                    "Demande de prêt rejetée"
+                                } else {
+                                    "Loan Request Rejected"
+                                }
+
+                            val message =
+                                if (userLanguage == "fr") {
+                                    """
+                Bonjour $fullName,
+
+                Votre demande de prêt de $${loan.amount} a été rejetée.
+
+                Veuillez contacter le support si vous avez des questions.
+
+                L'équipe Baobab
+                """.trimIndent()
+                                } else {
+                                    """
+                Hello $fullName,
+
+                Your loan request for $${loan.amount} has been rejected.
+
+                Please contact support if you have any questions.
+
+                Baobab Team
+                """.trimIndent()
+                                }
+
+                            val emailRequest = hashMapOf(
+                                "userId" to loan.userId,
+                                "fullName" to fullName,
+                                "email" to email,
+                                "type" to "loan_rejected",
+                                "subject" to subject,
+                                "message" to message,
+                                "status" to "pending",
+                                "createdAt" to System.currentTimeMillis()
+                            )
+
+                            db.collection("email_requests").add(emailRequest)
+                        }
 
                     val auditLog = hashMapOf(
                         "actorId" to "admin",

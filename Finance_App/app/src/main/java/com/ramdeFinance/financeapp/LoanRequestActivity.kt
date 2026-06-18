@@ -13,7 +13,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
 import android.widget.CheckBox
-import android.widget.TextView
+
 
 
 class LoanRequestActivity : AppCompatActivity() {
@@ -196,11 +196,28 @@ class LoanRequestActivity : AppCompatActivity() {
                 val phoneVerified =
                     userDocument.getBoolean("phoneVerified") ?: false
 
-                if (!emailVerified || !phoneVerified) {
-
+                if (!emailVerified) {
                     Toast.makeText(
                         this,
-                        "Please verify both your email and phone number before requesting a loan.",
+                        if (userLanguage == "fr") {
+                            "Vérification de l'e-mail requise. Allez dans Profil → Vérification de l'e-mail."
+                        } else {
+                            "Email verification required. Go to Profile → Email Verification."
+                        },
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    return@addOnSuccessListener
+                }
+
+                if (!phoneVerified) {
+                    Toast.makeText(
+                        this,
+                        if (userLanguage == "fr") {
+                            "Vérification du téléphone requise. Allez dans Profil → Vérification du téléphone."
+                        } else {
+                            "Phone verification required. Go to Profile → Phone Verification."
+                        },
                         Toast.LENGTH_LONG
                     ).show()
 
@@ -232,9 +249,9 @@ class LoanRequestActivity : AppCompatActivity() {
                     Toast.makeText(
                         this,
                         if (userLanguage == "fr") {
-                            "Veuillez vérifier votre identité avant de demander un prêt."
+                            "Vérification d'identité requise. Allez dans Profil → Vérification d'identité pour continuer."
                         } else {
-                            "Please verify your identity before requesting a loan."
+                            "Identity verification required. Go to Profile → Identity Verification to continue."
                         },
                         Toast.LENGTH_LONG
                     ).show()
@@ -243,6 +260,7 @@ class LoanRequestActivity : AppCompatActivity() {
                 }
 
                 val maxAllowed = when (borrowerLevel) {
+
                     "Platinum" -> 1500.0
                     "Gold" -> 1000.0
                     "Silver" -> 750.0

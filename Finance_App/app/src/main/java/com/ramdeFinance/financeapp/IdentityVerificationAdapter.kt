@@ -97,6 +97,50 @@ class IdentityVerificationAdapter(
 
                     db.collection("notifications").add(notification)
 
+
+                    val userLanguage = user.language
+                    val subject =
+                        if (userLanguage == "fr") {
+                            "Vérification d'identité approuvée"
+                        } else {
+                            "Identity Verification Approved"
+                        }
+
+                    val message =
+                        if (userLanguage == "fr") {
+                            """
+        Bonjour ${user.fullName},
+
+        Votre identité a été vérifiée avec succès. Vous pouvez maintenant continuer à utiliser les services Baobab Finance.
+
+        Merci d'avoir choisi Baobab Finance.
+
+        L'équipe Baobab
+        """.trimIndent()
+                        } else {
+                            """
+        Hello ${user.fullName},
+
+        Your identity has been successfully verified. You can now continue using Baobab Finance services.
+
+        Thank you for choosing Baobab Finance.
+
+        Baobab Team
+        """.trimIndent()
+                        }
+
+                    val emailRequest = hashMapOf(
+                        "userId" to documentId,
+                        "fullName" to user.fullName,
+                        "email" to user.email,
+                        "type" to "identity_approved",
+                        "subject" to subject,
+                        "message" to message,
+                        "status" to "pending",
+                        "createdAt" to System.currentTimeMillis()
+                    )
+
+                    db.collection("email_requests").add(emailRequest)
                     val auditLog = hashMapOf(
                         "actorId" to "admin",
                         "action" to "identity_verified",
@@ -147,6 +191,49 @@ class IdentityVerificationAdapter(
                     )
 
                     db.collection("notifications").add(notification)
+                    val userLanguage = user.language
+                    val subject =
+                        if (userLanguage == "fr") {
+                            "Vérification d'identité rejetée"
+                        } else {
+                            "Identity Verification Rejected"
+                        }
+
+                    val message =
+                        if (userLanguage == "fr") {
+                            """
+        Bonjour ${user.fullName},
+
+        Votre vérification d'identité a été rejetée. Veuillez vérifier vos informations et soumettre à nouveau vos documents.
+
+        Merci d'avoir choisi Baobab Finance.
+
+        L'équipe Baobab
+        """.trimIndent()
+                        } else {
+                            """
+        Hello ${user.fullName},
+
+        Your identity verification was rejected. Please review your information and submit your documents again.
+
+        Thank you for choosing Baobab Finance.
+
+        Baobab Team
+        """.trimIndent()
+                        }
+
+                    val emailRequest = hashMapOf(
+                        "userId" to documentId,
+                        "fullName" to user.fullName,
+                        "email" to user.email,
+                        "type" to "identity_rejected",
+                        "subject" to subject,
+                        "message" to message,
+                        "status" to "pending",
+                        "createdAt" to System.currentTimeMillis()
+                    )
+
+                    db.collection("email_requests").add(emailRequest)
 
                     val auditLog = hashMapOf(
                         "actorId" to "admin",

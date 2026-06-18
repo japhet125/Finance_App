@@ -9,5 +9,6 @@ data class PaymentLoanModel(
     val paymentTerm: Long = 0,
     val paymentAmount: String = "",
     val remainingBalance: String = "",
+    val createdAt: Long = 0L,
     val totalRepayment: String = ""
 )

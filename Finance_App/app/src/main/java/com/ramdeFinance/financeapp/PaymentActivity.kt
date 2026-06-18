@@ -45,15 +45,27 @@ class PaymentActivity : AppCompatActivity() {
 
                     loanList.clear()
 
+                    val tempList = mutableListOf<Pair<String, PaymentLoanModel>>()
+
                     if (snapshots != null) {
                         for (document in snapshots.documents) {
                             val loan = document.toObject(PaymentLoanModel::class.java)
 
                             if (loan != null) {
-                                loanList.add(Pair(document.id, loan))
+                                tempList.add(Pair(document.id, loan))
                             }
                         }
                     }
+
+                    tempList.sortWith(
+                        compareBy<Pair<String, PaymentLoanModel>> {
+                            if (it.second.status == "paid") 1 else 0
+                        }.thenByDescending {
+                            it.second.createdAt
+                        }
+                    )
+
+                    loanList.addAll(tempList)
 
                     adapter.notifyDataSetChanged()
                 }

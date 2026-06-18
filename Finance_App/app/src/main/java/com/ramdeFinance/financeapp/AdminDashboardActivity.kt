@@ -38,6 +38,12 @@ class AdminDashboardActivity : AppCompatActivity() {
         var userLanguage = "en"
 
         recyclerView.adapter = adapter
+        val paymentReviewButton = findViewById<Button>(R.id.btnPaymentReview)
+
+        paymentReviewButton.setOnClickListener {
+            val intent = Intent(this, AdminPaymentReviewActivity::class.java)
+            startActivity(intent)
+        }
         val adminMenuButton = findViewById<ImageButton>(R.id.btnAdminMenu)
 
         adminMenuButton.setOnClickListener {

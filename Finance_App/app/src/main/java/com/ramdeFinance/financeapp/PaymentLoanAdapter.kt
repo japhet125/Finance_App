@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import android.text.Editable
+import android.text.TextWatcher
 
 class PaymentLoanAdapter(
     private val loanList: List<Pair<String, PaymentLoanModel>>,
@@ -66,6 +68,44 @@ class PaymentLoanAdapter(
             holder.payButton.text = "Pay"
         }
 
+        val currentBalance = parseMoney(loan.remainingBalance)
+        if (loan.status == "paid" || currentBalance <= 0.0) {
+            holder.payButton.isEnabled = false
+            holder.payButton.alpha = 0.5f
+            holder.payAmount.isEnabled = false
+
+            holder.payButton.text =
+                if (language == "fr") "Payé" else "Paid"
+
+            return
+        }
+
+        if (loan.paymentFrequency == "one_time") {
+            holder.payButton.isEnabled = false
+            holder.payButton.alpha = 0.5f
+
+            holder.payAmount.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val enteredAmount = parseMoney(s.toString())
+
+                    if (enteredAmount >= currentBalance) {
+                        holder.payButton.isEnabled = true
+                        holder.payButton.alpha = 1.0f
+                    } else {
+                        holder.payButton.isEnabled = false
+                        holder.payButton.alpha = 0.5f
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+        } else {
+            holder.payButton.isEnabled = true
+            holder.payButton.alpha = 1.0f
+        }
+
 
         holder.payButton.setOnClickListener {
             val paymentText = holder.payAmount.text.toString().trim()
@@ -105,94 +145,63 @@ class PaymentLoanAdapter(
 
                 return@setOnClickListener
             }
+            if (loan.paymentFrequency == "one_time" && paymentValue < currentBalance) {
+                Toast.makeText(
+                    holder.itemView.context,
+                    if (language == "fr") {
+                        "Le paiement unique nécessite le montant total dû : $${String.format("%.2f", currentBalance)}"
+                    } else {
+                        "One-time payment requires the full amount due: $${String.format("%.2f", currentBalance)}"
+                    },
+                    Toast.LENGTH_LONG
+                ).show()
 
+                return@setOnClickListener
+            }
             val newBalance = currentBalance - paymentValue
 
             val db = FirebaseFirestore.getInstance()
 
-            val updates = hashMapOf<String, Any>(
-                "remainingBalance" to String.format("%.2f", newBalance)
+            val pendingPayment = hashMapOf(
+                "userId" to loan.userId,
+                "loanId" to documentId,
+                "paymentAmount" to String.format("%.2f", paymentValue),
+                "previousBalance" to String.format("%.2f", currentBalance),
+                "newBalance" to String.format("%.2f", newBalance.coerceAtLeast(0.0)),
+                "paymentDate" to System.currentTimeMillis(),
+                "paymentType" to "loan_repayment",
+                "status" to "pending"
             )
 
-            if (newBalance <= 0.0) {
-
-                updates["remainingBalance"] = "0.00"
-                updates["status"] = "paid"
-
-                val userRef = db.collection("users")
-                    .document(loan.userId)
-
-                userRef.get()
-                    .addOnSuccessListener { userDocument ->
-
-                        val currentScore =
-                            userDocument.getLong("creditScore") ?: 500
-
-                        val completedLoans =
-                            userDocument.getLong("completedLoans") ?: 0
-
-                        val newCompletedLoans =
-                            completedLoans + 1
-
-                        val borrowerLevel =
-                            when {
-                                newCompletedLoans >= 15 -> "Platinum"
-                                newCompletedLoans >= 8 -> "Gold"
-                                newCompletedLoans >= 5 -> "Silver"
-                                newCompletedLoans >= 3 -> "Bronze"
-                                else -> "New"
-                            }
-
-                        userRef.update(
-                            mapOf(
-                                "creditScore" to currentScore + 25,
-                                "completedLoans" to newCompletedLoans,
-                                "borrowerLevel" to borrowerLevel
-                            )
-                        )
-                    }
-                val completionNotification = hashMapOf(
-                    "userId" to loan.userId,
-                    "title" to "Loan Completed 🎉",
-                    "message" to "Congratulations! Your loan has been fully repaid. Your borrower level may have improved.",
-                    "timestamp" to System.currentTimeMillis(),
-                    "isRead" to false
-                )
-
-                db.collection("notifications")
-                    .add(completionNotification)
-            }
-
-            db.collection("loan_requests")
-                .document(documentId)
-                .update(updates)
+            db.collection("transactions")
+                .add(pendingPayment)
                 .addOnSuccessListener {
+                    Toast.makeText(
+                        holder.itemView.context,
+                        if (language == "fr") {
+                            "Paiement soumis pour approbation."
+                        } else {
+                            "Payment submitted for admin review."
+                        },
+                        Toast.LENGTH_LONG
+                    ).show()
 
-                    val transaction = hashMapOf(
-                        "userId" to loan.userId,
-                        "loanId" to documentId,
-                        "paymentAmount" to String.format("%.2f", paymentValue),
-                        "previousBalance" to String.format("%.2f", currentBalance),
-                        "newBalance" to String.format("%.2f", newBalance.coerceAtLeast(0.0)),
-                        "paymentDate" to System.currentTimeMillis(),
-                        "paymentType" to "loan_repayment"
-                    )
+                    holder.payAmount.text.clear()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Payment failed: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
-                    db.collection("transactions")
-                        .add(transaction)
-                        .addOnSuccessListener {
-                            Toast.makeText(
-                                holder.itemView.context,
-                                if (language == "fr") {
-                                    "Paiement réussi"
-                                } else {
-                                    "Payment successful"
-                                },
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            holder.payAmount.text.clear()
-                        }
+           .addOnFailureListener { e ->
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Payment failed: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
         }
     }
