@@ -26,6 +26,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Payment Review" />
+    <TextView
+        android:id="@+id/txtPendingLoans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pending Loans: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/txtPendingIdentity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pending IDs: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/txtPendingPayments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pending Payments: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:layout_width="wrap_content"

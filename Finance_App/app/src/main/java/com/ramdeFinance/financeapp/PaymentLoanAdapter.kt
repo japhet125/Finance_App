@@ -85,7 +85,13 @@ class PaymentLoanAdapter(
             holder.payButton.alpha = 0.5f
 
             holder.payAmount.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val enteredAmount = parseMoney(s.toString())
@@ -108,6 +114,8 @@ class PaymentLoanAdapter(
 
 
         holder.payButton.setOnClickListener {
+            holder.payButton.isEnabled = false
+            holder.payButton.alpha = 0.5f
             val paymentText = holder.payAmount.text.toString().trim()
 
             val paymentValue = parseMoney(paymentText)
@@ -127,6 +135,8 @@ class PaymentLoanAdapter(
                     },
                     Toast.LENGTH_SHORT
                 ).show()
+                holder.payButton.isEnabled = true
+                holder.payButton.alpha = 1.0f
 
                 return@setOnClickListener
             }
@@ -142,6 +152,8 @@ class PaymentLoanAdapter(
                     },
                     Toast.LENGTH_SHORT
                 ).show()
+                holder.payButton.isEnabled = true
+                holder.payButton.alpha = 1.0f
 
                 return@setOnClickListener
             }
@@ -149,12 +161,24 @@ class PaymentLoanAdapter(
                 Toast.makeText(
                     holder.itemView.context,
                     if (language == "fr") {
-                        "Le paiement unique nécessite le montant total dû : $${String.format("%.2f", currentBalance)}"
+                        "Le paiement unique nécessite le montant total dû : $${
+                            String.format(
+                                "%.2f",
+                                currentBalance
+                            )
+                        }"
                     } else {
-                        "One-time payment requires the full amount due: $${String.format("%.2f", currentBalance)}"
+                        "One-time payment requires the full amount due: $${
+                            String.format(
+                                "%.2f",
+                                currentBalance
+                            )
+                        }"
                     },
                     Toast.LENGTH_LONG
                 ).show()
+                holder.payButton.isEnabled = true
+                holder.payButton.alpha = 1.0f
 
                 return@setOnClickListener
             }
@@ -173,55 +197,83 @@ class PaymentLoanAdapter(
                 "status" to "pending"
             )
 
+
             db.collection("transactions")
-                .add(pendingPayment)
-                .addOnSuccessListener {
-                    Toast.makeText(
-                        holder.itemView.context,
-                        if (language == "fr") {
-                            "Paiement soumis pour approbation."
-                        } else {
-                            "Payment submitted for admin review."
-                        },
-                        Toast.LENGTH_LONG
-                    ).show()
+                .whereEqualTo("loanId", documentId)
+                .whereEqualTo("userId", loan.userId)
+                .whereEqualTo("status", "pending")
+                .whereEqualTo("paymentType", "loan_repayment")
+                .get()
+                .addOnSuccessListener { pendingPayments ->
 
-                    holder.payAmount.text.clear()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(
-                        holder.itemView.context,
-                        "Payment failed: ${e.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                    if (!pendingPayments.isEmpty) {
 
-           .addOnFailureListener { e ->
-                    Toast.makeText(
-                        holder.itemView.context,
-                        "Payment failed: ${e.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                        Toast.makeText(
+                            holder.itemView.context,
+                            if (language == "fr")
+                                "Vous avez déjà un paiement en attente pour ce prêt."
+                            else
+                                "You already have a pending payment for this loan.",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        holder.payButton.isEnabled = false
+                        holder.payButton.alpha = 0.5f
+
+                        return@addOnSuccessListener
+                    }
+
+                    db.collection("transactions")
+                        .add(pendingPayment)
+                        .addOnSuccessListener {
+                            holder.payButton.isEnabled = false
+                            holder.payButton.alpha = 0.5f
+
+                            holder.payButton.text =
+                                if (language == "fr") "Soumis" else "Submitted"
+
+                            Toast.makeText(
+                                holder.itemView.context,
+                                if (language == "fr")
+                                    "Paiement soumis pour approbation."
+                                else
+                                    "Payment submitted for admin review.",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            holder.payAmount.text.clear()
+                        }
+                        .addOnFailureListener { e ->
+
+                            holder.payButton.isEnabled = true
+                            holder.payButton.alpha = 1.0f
+
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "Payment failed: ${e.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                 }
         }
     }
+        override fun getItemCount(): Int {
+            return loanList.size
+        }
 
-    override fun getItemCount(): Int {
-        return loanList.size
-    }
+        private fun parseMoney(value: String): Double {
+            return value
+                .replace("$", "")
+                .replace("FCFA", "")
+                .replace("F CFA", "")
+                .replace("CFA", "")
+                .replace(",", ".")
+                .trim()
+                .toDoubleOrNull() ?: 0.0
+        }
 
-    private fun parseMoney(value: String): Double {
-        return value
-            .replace("$", "")
-            .replace("FCFA", "")
-            .replace("F CFA", "")
-            .replace("CFA", "")
-            .replace(",", ".")
-            .trim()
-            .toDoubleOrNull() ?: 0.0
+        fun updateLanguage(newLanguage: String) {
+            language = newLanguage
+            notifyDataSetChanged()
+        }
     }
-    fun updateLanguage(newLanguage: String) {
-        language = newLanguage
-        notifyDataSetChanged()
-    }
-}

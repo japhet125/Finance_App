@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    android:gravity="center"
     android:background="#F5F7FA">
     <Button
         android:id="@+id/btnBack"
@@ -15,14 +14,14 @@
         android:layout_marginBottom="16dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="#0B1F3A"
+        android:gravity="center"
         android:layout_marginBottom="32dp"/>
-
     <EditText
         android:id="@+id/etLoginEmail"
         android:layout_width="match_parent"

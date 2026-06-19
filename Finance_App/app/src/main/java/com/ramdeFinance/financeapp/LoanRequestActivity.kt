@@ -13,6 +13,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
 import android.widget.CheckBox
+import android.content.Intent
+import androidx.activity.result.contract.ActivityResultContracts
 
 
 
@@ -20,6 +22,38 @@ class LoanRequestActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var pendingLoanRequest: MutableMap<String, Any>
+
+    private val agreementLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+
+                pendingLoanRequest["agreementAccepted"] =
+                    data?.getBooleanExtra("agreementAccepted", false) ?: false
+
+                pendingLoanRequest["agreementName"] =
+                    data?.getStringExtra("agreementName") ?: ""
+
+                pendingLoanRequest["agreementAcceptedAt"] =
+                    data?.getLongExtra("agreementAcceptedAt", System.currentTimeMillis())
+                        ?: System.currentTimeMillis()
+
+                pendingLoanRequest["agreementVersion"] =
+                    data?.getStringExtra("agreementVersion") ?: "1.0"
+
+                db.collection("loan_requests")
+                    .add(pendingLoanRequest)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Loan request submitted", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -259,6 +293,7 @@ class LoanRequestActivity : AppCompatActivity() {
                     return@addOnSuccessListener
                 }
 
+
                 val maxAllowed = when (borrowerLevel) {
 
                     "Platinum" -> 1500.0
@@ -286,14 +321,18 @@ class LoanRequestActivity : AppCompatActivity() {
 
                 db.collection("loan_requests")
                     .whereEqualTo("userId", userId)
-                    .whereEqualTo("status", "overdue")
+                    .whereIn("status", listOf("approved", "overdue"))
                     .get()
                     .addOnSuccessListener { overdueLoans ->
 
                         if (!overdueLoans.isEmpty) {
                             Toast.makeText(
                                 this,
-                                "Loan denied. You have an overdue loan.",
+                                if (userLanguage == "fr") {
+                                    "Veuillez rembourser votre prêt actuel avant de demander un nouveau prêt."
+                                } else {
+                                    "Please pay off your current loan before requesting a new one."
+                                },
                                 Toast.LENGTH_LONG
                             ).show()
                             return@addOnSuccessListener
@@ -414,26 +453,10 @@ Do you want to submit this loan request?
                                     if (userLanguage == "fr") "Confirmer" else "Confirm"
                                 ) { _, _ ->
 
-                                    db.collection("loan_requests")
-                                        .add(loanRequest)
-                                        .addOnSuccessListener {
+                                    pendingLoanRequest = loanRequest.toMutableMap()
 
-                                            Toast.makeText(
-                                                this,
-                                                "Loan request submitted",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-
-                                            finish()
-                                        }
-                                        .addOnFailureListener { e ->
-
-                                            Toast.makeText(
-                                                this,
-                                                "Error: ${e.message}",
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        }
+                                    val intent = Intent(this, LoanAgreementActivity::class.java)
+                                    agreementLauncher.launch(intent)
                                 }
 
                                 .show()

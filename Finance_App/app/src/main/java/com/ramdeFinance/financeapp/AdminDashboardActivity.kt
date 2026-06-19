@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import android.widget.TextView
 
 
 class AdminDashboardActivity : AppCompatActivity() {
@@ -39,6 +40,9 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
         val paymentReviewButton = findViewById<Button>(R.id.btnPaymentReview)
+        val pendingLoansText = findViewById<TextView>(R.id.txtPendingLoans)
+        val pendingIdentityText = findViewById<TextView>(R.id.txtPendingIdentity)
+        val pendingPaymentsText = findViewById<TextView>(R.id.txtPendingPayments)
 
         paymentReviewButton.setOnClickListener {
             val intent = Intent(this, AdminPaymentReviewActivity::class.java)
@@ -167,7 +171,22 @@ class AdminDashboardActivity : AppCompatActivity() {
                         } else {
                             "Search loans"
                         }
+                    loadAdminSummaryCards(
+                        db,
+                        userLanguage,
+                        pendingLoansText,
+                        pendingIdentityText,
+                        pendingPaymentsText
+                    )
                 }
+        } else {
+            loadAdminSummaryCards(
+                db,
+                "en",
+                pendingLoansText,
+                pendingIdentityText,
+                pendingPaymentsText
+            )
         }
 
         db.collection("loan_requests")
@@ -199,6 +218,44 @@ class AdminDashboardActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
 
+    }
+    private fun loadAdminSummaryCards(
+        db: FirebaseFirestore,
+        language: String,
+        pendingLoansText: TextView,
+        pendingIdentityText: TextView,
+        pendingPaymentsText: TextView
+    ) {
+        db.collection("loan_requests")
+            .whereEqualTo("status", "pending")
+            .addSnapshotListener { snapshots, _ ->
+                pendingLoansText.text =
+                    if (language == "fr")
+                        "Prêts en attente : ${snapshots?.size() ?: 0}"
+                    else
+                        "Pending Loans: ${snapshots?.size() ?: 0}"
+            }
+
+        db.collection("users")
+            .whereEqualTo("identityStatus", "pending")
+            .addSnapshotListener { snapshots, _ ->
+                pendingIdentityText.text =
+                    if (language == "fr")
+                        "Identités en attente : ${snapshots?.size() ?: 0}"
+                    else
+                        "Pending IDs: ${snapshots?.size() ?: 0}"
+            }
+
+        db.collection("transactions")
+            .whereEqualTo("status", "pending")
+            .whereEqualTo("paymentType", "loan_repayment")
+            .addSnapshotListener { snapshots, _ ->
+                pendingPaymentsText.text =
+                    if (language == "fr")
+                        "Paiements en attente : ${snapshots?.size() ?: 0}"
+                    else
+                        "Pending Payments: ${snapshots?.size() ?: 0}"
+            }
     }
 
 }

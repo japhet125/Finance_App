@@ -194,6 +194,12 @@ class AdminLoanAdapter(
             holder.status.text =
                 if (language == "fr") "✗ Rejeté" else "✗ Rejected"
 
+        }else if (loan.status == "paid") {
+            holder.approveButton.visibility = View.GONE
+            holder.rejectButton.visibility = View.GONE
+            holder.riskFlags.visibility = View.GONE
+            holder.status.text =
+                if (language == "fr") "✓ Payé" else "✓ Paid"
         } else {
             holder.approveButton.visibility = View.VISIBLE
             holder.rejectButton.visibility = View.VISIBLE
