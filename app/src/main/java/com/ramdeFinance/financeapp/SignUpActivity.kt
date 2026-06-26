@@ -107,21 +107,6 @@ class SignUpActivity : AppCompatActivity() {
             } else if (passwordText != confirmPasswordText) {
                 Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
-                db.collection("users")
-                    .whereEqualTo("phone", phoneText)
-                    .get()
-                    .addOnSuccessListener { documents ->
-
-                        if (!documents.isEmpty) {
-
-                            Toast.makeText(
-                                this,
-                                "Phone number already registered",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            return@addOnSuccessListener
-                        }
                         val selectedLanguage =
                             languageSpinner.selectedItem.toString()
 
@@ -202,4 +187,3 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
     }
-}

@@ -3,3 +3,5 @@
 Desktop/
 .eclipse/
 local.properties
+app/google-services.json
+.gradle/
