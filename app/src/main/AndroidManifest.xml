@@ -136,4 +136,9 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            a
+            android:name=".LoanAgreementActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+    </application>
+
+</manifest>

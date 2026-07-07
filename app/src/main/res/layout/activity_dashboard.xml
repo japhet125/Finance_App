@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:fillViewport="true"
+    android:background="#0D0F0D">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:paddingBottom="100dp">
 
         <ImageButton
             android:id="@+id/btnMenu"
@@ -17,95 +20,163 @@
             android:layout_gravity="end"
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_sort_by_size"
-            android:contentDescription="Menu" />
+            android:contentDescription="Menu"
+            app:tint="#C9A227" />
 
-        <TextView
-            android:id="@+id/txtWelcome"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#0B1F3A"
-            android:layout_marginBottom="24dp" />
+            android:orientation="vertical"
+            android:layout_marginTop="12dp"
+            android:background="#171A16"
+            android:padding="18dp"
+            android:layout_marginBottom="28dp">
+
+            <TextView
+                android:id="@+id/txtGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="28sp"
+                android:textColor="#A9A9A9" />
+
+            <TextView
+                android:id="@+id/txtWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#F8F8F8"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/txtTagline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="15sp"
+                android:textColor="#8CBF5A"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtCreditScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💳 Credit Score\n500"
-            android:textSize="22sp"
+            android:text="CREDIT SCORE\n500"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:background="#0B1F3A"
-            android:padding="22dp"
+            android:textColor="#F8F8F8"
+            android:background="#171A16"
+            android:padding="28dp"
             android:layout_marginBottom="16dp" />
+
         <TextView
             android:id="@+id/txtBorrowerLevel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🏅 Borrower Level: New"
+            android:text="Borrower Level: New"
             android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textStyle="bold"
+            android:textColor="#8CBF5A"
+            android:background="#171A16"
+            android:padding="18dp"
+            android:layout_marginBottom="12dp" />
+
         <TextView
             android:id="@+id/txtIdentityBadge"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Identity Verification"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:textColor="#F8F8F8"
+            android:background="#171A16"
+            android:padding="18dp"
+            android:layout_marginBottom="12dp" />
+
         <TextView
             android:id="@+id/txtLoanLimit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💰 Available Loan Limit:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp" />
-        <TextView
-            android:id="@+id/txtNextLevelProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
-        <TextView
-            android:id="@+id/txtAutoPayTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🌳 Auto Pay"
+            android:text="Available Loan Limit"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:textColor="#8CBF5A"
+            android:background="#1F261B"
+            android:padding="22dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtNextLevelProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Progress"
+            android:textSize="16sp"
+            android:textColor="#A9A9A9"
+            android:background="#171A16"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/txtAutoPayTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Auto Pay"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#F8F8F8"
+            android:background="#171A16"
+            android:padding="18dp" />
 
         <TextView
             android:id="@+id/txtAutoPayStatus"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Status:"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#A9A9A9"
+            android:background="#171A16"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingBottom="8dp" />
 
         <TextView
             android:id="@+id/txtAutoPayNextDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Next Payment:"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#A9A9A9"
+            android:background="#171A16"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingBottom="8dp" />
 
         <TextView
             android:id="@+id/txtAutoPayAmount"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Amount:"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#A9A9A9"
+            android:background="#171A16"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingBottom="18dp"
+            android:layout_marginBottom="20dp" />
 
         <TextView
             android:id="@+id/txtTotalRequested"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💰 Total Requested\n$0"
+            android:text="Total Requested\n$0"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="#FFFFFF"
+            android:textColor="#F8F8F8"
+            android:background="#171A16"
             android:padding="20dp"
             android:layout_marginBottom="12dp" />
 
@@ -113,10 +184,11 @@
             android:id="@+id/txtPendingLoans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⏳ Pending Requests\n0"
+            android:text="Pending Requests\n0"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="#FFFFFF"
+            android:textColor="#F8F8F8"
+            android:background="#171A16"
             android:padding="20dp"
             android:layout_marginBottom="12dp" />
 
@@ -124,10 +196,11 @@
             android:id="@+id/txtApprovedAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="✅ Approved Amount\n$0"
+            android:text="Approved Amount\n$0"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="#FFFFFF"
+            android:textColor="#8CBF5A"
+            android:background="#171A16"
             android:padding="20dp"
             android:layout_marginBottom="12dp" />
 
@@ -135,10 +208,11 @@
             android:id="@+id/txtRejectedLoans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="❌ Rejected Requests\n0"
+            android:text="Rejected Requests\n0"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="#FFFFFF"
+            android:textColor="#C9A227"
+            android:background="#171A16"
             android:padding="20dp"
             android:layout_marginBottom="12dp" />
 
@@ -146,10 +220,11 @@
             android:id="@+id/txtUnreadNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🔔 Unread Notifications\n0"
+            android:text="Unread Notifications\n0"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="#FFFFFF"
+            android:textColor="#F8F8F8"
+            android:background="#171A16"
             android:padding="20dp"
             android:layout_marginBottom="12dp" />
 
