@@ -58,6 +58,7 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.android.material:material:1.12.0")
 
 
 }
