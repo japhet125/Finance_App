@@ -8,12 +8,23 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ProfileActivity : AppCompatActivity() {
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        bottomNavigation =
+            findViewById(R.id.bottomNavigation)
+
+        BottomNavigationHelper.setup(
+            activity = this,
+            bottomNavigation = bottomNavigation,
+            selectedItemId = R.id.navigationProfile
+        )
 
         val backButton = findViewById<Button>(R.id.btnBack)
         val editProfileButton = findViewById<Button>(R.id.btnEditProfile)
@@ -166,6 +177,16 @@ class ProfileActivity : AppCompatActivity() {
                         }
                     }
                 }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+
+        if (::bottomNavigation.isInitialized) {
+            BottomNavigationHelper.syncSelection(
+                bottomNavigation = bottomNavigation,
+                selectedItemId = R.id.navigationProfile
+            )
         }
     }
 }

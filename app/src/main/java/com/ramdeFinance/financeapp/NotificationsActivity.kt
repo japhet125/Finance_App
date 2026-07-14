@@ -6,16 +6,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NotificationsActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var notificationList: MutableList<NotificationModel>
     private lateinit var adapter: NotificationAdapter
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notifications)
+        bottomNavigation =
+            findViewById(R.id.bottomNavigation)
+
+        BottomNavigationHelper.setup(
+            activity = this,
+            bottomNavigation = bottomNavigation,
+            selectedItemId = R.id.navigationNotifications
+        )
 
         val backButton = findViewById<Button>(R.id.btnBack)
 
@@ -86,6 +96,16 @@ class NotificationsActivity : AppCompatActivity() {
                     backButton.text =
                         if (language == "fr") "Retour" else "Back"
                 }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+
+        if (::bottomNavigation.isInitialized) {
+            BottomNavigationHelper.syncSelection(
+                bottomNavigation = bottomNavigation,
+                selectedItemId = R.id.navigationNotifications
+            )
         }
     }
 }

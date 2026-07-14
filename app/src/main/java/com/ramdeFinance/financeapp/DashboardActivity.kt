@@ -15,6 +15,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -23,10 +27,28 @@ class DashboardActivity : AppCompatActivity() {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        bottomNavigation =
+            findViewById(R.id.bottomNavigation)
+
+        BottomNavigationHelper.setup(
+            activity = this,
+            bottomNavigation = bottomNavigation,
+            selectedItemId = R.id.navigationHome,
+            onHomeReselected = {
+                val dashboardScrollView =
+                    findViewById<android.widget.ScrollView>(
+                        R.id.dashboardScrollView
+                    )
+
+                dashboardScrollView.smoothScrollTo(0, 0)
+            }
+        )
+
 
         val userId = auth.currentUser?.uid
 
@@ -36,10 +58,31 @@ class DashboardActivity : AppCompatActivity() {
         val greetingText = findViewById<TextView>(R.id.txtGreeting)
         val taglineText = findViewById<TextView>(R.id.txtTagline)
 
-        val creditScoreText = findViewById<TextView>(R.id.txtCreditScore)
-        val borrowerLevelText = findViewById<TextView>(R.id.txtBorrowerLevel)
+        val creditScoreText =
+            findViewById<TextView>(R.id.txtCreditScore)
+
+        val creditScoreRatingText =
+            findViewById<TextView>(R.id.txtCreditScoreRating)
+
+        val creditScoreProgress =
+            findViewById<LinearProgressIndicator>(R.id.progressCreditScore)
+
+        val borrowerLevelText =
+            findViewById<TextView>(R.id.txtBorrowerLevel)
+
+        val borrowerProgressTitleText =
+            findViewById<TextView>(R.id.txtBorrowerProgressTitle)
+
+        val borrowerLevelProgress =
+            findViewById<LinearProgressIndicator>(R.id.progressBorrowerLevel)
+
+        val nextLevelProgressText =
+            findViewById<TextView>(R.id.txtNextLevelProgress)
+        val requestLoanButton =
+            findViewById<MaterialButton>(R.id.btnRequestLoan)
+
+
         val loanLimitText = findViewById<TextView>(R.id.txtLoanLimit)
-        val nextLevelProgressText = findViewById<TextView>(R.id.txtNextLevelProgress)
         val identityBadgeText = findViewById<TextView>(R.id.txtIdentityBadge)
         val unreadNotificationsText = findViewById<TextView>(R.id.txtUnreadNotifications)
 
@@ -51,6 +94,44 @@ class DashboardActivity : AppCompatActivity() {
         val pendingLoansText = findViewById<TextView>(R.id.txtPendingLoans)
         val approvedAmountText = findViewById<TextView>(R.id.txtApprovedAmount)
         val rejectedLoansText = findViewById<TextView>(R.id.txtRejectedLoans)
+        val loanSummaryTitleText =
+            findViewById<TextView>(R.id.txtLoanSummaryTitle)
+
+        val autoPayTitleText =
+            findViewById<TextView>(R.id.txtAutoPayTitle)
+
+        val autoPayBadgeText =
+            findViewById<TextView>(R.id.txtAutoPayBadge)
+        val statisticsSectionTitleText =
+            findViewById<TextView>(R.id.txtStatisticsSectionTitle)
+
+        val totalRequestedTitleText =
+            findViewById<TextView>(R.id.txtTotalRequestedTitle)
+
+        val approvedAmountTitleText =
+            findViewById<TextView>(R.id.txtApprovedAmountTitle)
+
+        val pendingLoansTitleText =
+            findViewById<TextView>(R.id.txtPendingLoansTitle)
+
+        val rejectedLoansTitleText =
+            findViewById<TextView>(R.id.txtRejectedLoansTitle)
+
+        val unreadNotificationsTitleText =
+            findViewById<TextView>(R.id.txtUnreadNotificationsTitle)
+
+        val notificationsSubtitleText =
+            findViewById<TextView>(R.id.txtNotificationsSubtitle)
+        val unreadNotificationsCard =
+            findViewById<MaterialCardView>(R.id.cardUnreadNotifications)
+        unreadNotificationsCard.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    NotificationsActivity::class.java
+                )
+            )
+        }
 
         menuButton.setOnClickListener {
             showDashboardMenu(menuButton)
@@ -61,6 +142,14 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
             return
+        }
+        requestLoanButton.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    LoanRequestActivity::class.java
+                )
+            )
         }
 
         saveFcmToken(userId)
@@ -75,6 +164,36 @@ class DashboardActivity : AppCompatActivity() {
                 }
 
                 userLanguage = document.getString("language") ?: "en"
+                if (userLanguage == "fr") {
+                    loanSummaryTitleText.text = "APERÇU DU PRÊT"
+                    requestLoanButton.text = "Demander un prêt"
+                    autoPayTitleText.text = "Prochain paiement"
+                    autoPayBadgeText.text = "PAIEMENT AUTO"
+                } else {
+                    loanSummaryTitleText.text = "LOAN OVERVIEW"
+                    requestLoanButton.text = "Request Loan"
+                    autoPayTitleText.text = "Next Payment"
+                    autoPayBadgeText.text = "AUTO PAY"
+                }
+                if (userLanguage == "fr") {
+                    statisticsSectionTitleText.text = "APERÇU DE L’ACTIVITÉ"
+                    totalRequestedTitleText.text = "Total demandé"
+                    approvedAmountTitleText.text = "Montant approuvé"
+                    pendingLoansTitleText.text = "Demandes en attente"
+                    rejectedLoansTitleText.text = "Demandes refusées"
+                    unreadNotificationsTitleText.text = "Notifications"
+                    notificationsSubtitleText.text =
+                        "Mises à jour du compte et alertes de paiement"
+                } else {
+                    statisticsSectionTitleText.text = "ACTIVITY OVERVIEW"
+                    totalRequestedTitleText.text = "Total Requested"
+                    approvedAmountTitleText.text = "Approved Amount"
+                    pendingLoansTitleText.text = "Pending Requests"
+                    rejectedLoansTitleText.text = "Rejected Requests"
+                    unreadNotificationsTitleText.text = "Notifications"
+                    notificationsSubtitleText.text =
+                        "Account updates and payment alerts"
+                }
 
                 val fullName = document.getString("fullName") ?: "User"
                 val role = document.getString("role") ?: "user"
@@ -85,41 +204,94 @@ class DashboardActivity : AppCompatActivity() {
                 taglineText.text = getTagline(userLanguage)
                 welcomeText.text = fullName
 
-                val creditScore = document.getLong("creditScore") ?: 500
-                creditScoreText.text =
-                    if (userLanguage == "fr") {
-                        "💳 Score de crédit : $creditScore"
-                    } else {
-                        "💳 Credit Score: $creditScore"
-                    }
+                val creditScore =
+                    (document.getLong("creditScore") ?: 500L).toInt()
+
+                creditScoreText.text = creditScore.toString()
+
+                creditScoreRatingText.text =
+                    getCreditScoreRating(creditScore, userLanguage)
+
+                creditScoreProgress.progress =
+                    calculateCreditScoreProgress(creditScore)
 
                 val borrowerLevel = document.getString("borrowerLevel") ?: "New"
                 borrowerLevelText.text =
                     if (userLanguage == "fr") {
-                        "🏅 Niveau emprunteur : $borrowerLevel"
+                        "🏅 ${translateBorrowerLevel(borrowerLevel)}"
                     } else {
-                        "🏅 Borrower Level: $borrowerLevel"
+                        "🏅 $borrowerLevel Borrower"
                     }
 
-                val completedLoans = document.getLong("completedLoans") ?: 0
-                val progressMessage = getProgressMessage(borrowerLevel, completedLoans)
+                val completedLoans =
+                    document.getLong("completedLoans") ?: 0L
 
-                nextLevelProgressText.text =
-                    if (borrowerLevel == "Platinum") {
+                val nextLevel =
+                    getNextBorrowerLevel(borrowerLevel)
+
+                val requiredLoans =
+                    getRequiredLoansForNextLevel(borrowerLevel)
+
+                val remainingLoans =
+                    (requiredLoans - completedLoans).coerceAtLeast(0L)
+
+                val borrowerProgress =
+                    calculateBorrowerProgress(
+                        completedLoans = completedLoans,
+                        requiredLoans = requiredLoans
+                    )
+
+                borrowerLevelProgress.progress = borrowerProgress
+
+                if (borrowerLevel == "Platinum") {
+                    borrowerProgressTitleText.text =
                         if (userLanguage == "fr") {
-                            "🏆 Niveau maximum atteint"
+                            "Niveau maximum atteint"
                         } else {
-                            "🏆 Maximum Level Reached"
+                            "Maximum level reached"
                         }
-                    } else {
+
+                    nextLevelProgressText.text =
                         if (userLanguage == "fr") {
-                            "📈 ${progressMessage.first} prêts supplémentaires pour atteindre ${progressMessage.second}"
+                            "🏆 Vous avez atteint le niveau le plus élevé"
                         } else {
-                            "📈 ${progressMessage.first} more completed loans to reach ${progressMessage.second}"
+                            "🏆 You have reached the highest level"
                         }
-                    }
+
+                    borrowerLevelProgress.progress = 100
+                } else {
+                    borrowerProgressTitleText.text =
+                        if (userLanguage == "fr") {
+                            "Progression vers ${translateBorrowerLevel(nextLevel)}"
+                        } else {
+                            "Progress to $nextLevel"
+                        }
+
+                    nextLevelProgressText.text =
+                        if (userLanguage == "fr") {
+                            if (remainingLoans == 1L) {
+                                "1 prêt supplémentaire"
+                            } else {
+                                "$remainingLoans prêts supplémentaires"
+                            }
+                        } else {
+                            if (remainingLoans == 1L) {
+                                "1 loan remaining"
+                            } else {
+                                "$remainingLoans loans remaining"
+                            }
+                        }
+                }
 
                 val identityVerified = document.getBoolean("identityVerified") ?: false
+                requestLoanButton.isEnabled = identityVerified
+
+                requestLoanButton.alpha =
+                    if (identityVerified) {
+                        1.0f
+                    } else {
+                        0.5f
+                    }
 
                 val maxLoanLimit =
                     if (!identityVerified) {
@@ -173,6 +345,16 @@ class DashboardActivity : AppCompatActivity() {
         processPaymentReminders()
         processAutoPayments()
     }
+    override fun onResume() {
+        super.onResume()
+
+        if (::bottomNavigation.isInitialized) {
+            BottomNavigationHelper.syncSelection(
+                bottomNavigation = bottomNavigation,
+                selectedItemId = R.id.navigationHome
+            )
+        }
+    }
 
     private fun showDashboardMenu(menuButton: ImageButton) {
         val popupMenu = PopupMenu(this, menuButton)
@@ -212,10 +394,7 @@ class DashboardActivity : AppCompatActivity() {
 
         popupMenu.menu.add(transactionsText)
         popupMenu.menu.add(requestLoanText)
-        popupMenu.menu.add(loanHistoryText)
         popupMenu.menu.add(makePaymentText)
-        popupMenu.menu.add(profileText)
-        popupMenu.menu.add(notificationsText)
         popupMenu.menu.add(bankAccountText)
         popupMenu.menu.add(mobileMoneyText)
         popupMenu.menu.add(languageSettingsText)
@@ -238,25 +417,12 @@ class DashboardActivity : AppCompatActivity() {
                     true
                 }
 
-                loanHistoryText -> {
-                    startActivity(Intent(this, LoanHistoryActivity::class.java))
-                    true
-                }
 
                 makePaymentText -> {
                     startActivity(Intent(this, PaymentActivity::class.java))
                     true
                 }
 
-                profileText -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true
-                }
-
-                notificationsText -> {
-                    startActivity(Intent(this, NotificationsActivity::class.java))
-                    true
-                }
 
                 bankAccountText -> {
                     startActivity(Intent(this, BankAccountActivity::class.java))
@@ -322,11 +488,7 @@ class DashboardActivity : AppCompatActivity() {
                 val unreadCount = snapshots?.size() ?: 0
 
                 unreadNotificationsText.text =
-                    if (userLanguage == "fr") {
-                        "🔔 Notifications non lues : $unreadCount"
-                    } else {
-                        "🔔 Unread Notifications: $unreadCount"
-                    }
+                    unreadCount.toString()
             }
     }
 
@@ -360,24 +522,40 @@ class DashboardActivity : AppCompatActivity() {
                         ).format(Date(nextDate))
 
                     if (userLanguage == "fr") {
-                        autoPayStatusText.text = "Paiement automatique : Planifié"
-                        autoPayNextDateText.text = "Prochain paiement : $dateText"
-                        autoPayAmountText.text = "Montant : $$amount"
+                        autoPayStatusText.text =
+                            "Paiement automatique : planifié"
+
+                        autoPayNextDateText.text =
+                            dateText
+
+                        autoPayAmountText.text =
+                            "$$amount"
                     } else {
-                        autoPayStatusText.text = "Status: Scheduled"
-                        autoPayNextDateText.text = "Next Payment: $dateText"
-                        autoPayAmountText.text = "Amount: $$amount"
+                        autoPayStatusText.text =
+                            "Auto Pay: Scheduled"
+
+                        autoPayNextDateText.text =
+                            dateText
+
+                        autoPayAmountText.text =
+                            "$$amount"
                     }
                 } else {
                     autoPayStatusText.text =
                         if (userLanguage == "fr") {
                             "Aucun paiement automatique actif"
                         } else {
-                            "Status: No Active Auto Pay"
+                            "No active Auto Pay"
                         }
 
-                    autoPayNextDateText.text = ""
-                    autoPayAmountText.text = ""
+                    autoPayNextDateText.text =
+                        if (userLanguage == "fr") {
+                            "Non planifié"
+                        } else {
+                            "Not scheduled"
+                        }
+
+                    autoPayAmountText.text = "$0.00"
                 }
             }
     }
@@ -417,31 +595,17 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
 
-                if (userLanguage == "fr") {
-                    totalRequestedText.text =
-                        "💰 Total demandé : ${currencyFormat.format(totalRequested)}"
+                totalRequestedText.text =
+                    currencyFormat.format(totalRequested)
 
-                    pendingLoansText.text =
-                        "⏳ Demandes en attente : $pendingCount"
+                approvedAmountText.text =
+                    currencyFormat.format(approvedAmount)
 
-                    approvedAmountText.text =
-                        "✅ Montant approuvé : ${currencyFormat.format(approvedAmount)}"
+                pendingLoansText.text =
+                    pendingCount.toString()
 
-                    rejectedLoansText.text =
-                        "❌ Demandes refusées : $rejectedCount"
-                } else {
-                    totalRequestedText.text =
-                        "💰 Total Requested: ${currencyFormat.format(totalRequested)}"
-
-                    pendingLoansText.text =
-                        "⏳ Pending Requests: $pendingCount"
-
-                    approvedAmountText.text =
-                        "✅ Approved Amount: ${currencyFormat.format(approvedAmount)}"
-
-                    rejectedLoansText.text =
-                        "❌ Rejected Requests: $rejectedCount"
-                }
+                rejectedLoansText.text =
+                    rejectedCount.toString()
             }
     }
 
@@ -626,44 +790,6 @@ class DashboardActivity : AppCompatActivity() {
             }
     }
 
-    private fun getProgressMessage(
-        borrowerLevel: String,
-        completedLoans: Long
-    ): Pair<Long, String> {
-        return when (borrowerLevel) {
-            "New" -> {
-                val remaining = (3 - completedLoans).coerceAtLeast(0)
-                Pair(remaining, "Bronze")
-            }
-
-            "Bronze" -> {
-                val remaining = (5 - completedLoans).coerceAtLeast(0)
-                Pair(
-                    remaining,
-                    if (userLanguage == "fr") "Argent" else "Silver"
-                )
-            }
-
-            "Silver" -> {
-                val remaining = (8 - completedLoans).coerceAtLeast(0)
-                Pair(
-                    remaining,
-                    if (userLanguage == "fr") "Or" else "Gold"
-                )
-            }
-
-            "Gold" -> {
-                val remaining = (15 - completedLoans).coerceAtLeast(0)
-                Pair(
-                    remaining,
-                    if (userLanguage == "fr") "Platine" else "Platinum"
-                )
-            }
-
-            else -> Pair(0, "")
-        }
-    }
-
     private fun getIdentityBadgeText(identityStatus: String): String {
         return if (userLanguage == "fr") {
             when (identityStatus) {
@@ -742,4 +868,100 @@ class DashboardActivity : AppCompatActivity() {
         calendar.add(Calendar.MONTH, months)
         return calendar.timeInMillis
     }
+    private fun getCreditScoreRating(
+        creditScore: Int,
+        language: String
+    ): String {
+        return if (language == "fr") {
+            when (creditScore) {
+                in 300..579 -> "Faible"
+                in 580..669 -> "Moyen"
+                in 670..739 -> "Bon"
+                in 740..799 -> "Très bon"
+                in 800..850 -> "Excellent"
+                else -> "Non disponible"
+            }
+        } else {
+            when (creditScore) {
+                in 300..579 -> "Poor"
+                in 580..669 -> "Fair"
+                in 670..739 -> "Good"
+                in 740..799 -> "Very Good"
+                in 800..850 -> "Excellent"
+                else -> "Unavailable"
+            }
+        }
+    }
+
+    private fun calculateCreditScoreProgress(
+        creditScore: Int
+    ): Int {
+        val minimumScore = 300
+        val maximumScore = 850
+
+        val safeScore =
+            creditScore.coerceIn(minimumScore, maximumScore)
+
+        return (
+                (safeScore - minimumScore).toDouble() /
+                        (maximumScore - minimumScore).toDouble() *
+                        100
+                ).toInt()
+    }
+
+    private fun getNextBorrowerLevel(
+        borrowerLevel: String
+    ): String {
+        return when (borrowerLevel) {
+            "New" -> "Bronze"
+            "Bronze" -> "Silver"
+            "Silver" -> "Gold"
+            "Gold" -> "Platinum"
+            else -> "Platinum"
+        }
+    }
+
+    private fun getRequiredLoansForNextLevel(
+        borrowerLevel: String
+    ): Long {
+        return when (borrowerLevel) {
+            "New" -> 3L
+            "Bronze" -> 5L
+            "Silver" -> 8L
+            "Gold" -> 15L
+            else -> 15L
+        }
+    }
+
+    private fun calculateBorrowerProgress(
+        completedLoans: Long,
+        requiredLoans: Long
+    ): Int {
+        if (requiredLoans <= 0L) {
+            return 0
+        }
+
+        return (
+                completedLoans.toDouble() /
+                        requiredLoans.toDouble() *
+                        100
+                )
+            .toInt()
+            .coerceIn(0, 100)
+    }
+
+    private fun translateBorrowerLevel(
+        borrowerLevel: String
+    ): String {
+        return when (borrowerLevel) {
+            "New" -> "Nouvel emprunteur"
+            "Bronze" -> "Emprunteur Bronze"
+            "Silver" -> "Emprunteur Argent"
+            "Gold" -> "Emprunteur Or"
+            "Platinum" -> "Emprunteur Platine"
+            else -> borrowerLevel
+        }
+    }
+
+
 }

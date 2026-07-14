@@ -14,6 +14,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.content.Intent
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoanHistoryActivity : AppCompatActivity() {
 
@@ -24,10 +25,19 @@ class LoanHistoryActivity : AppCompatActivity() {
     private var selectedFilter = "All"
     private var searchQuery = ""
     private var selectedSort = "Newest First"
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan_history)
+        bottomNavigation =
+            findViewById(R.id.bottomNavigation)
+
+        BottomNavigationHelper.setup(
+            activity = this,
+            bottomNavigation = bottomNavigation,
+            selectedItemId = R.id.navigationLoans
+        )
         val backButton = findViewById<Button>(R.id.btnBack)
         val downloadButton = findViewById<Button>(R.id.btnDownloadStatement)
 
@@ -270,6 +280,16 @@ class LoanHistoryActivity : AppCompatActivity() {
 
         loanList.addAll(filteredLoans)
         adapter.notifyDataSetChanged()
+    }
+    override fun onResume() {
+        super.onResume()
+
+        if (::bottomNavigation.isInitialized) {
+            BottomNavigationHelper.syncSelection(
+                bottomNavigation = bottomNavigation,
+                selectedItemId = R.id.navigationLoans
+            )
+        }
     }
 
 }

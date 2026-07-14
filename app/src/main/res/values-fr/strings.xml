@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Baobab</string>
+    <string name="navigation_home">Accueil</string>
+    <string name="navigation_loans">Prêts</string>
+    <string name="navigation_notifications">Alertes</string>
+    <string name="navigation_profile">Profil</string>
+    <string name="menu">Menu</string>
+</resources>
