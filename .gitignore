@@ -5,3 +5,5 @@ Desktop/
 local.properties
 app/google-services.json
 .gradle/
+app/release/
+app/release/
