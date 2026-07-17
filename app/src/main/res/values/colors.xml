@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Baobab Theme -->
+    <color name="background_primary">#0D0F0D</color>
+
+    <color name="surface_card">#171A16</color>
+    <color name="surface_stroke">#2D342A</color>
+    <color name="surface_divider">#30352E</color>
+
+    <color name="text_primary">#F8F8F8</color>
+    <color name="text_secondary">#A9A9A9</color>
+    <color name="text_muted">#777C74</color>
+
+    <color name="brand_green">#8CBF5A</color>
+    <color name="brand_gold">#C9A227</color>
+
+    <color name="navigation_ripple">#333C2E</color>
+
 </resources>
