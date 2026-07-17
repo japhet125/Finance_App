@@ -64,7 +64,7 @@
                 android:id="@+id/txtCreditScoreLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CREDIT SCORE"
+                android:text="@string/dashboard_credit_score"
                 android:textAllCaps="true"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_label"
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/spacing_18"
-                android:text="500"
+                android:text="@string/placeholder_credit_score"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_credit_score"
                 android:textStyle="bold" />
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/spacing_2xs"
-                android:text="Poor"
+                android:text="@string/dashboard_credit_rating_poor"
                 android:textColor="@color/brand_gold"
                 android:textSize="@dimen/text_credit_rating"
                 android:textStyle="bold" />
@@ -115,14 +115,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="300"
+                    android:text="@string/placeholder_credit_score_min"
                     android:textColor="@color/text_muted"
                     android:textSize="@dimen/text_caption" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="850"
+                    android:text="@string/placeholder_credit_score_max"
                     android:textColor="@color/text_muted"
                     android:textSize="@dimen/text_caption" />
 
@@ -159,7 +159,7 @@
                 android:paddingTop="@dimen/spacing_sm"
                 android:paddingEnd="@dimen/spacing_14"
                 android:paddingBottom="@dimen/spacing_sm"
-                android:text="🏅 New Borrower"
+                android:text="@string/dashboard_new_borrower"
                 android:textColor="@color/brand_green"
                 android:textSize="@dimen/text_card_title"
                 android:textStyle="bold" />
@@ -169,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/section_spacing"
-                android:text="Progress to Bronze"
+                android:text="@string/dashboard_progress_to_bronze"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_card_title"
                 android:textStyle="bold" />
@@ -191,7 +191,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_10"
-                android:text="3 loans remaining"
+                android:text="@string/dashboard_loans_remaining"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -216,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_18"
-            android:text="Identity Verification"
+            android:text="@string/dashboard_identity_verification"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/text_card_title"
             android:textStyle="bold" />

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_14"
-        android:text="ACTIVITY OVERVIEW"
+        android:text="@string/dashboard_activity_overview"
         android:textAllCaps="true"
         android:textColor="@color/text_secondary"
         android:textSize="@dimen/text_label"
@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="💰"
+                    android:text="@string/icon_total_requested"
                     android:textSize="@dimen/text_amount" />
 
                 <TextView
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_12"
-                    android:text="Total Requested"
+                    android:text="@string/dashboard_total_requested"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_label" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="$0.00"
+                    android:text="@string/placeholder_zero_currency"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_amount"
                     android:textStyle="bold" />
@@ -98,7 +98,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="✅"
+                    android:text="@string/icon_approved"
                     android:textSize="@dimen/text_amount" />
 
                 <TextView
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_12"
-                    android:text="Approved Amount"
+                    android:text="@string/dashboard_approved_amount"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_label" />
 
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="$0.00"
+                    android:text="@string/placeholder_zero_currency"
                     android:textColor="@color/brand_green"
                     android:textSize="@dimen/text_amount"
                     android:textStyle="bold" />
@@ -145,7 +145,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⏳"
+                    android:text="@string/icon_pending"
                     android:textSize="@dimen/text_amount" />
 
                 <TextView
@@ -153,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_12"
-                    android:text="Pending Requests"
+                    android:text="@string/dashboard_pending_requests"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_label" />
 
@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="0"
+                    android:text="@string/placeholder_zero"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_statistic"
                     android:textStyle="bold" />
@@ -192,7 +192,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="❌"
+                    android:text="@string/icon_rejected"
                     android:textSize="@dimen/text_amount" />
 
                 <TextView
@@ -200,7 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_12"
-                    android:text="Rejected Requests"
+                    android:text="@string/dashboard_rejected_requests"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_label" />
 
@@ -209,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="0"
+                    android:text="@string/placeholder_zero"
                     android:textColor="@color/brand_gold"
                     android:textSize="@dimen/text_statistic"
                     android:textStyle="bold" />
@@ -245,7 +245,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🔔"
+                android:text="@string/icon_notification"
                 android:textSize="@dimen/text_loan_limit" />
 
             <LinearLayout
@@ -259,7 +259,7 @@
                     android:id="@+id/txtUnreadNotificationsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Notifications"
+                    android:text="@string/dashboard_notifications"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_card_title"
                     android:textStyle="bold" />
@@ -269,7 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_3"
-                    android:text="Account updates and payment alerts"
+                    android:text="@string/dashboard_notification_description"
                     android:textColor="@color/text_muted"
                     android:textSize="@dimen/text_caption" />
 
@@ -286,7 +286,7 @@
                 android:paddingTop="@dimen/spacing_7"
                 android:paddingEnd="@dimen/spacing_10"
                 android:paddingBottom="@dimen/spacing_7"
-                android:text="0"
+                android:text="@string/placeholder_zero"
                 android:textColor="@color/background_primary"
                 android:textSize="@dimen/text_regular"
                 android:textStyle="bold" />

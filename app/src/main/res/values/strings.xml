@@ -1,8 +1,52 @@
 <resources>
     <string name="app_name">Baobab</string>
+
+    <!-- Navigation -->
     <string name="navigation_home">Home</string>
     <string name="navigation_loans">Loans</string>
     <string name="navigation_notifications">Alerts</string>
     <string name="navigation_profile">Profile</string>
     <string name="menu">Menu</string>
+
+    <!-- Dashboard hero -->
+    <string name="dashboard_credit_score">Credit Score</string>
+    <string name="dashboard_credit_rating_poor">Poor</string>
+    <string name="dashboard_new_borrower">🏅 New Borrower</string>
+    <string name="dashboard_progress_to_bronze">Progress to Bronze</string>
+    <string name="dashboard_loans_remaining">3 loans remaining</string>
+    <string name="dashboard_identity_verification">Identity Verification</string>
+
+    <!-- Loan overview -->
+    <string name="dashboard_loan_overview">Loan Overview</string>
+    <string name="dashboard_available_loan_limit">Available Loan Limit: $0</string>
+    <string name="dashboard_request_loan">Request Loan</string>
+    <string name="dashboard_next_payment">Next Payment</string>
+    <string name="dashboard_auto_pay">Auto Pay</string>
+    <string name="dashboard_auto_pay_inactive">Status: No Active Auto Pay</string>
+    <string name="dashboard_payment_date">Payment Date</string>
+    <string name="dashboard_not_scheduled">Not scheduled</string>
+    <string name="dashboard_payment_amount">Payment Amount</string>
+
+    <!-- Activity overview -->
+    <string name="dashboard_activity_overview">Activity Overview</string>
+    <string name="dashboard_total_requested">Total Requested</string>
+    <string name="dashboard_approved_amount">Approved Amount</string>
+    <string name="dashboard_pending_requests">Pending Requests</string>
+    <string name="dashboard_rejected_requests">Rejected Requests</string>
+    <string name="dashboard_notifications">Notifications</string>
+    <string name="dashboard_notification_description">Account updates and payment alerts</string>
+
+    <!-- Non-translatable preview and fallback values -->
+    <string name="placeholder_credit_score" translatable="false">500</string>
+    <string name="placeholder_credit_score_min" translatable="false">300</string>
+    <string name="placeholder_credit_score_max" translatable="false">850</string>
+    <string name="placeholder_zero" translatable="false">0</string>
+    <string name="placeholder_zero_currency" translatable="false">$0.00</string>
+
+    <!-- Dashboard icons -->
+    <string name="icon_total_requested" translatable="false">💰</string>
+    <string name="icon_approved" translatable="false">✅</string>
+    <string name="icon_pending" translatable="false">⏳</string>
+    <string name="icon_rejected" translatable="false">❌</string>
+    <string name="icon_notification" translatable="false">🔔</string>
 </resources>

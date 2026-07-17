@@ -1,8 +1,38 @@
 <resources>
     <string name="app_name">Baobab</string>
+
+    <!-- Navigation -->
     <string name="navigation_home">Accueil</string>
     <string name="navigation_loans">Prêts</string>
     <string name="navigation_notifications">Alertes</string>
     <string name="navigation_profile">Profil</string>
     <string name="menu">Menu</string>
+
+    <!-- Dashboard hero -->
+    <string name="dashboard_credit_score">Score de crédit</string>
+    <string name="dashboard_credit_rating_poor">Faible</string>
+    <string name="dashboard_new_borrower">🏅 Nouvel emprunteur</string>
+    <string name="dashboard_progress_to_bronze">Progression vers Bronze</string>
+    <string name="dashboard_loans_remaining">3 prêts restants</string>
+    <string name="dashboard_identity_verification">Vérification d’identité</string>
+
+    <!-- Loan overview -->
+    <string name="dashboard_loan_overview">Aperçu du prêt</string>
+    <string name="dashboard_available_loan_limit">Limite de prêt disponible : 0 $</string>
+    <string name="dashboard_request_loan">Demander un prêt</string>
+    <string name="dashboard_next_payment">Prochain paiement</string>
+    <string name="dashboard_auto_pay">Paiement automatique</string>
+    <string name="dashboard_auto_pay_inactive">Statut : aucun paiement automatique actif</string>
+    <string name="dashboard_payment_date">Date du paiement</string>
+    <string name="dashboard_not_scheduled">Non planifié</string>
+    <string name="dashboard_payment_amount">Montant du paiement</string>
+
+    <!-- Activity overview -->
+    <string name="dashboard_activity_overview">Aperçu de l’activité</string>
+    <string name="dashboard_total_requested">Total demandé</string>
+    <string name="dashboard_approved_amount">Montant approuvé</string>
+    <string name="dashboard_pending_requests">Demandes en attente</string>
+    <string name="dashboard_rejected_requests">Demandes rejetées</string>
+    <string name="dashboard_notifications">Notifications</string>
+    <string name="dashboard_notification_description">Mises à jour du compte et alertes de paiement</string>
 </resources>
