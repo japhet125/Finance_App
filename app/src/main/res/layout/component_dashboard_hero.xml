@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="#A9A9A9"
+            android:textColor="@color/text_secondary"
             android:textSize="20sp" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text=""
-            android:textColor="#F8F8F8"
+            android:textColor="@color/text_primary"
             android:textSize="32sp"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text=""
-            android:textColor="#8CBF5A"
+            android:textColor="@color/brand_green"
             android:textSize="15sp" />
 
     </LinearLayout>
@@ -48,10 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#171A16"
+        app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
-        app:strokeColor="#2D342A"
+        app:strokeColor="@color/surface_stroke"
         app:strokeWidth="1dp">
 
         <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="CREDIT SCORE"
                 android:textAllCaps="true"
-                android:textColor="#A9A9A9"
+                android:textColor="@color/text_secondary"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.12" />
@@ -78,7 +78,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="18dp"
                 android:text="500"
-                android:textColor="#F8F8F8"
+                android:textColor="@color/text_primary"
                 android:textSize="52sp"
                 android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="2dp"
                 android:text="Poor"
-                android:textColor="#C9A227"
+                android:textColor="@color/brand_gold"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
@@ -100,8 +100,8 @@
                 android:layout_marginTop="22dp"
                 android:max="100"
                 android:progress="36"
-                app:indicatorColor="#8CBF5A"
-                app:trackColor="#30352E"
+                app:indicatorColor="@color/brand_green"
+                app:trackColor="@color/surface_divider"
                 app:trackCornerRadius="4dp"
                 app:trackThickness="8dp" />
 
@@ -116,14 +116,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="300"
-                    android:textColor="#777C74"
+                    android:textColor="@color/text_muted"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="850"
-                    android:textColor="#777C74"
+                    android:textColor="@color/text_muted"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -138,10 +138,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#171A16"
+        app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
-        app:strokeColor="#2D342A"
+        app:strokeColor="@color/surface_stroke"
         app:strokeWidth="1dp">
 
         <LinearLayout
@@ -160,7 +160,7 @@
                 android:paddingEnd="14dp"
                 android:paddingBottom="8dp"
                 android:text="🏅 New Borrower"
-                android:textColor="#8CBF5A"
+                android:textColor="@color/brand_green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Progress to Bronze"
-                android:textColor="#F8F8F8"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -181,8 +181,8 @@
                 android:layout_marginTop="12dp"
                 android:max="100"
                 android:progress="0"
-                app:indicatorColor="#C9A227"
-                app:trackColor="#30352E"
+                app:indicatorColor="@color/brand_gold"
+                app:trackColor="@color/surface_divider"
                 app:trackCornerRadius="4dp"
                 app:trackThickness="8dp" />
 
@@ -192,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="3 loans remaining"
-                android:textColor="#A9A9A9"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -205,10 +205,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#171A16"
+        app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="16dp"
         app:cardElevation="1dp"
-        app:strokeColor="#2D342A"
+        app:strokeColor="@color/surface_stroke"
         app:strokeWidth="1dp">
 
         <TextView
@@ -217,7 +217,7 @@
             android:layout_height="wrap_content"
             android:padding="18dp"
             android:text="Identity Verification"
-            android:textColor="#F8F8F8"
+            android:textColor="@color/text_primary"
             android:textSize="16sp"
             android:textStyle="bold" />
 

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D0F0D"
+    android:background="@color/background_primary"
     android:orientation="vertical">
 
     <!-- Scrollable dashboard content -->
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#0D0F0D"
+        android:background="@color/background_primary"
         android:clipToPadding="false"
         android:fillViewport="true">
 
@@ -34,7 +34,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/menu"
                 android:src="@android:drawable/ic_menu_sort_by_size"
-                app:tint="#C9A227" />
+                app:tint="@color/brand_gold" />
 
             <include
                 android:id="@+id/dashboardHero"
