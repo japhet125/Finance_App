@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="@dimen/spacing_12"
+        android:layout_marginBottom="@dimen/section_spacing"
         android:orientation="vertical">
 
         <TextView
@@ -19,26 +19,26 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/text_secondary"
-            android:textSize="20sp" />
+            android:textSize="@dimen/text_heading" />
 
         <TextView
             android:id="@+id/txtWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/spacing_2xs"
             android:text=""
             android:textColor="@color/text_primary"
-            android:textSize="32sp"
+            android:textSize="@dimen/text_display"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtTagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/spacing_6"
             android:text=""
             android:textColor="@color/brand_green"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_regular" />
 
     </LinearLayout>
 
@@ -47,7 +47,7 @@
         android:id="@+id/cardCreditScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/spacing_md"
         app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="@dimen/spacing_lg">
 
             <TextView
                 android:id="@+id/txtCreditScoreLabel"
@@ -67,7 +67,7 @@
                 android:text="CREDIT SCORE"
                 android:textAllCaps="true"
                 android:textColor="@color/text_secondary"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_label"
                 android:textStyle="bold"
                 android:letterSpacing="0.12" />
 
@@ -76,10 +76,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="@dimen/spacing_18"
                 android:text="500"
                 android:textColor="@color/text_primary"
-                android:textSize="52sp"
+                android:textSize="@dimen/text_credit_score"
                 android:textStyle="bold" />
 
             <TextView
@@ -87,28 +87,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="@dimen/spacing_2xs"
                 android:text="Poor"
                 android:textColor="@color/brand_gold"
-                android:textSize="17sp"
+                android:textSize="@dimen/text_credit_rating"
                 android:textStyle="bold" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressCreditScore"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginTop="22dp"
+                android:layout_height="@dimen/progress_height"
+                android:layout_marginTop="@dimen/spacing_22"
                 android:max="100"
                 android:progress="36"
                 app:indicatorColor="@color/brand_green"
                 app:trackColor="@color/surface_divider"
-                app:trackCornerRadius="4dp"
-                app:trackThickness="8dp" />
+                app:trackCornerRadius="@dimen/spacing_xs"
+                app:trackThickness="@dimen/progress_height" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/spacing_sm"
                 android:orientation="horizontal">
 
                 <TextView
@@ -117,14 +117,14 @@
                     android:layout_weight="1"
                     android:text="300"
                     android:textColor="@color/text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/text_caption" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="850"
                     android:textColor="@color/text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/text_caption" />
 
             </LinearLayout>
 
@@ -137,7 +137,7 @@
         android:id="@+id/cardBorrowerProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/spacing_md"
         app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
@@ -148,52 +148,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="@dimen/card_padding">
 
             <TextView
                 android:id="@+id/txtBorrowerLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_borrower_badge"
-                android:paddingStart="14dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="14dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="@dimen/spacing_14"
+                android:paddingTop="@dimen/spacing_sm"
+                android:paddingEnd="@dimen/spacing_14"
+                android:paddingBottom="@dimen/spacing_sm"
                 android:text="🏅 New Borrower"
                 android:textColor="@color/brand_green"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_card_title"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtBorrowerProgressTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/section_spacing"
                 android:text="Progress to Bronze"
                 android:textColor="@color/text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_card_title"
                 android:textStyle="bold" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressBorrowerLevel"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="@dimen/progress_height"
+                android:layout_marginTop="@dimen/spacing_12"
                 android:max="100"
                 android:progress="0"
                 app:indicatorColor="@color/brand_gold"
                 app:trackColor="@color/surface_divider"
-                app:trackCornerRadius="4dp"
-                app:trackThickness="8dp" />
+                app:trackCornerRadius="@dimen/spacing_xs"
+                app:trackThickness="@dimen/progress_height" />
 
             <TextView
                 android:id="@+id/txtNextLevelProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/spacing_10"
                 android:text="3 loans remaining"
                 android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_body" />
 
         </LinearLayout>
 
@@ -204,7 +204,7 @@
         android:id="@+id/cardIdentityStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/spacing_md"
         app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="16dp"
         app:cardElevation="1dp"
@@ -215,10 +215,10 @@
             android:id="@+id/txtIdentityBadge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="18dp"
+            android:padding="@dimen/spacing_18"
             android:text="Identity Verification"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_card_title"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>

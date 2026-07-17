@@ -31,4 +31,18 @@
     <dimen name="text_heading">20sp</dimen>
     <dimen name="text_display">32sp</dimen>
 
+    <!-- Dashboard-specific spacing -->
+    <dimen name="dashboard_bottom_padding">28dp</dimen>
+    <dimen name="spacing_2xs">2dp</dimen>
+    <dimen name="spacing_6">6dp</dimen>
+    <dimen name="spacing_10">10dp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
+    <dimen name="spacing_14">14dp</dimen>
+    <dimen name="spacing_18">18dp</dimen>
+    <dimen name="spacing_22">22dp</dimen>
+
+    <!-- Dashboard typography -->
+    <dimen name="text_credit_score">52sp</dimen>
+    <dimen name="text_credit_rating">17sp</dimen>
+
 </resources>
