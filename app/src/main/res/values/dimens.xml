@@ -44,12 +44,32 @@
     <!-- Dashboard typography -->
     <dimen name="text_credit_score">52sp</dimen>
     <dimen name="text_credit_rating">17sp</dimen>
-    
+
     <!-- Card styling -->
     <dimen name="card_stroke_width">1dp</dimen>
     <dimen name="card_corner_radius_primary">20dp</dimen>
     <dimen name="card_corner_radius_secondary">16dp</dimen>
     <dimen name="card_elevation_primary">2dp</dimen>
     <dimen name="card_elevation_featured">4dp</dimen>
+
+    <!-- Additional component dimensions -->
+    <dimen name="spacing_3">3dp</dimen>
+    <dimen name="spacing_7">7dp</dimen>
+    <dimen name="button_height">54dp</dimen>
+    <dimen name="button_corner_radius">14dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="statistics_card_height">150dp</dimen>
+    <dimen name="statistics_card_corner_radius">18dp</dimen>
+    <dimen name="statistics_grid_half_gap">6dp</dimen>
+    <dimen name="notification_badge_min_width">40dp</dimen>
+    <dimen name="bottom_navigation_height">72dp</dimen>
+    <dimen name="bottom_navigation_elevation">12dp</dimen>
+    <dimen name="bottom_navigation_icon_size">24dp</dimen>
+
+    <!-- Additional typography -->
+    <dimen name="text_badge">11sp</dimen>
+    <dimen name="text_amount">22sp</dimen>
+    <dimen name="text_statistic">26sp</dimen>
+    <dimen name="text_loan_limit">24sp</dimen>
 
 </resources>

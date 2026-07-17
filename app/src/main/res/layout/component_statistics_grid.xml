@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="@dimen/section_spacing">
 
     <!-- Section heading -->
     <TextView
         android:id="@+id/txtStatisticsSectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="@dimen/spacing_14"
         android:text="ACTIVITY OVERVIEW"
         android:textAllCaps="true"
-        android:textColor="#A9A9A9"
-        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/text_label"
         android:textStyle="bold"
         android:letterSpacing="0.12" />
 
@@ -31,45 +31,45 @@
         <!-- Total Requested -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/statistics_card_height"
             android:layout_columnWeight="1"
-            android:layout_marginEnd="6dp"
-            android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#171A16"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:strokeColor="#2D342A"
-            app:strokeWidth="1dp">
+            android:layout_marginEnd="@dimen/statistics_grid_half_gap"
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/statistics_card_corner_radius"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/spacing_18">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="💰"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/text_amount" />
 
                 <TextView
                     android:id="@+id/txtTotalRequestedTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     android:text="Total Requested"
-                    android:textColor="#A9A9A9"
-                    android:textSize="13sp" />
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_label" />
 
                 <TextView
                     android:id="@+id/txtTotalRequested"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:text="$0.00"
-                    android:textColor="#F8F8F8"
-                    android:textSize="22sp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_amount"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -79,45 +79,45 @@
         <!-- Approved Amount -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/statistics_card_height"
             android:layout_columnWeight="1"
-            android:layout_marginStart="6dp"
-            android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#171A16"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:strokeColor="#2D342A"
-            app:strokeWidth="1dp">
+            android:layout_marginStart="@dimen/statistics_grid_half_gap"
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/statistics_card_corner_radius"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/spacing_18">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="✅"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/text_amount" />
 
                 <TextView
                     android:id="@+id/txtApprovedAmountTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     android:text="Approved Amount"
-                    android:textColor="#A9A9A9"
-                    android:textSize="13sp" />
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_label" />
 
                 <TextView
                     android:id="@+id/txtApprovedAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:text="$0.00"
-                    android:textColor="#8CBF5A"
-                    android:textSize="22sp"
+                    android:textColor="@color/brand_green"
+                    android:textSize="@dimen/text_amount"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -127,44 +127,44 @@
         <!-- Pending Requests -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/statistics_card_height"
             android:layout_columnWeight="1"
-            android:layout_marginEnd="6dp"
-            app:cardBackgroundColor="#171A16"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:strokeColor="#2D342A"
-            app:strokeWidth="1dp">
+            android:layout_marginEnd="@dimen/statistics_grid_half_gap"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/statistics_card_corner_radius"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/spacing_18">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="⏳"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/text_amount" />
 
                 <TextView
                     android:id="@+id/txtPendingLoansTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     android:text="Pending Requests"
-                    android:textColor="#A9A9A9"
-                    android:textSize="13sp" />
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_label" />
 
                 <TextView
                     android:id="@+id/txtPendingLoans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:text="0"
-                    android:textColor="#F8F8F8"
-                    android:textSize="26sp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_statistic"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -174,44 +174,44 @@
         <!-- Rejected Requests -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/statistics_card_height"
             android:layout_columnWeight="1"
-            android:layout_marginStart="6dp"
-            app:cardBackgroundColor="#171A16"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:strokeColor="#2D342A"
-            app:strokeWidth="1dp">
+            android:layout_marginStart="@dimen/statistics_grid_half_gap"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/statistics_card_corner_radius"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/spacing_18">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="❌"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/text_amount" />
 
                 <TextView
                     android:id="@+id/txtRejectedLoansTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     android:text="Rejected Requests"
-                    android:textColor="#A9A9A9"
-                    android:textSize="13sp" />
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_label" />
 
                 <TextView
                     android:id="@+id/txtRejectedLoans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:text="0"
-                    android:textColor="#C9A227"
-                    android:textSize="26sp"
+                    android:textColor="@color/brand_gold"
+                    android:textSize="@dimen/text_statistic"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -225,33 +225,33 @@
         android:id="@+id/cardUnreadNotifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="@dimen/spacing_14"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        app:cardBackgroundColor="#171A16"
-        app:cardCornerRadius="18dp"
-        app:cardElevation="2dp"
-        app:strokeColor="#2D342A"
-        app:strokeWidth="1dp">
+        app:cardBackgroundColor="@color/surface_card"
+        app:cardCornerRadius="@dimen/statistics_card_corner_radius"
+        app:cardElevation="@dimen/card_elevation_primary"
+        app:strokeColor="@color/surface_stroke"
+        app:strokeWidth="@dimen/card_stroke_width">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="18dp">
+            android:padding="@dimen/spacing_18">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🔔"
-                android:textSize="24sp" />
+                android:textSize="@dimen/text_loan_limit" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="@dimen/spacing_14"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -260,18 +260,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Notifications"
-                    android:textColor="#F8F8F8"
-                    android:textSize="16sp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_card_title"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtNotificationsSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="@dimen/spacing_3"
                     android:text="Account updates and payment alerts"
-                    android:textColor="#777C74"
-                    android:textSize="12sp" />
+                    android:textColor="@color/text_muted"
+                    android:textSize="@dimen/text_caption" />
 
             </LinearLayout>
 
@@ -280,15 +280,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_notification_count"
-                android:minWidth="40dp"
+                android:minWidth="@dimen/notification_badge_min_width"
                 android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingTop="7dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="7dp"
+                android:paddingStart="@dimen/spacing_10"
+                android:paddingTop="@dimen/spacing_7"
+                android:paddingEnd="@dimen/spacing_10"
+                android:paddingBottom="@dimen/spacing_7"
                 android:text="0"
-                android:textColor="#0D0F0D"
-                android:textSize="15sp"
+                android:textColor="@color/background_primary"
+                android:textSize="@dimen/text_regular"
                 android:textStyle="bold" />
 
         </LinearLayout>
