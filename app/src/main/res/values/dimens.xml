@@ -44,5 +44,12 @@
     <!-- Dashboard typography -->
     <dimen name="text_credit_score">52sp</dimen>
     <dimen name="text_credit_rating">17sp</dimen>
+    
+    <!-- Card styling -->
+    <dimen name="card_stroke_width">1dp</dimen>
+    <dimen name="card_corner_radius_primary">20dp</dimen>
+    <dimen name="card_corner_radius_secondary">16dp</dimen>
+    <dimen name="card_elevation_primary">2dp</dimen>
+    <dimen name="card_elevation_featured">4dp</dimen>
 
 </resources>

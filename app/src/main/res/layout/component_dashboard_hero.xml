@@ -49,10 +49,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_md"
         app:cardBackgroundColor="@color/surface_card"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
+        app:cardCornerRadius="@dimen/card_corner_radius_primary"
+        app:cardElevation="@dimen/card_elevation_featured"
         app:strokeColor="@color/surface_stroke"
-        app:strokeWidth="1dp">
+        app:strokeWidth="@dimen/card_stroke_width">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,10 +139,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_md"
         app:cardBackgroundColor="@color/surface_card"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
+        app:cardCornerRadius="@dimen/card_corner_radius_primary"
+        app:cardElevation="@dimen/card_elevation_primary"
         app:strokeColor="@color/surface_stroke"
-        app:strokeWidth="1dp">
+        app:strokeWidth="@dimen/card_stroke_width">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -206,10 +206,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_md"
         app:cardBackgroundColor="@color/surface_card"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="1dp"
+        app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+        app:cardElevation="@dimen/card_elevation_primary"
         app:strokeColor="@color/surface_stroke"
-        app:strokeWidth="1dp">
+        app:strokeWidth="@dimen/card_stroke_width">
 
         <TextView
             android:id="@+id/txtIdentityBadge"
