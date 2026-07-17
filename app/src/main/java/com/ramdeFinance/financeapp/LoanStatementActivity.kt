@@ -117,16 +117,29 @@ class LoanStatementActivity : AppCompatActivity() {
                 y = 60f
             }
 
-            val amount = loan.getString("amount") ?: "0.00"
             val reason = loan.getString("reason") ?: "N/A"
             val status = loan.getString("status") ?: "N/A"
-            val balance = loan.getString("remainingBalance") ?: "0.00"
             val paymentFrequency =
                 loan.getString("paymentFrequency") ?: "N/A"
-            val paymentAmount =
-                loan.getString("paymentAmount") ?: "0.00"
             val autoPayStatus =
                 loan.getString("autoPayStatus") ?: "disabled"
+            val amountValue =
+                parseMoney(loan.getString("amount") ?: "0.00")
+
+            val balanceValue =
+                parseMoney(loan.getString("remainingBalance") ?: "0.00")
+
+            val paymentAmountValue =
+                parseMoney(loan.getString("paymentAmount") ?: "0.00")
+
+            val formattedAmount =
+                CurrencyFormatter.format(amountValue, language)
+
+            val formattedBalance =
+                CurrencyFormatter.format(balanceValue, language)
+
+            val formattedPaymentAmount =
+                CurrencyFormatter.format(paymentAmountValue, language)
 
             paint.isFakeBoldText = true
             canvas.drawText("Loan ID: ${loan.id}", 50f, y, paint)
@@ -136,8 +149,12 @@ class LoanStatementActivity : AppCompatActivity() {
 
             if (language == "fr") {
 
-                canvas.drawText("Montant : $amount", 70f, y, paint)
-                y += 22f
+                canvas.drawText(
+                    "Montant : $formattedAmount",
+                    70f,
+                    y,
+                    paint
+                )
 
                 canvas.drawText("Raison : $reason", 70f, y, paint)
                 y += 22f
@@ -145,37 +162,56 @@ class LoanStatementActivity : AppCompatActivity() {
                 canvas.drawText("Statut : $status", 70f, y, paint)
                 y += 22f
 
-                canvas.drawText("Solde restant : $balance", 70f, y, paint)
-                y += 22f
+                canvas.drawText(
+                    "Solde restant : $formattedBalance",
+                    70f,
+                    y,
+                    paint
+                )
 
                 canvas.drawText("Plan de paiement : $paymentFrequency", 70f, y, paint)
                 y += 22f
 
-                canvas.drawText("Montant du paiement : $paymentAmount", 70f, y, paint)
-                y += 22f
+                canvas.drawText(
+                    "Montant du paiement : $formattedPaymentAmount",
+                    70f,
+                    y,
+                    paint
+                )
 
                 canvas.drawText("Paiement automatique : $autoPayStatus", 70f, y, paint)
                 y += 35f
 
             } else {
 
-                canvas.drawText("Amount: $$amount", 70f, y, paint)
-                y += 22f
-
+                canvas.drawText(
+                    "Amount: $formattedAmount",
+                    70f,
+                    y,
+                    paint
+                )
                 canvas.drawText("Reason: $reason", 70f, y, paint)
                 y += 22f
 
                 canvas.drawText("Status: $status", 70f, y, paint)
                 y += 22f
 
-                canvas.drawText("Remaining Balance: $$balance", 70f, y, paint)
-                y += 22f
+                canvas.drawText(
+                    "Remaining Balance: $formattedBalance",
+                    70f,
+                    y,
+                    paint
+                )
 
                 canvas.drawText("Payment Plan: $paymentFrequency", 70f, y, paint)
                 y += 22f
 
-                canvas.drawText("Payment Amount: $$paymentAmount", 70f, y, paint)
-                y += 22f
+                canvas.drawText(
+                    "Payment Amount: $formattedPaymentAmount",
+                    70f,
+                    y,
+                    paint
+                )
 
                 canvas.drawText("Auto Pay Status: $autoPayStatus", 70f, y, paint)
                 y += 35f
@@ -267,5 +303,16 @@ class LoanStatementActivity : AppCompatActivity() {
 
                 createPdf(loans.documents, language)
             }
+    }
+    private fun parseMoney(value: String): Double {
+        return value
+            .replace("$", "")
+            .replace("F CFA", "")
+            .replace("FCFA", "")
+            .replace("CFA", "")
+            .replace(" ", "")
+            .replace(",", ".")
+            .trim()
+            .toDoubleOrNull() ?: 0.0
     }
 }

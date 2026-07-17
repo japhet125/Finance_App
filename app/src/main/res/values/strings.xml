@@ -35,6 +35,8 @@
     <string name="dashboard_rejected_requests">Rejected Requests</string>
     <string name="dashboard_notifications">Notifications</string>
     <string name="dashboard_notification_description">Account updates and payment alerts</string>
+    <string name="language_updated">Language updated</string>
+    <string name="language_update_failed">Unable to update language</string>
 
     <!-- Non-translatable preview and fallback values -->
     <string name="placeholder_credit_score" translatable="false">500</string>

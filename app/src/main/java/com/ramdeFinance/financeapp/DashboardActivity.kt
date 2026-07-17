@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -19,6 +18,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
+
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -31,6 +33,9 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        userLanguage =
+            AppCompatDelegate.getApplicationLocales()[0]?.language
+                ?: resources.configuration.locales[0].language
         setContentView(R.layout.activity_dashboard)
         bottomNavigation =
             findViewById(R.id.bottomNavigation)
@@ -94,34 +99,6 @@ class DashboardActivity : AppCompatActivity() {
         val pendingLoansText = findViewById<TextView>(R.id.txtPendingLoans)
         val approvedAmountText = findViewById<TextView>(R.id.txtApprovedAmount)
         val rejectedLoansText = findViewById<TextView>(R.id.txtRejectedLoans)
-        val loanSummaryTitleText =
-            findViewById<TextView>(R.id.txtLoanSummaryTitle)
-
-        val autoPayTitleText =
-            findViewById<TextView>(R.id.txtAutoPayTitle)
-
-        val autoPayBadgeText =
-            findViewById<TextView>(R.id.txtAutoPayBadge)
-        val statisticsSectionTitleText =
-            findViewById<TextView>(R.id.txtStatisticsSectionTitle)
-
-        val totalRequestedTitleText =
-            findViewById<TextView>(R.id.txtTotalRequestedTitle)
-
-        val approvedAmountTitleText =
-            findViewById<TextView>(R.id.txtApprovedAmountTitle)
-
-        val pendingLoansTitleText =
-            findViewById<TextView>(R.id.txtPendingLoansTitle)
-
-        val rejectedLoansTitleText =
-            findViewById<TextView>(R.id.txtRejectedLoansTitle)
-
-        val unreadNotificationsTitleText =
-            findViewById<TextView>(R.id.txtUnreadNotificationsTitle)
-
-        val notificationsSubtitleText =
-            findViewById<TextView>(R.id.txtNotificationsSubtitle)
         val unreadNotificationsCard =
             findViewById<MaterialCardView>(R.id.cardUnreadNotifications)
         unreadNotificationsCard.setOnClickListener {
@@ -163,37 +140,19 @@ class DashboardActivity : AppCompatActivity() {
                     return@addOnSuccessListener
                 }
 
-                userLanguage = document.getString("language") ?: "en"
-                if (userLanguage == "fr") {
-                    loanSummaryTitleText.text = "APERÇU DU PRÊT"
-                    requestLoanButton.text = "Demander un prêt"
-                    autoPayTitleText.text = "Prochain paiement"
-                    autoPayBadgeText.text = "PAIEMENT AUTO"
-                } else {
-                    loanSummaryTitleText.text = "LOAN OVERVIEW"
-                    requestLoanButton.text = "Request Loan"
-                    autoPayTitleText.text = "Next Payment"
-                    autoPayBadgeText.text = "AUTO PAY"
+                val savedLanguage =
+                    document.getString("language") ?: userLanguage
+
+                if (savedLanguage != userLanguage) {
+                    userLanguage = savedLanguage
+
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(savedLanguage)
+                    )
+
+                    return@addOnSuccessListener
                 }
-                if (userLanguage == "fr") {
-                    statisticsSectionTitleText.text = "APERÇU DE L’ACTIVITÉ"
-                    totalRequestedTitleText.text = "Total demandé"
-                    approvedAmountTitleText.text = "Montant approuvé"
-                    pendingLoansTitleText.text = "Demandes en attente"
-                    rejectedLoansTitleText.text = "Demandes refusées"
-                    unreadNotificationsTitleText.text = "Notifications"
-                    notificationsSubtitleText.text =
-                        "Mises à jour du compte et alertes de paiement"
-                } else {
-                    statisticsSectionTitleText.text = "ACTIVITY OVERVIEW"
-                    totalRequestedTitleText.text = "Total Requested"
-                    approvedAmountTitleText.text = "Approved Amount"
-                    pendingLoansTitleText.text = "Pending Requests"
-                    rejectedLoansTitleText.text = "Rejected Requests"
-                    unreadNotificationsTitleText.text = "Notifications"
-                    notificationsSubtitleText.text =
-                        "Account updates and payment alerts"
-                }
+
 
                 val fullName = document.getString("fullName") ?: "User"
                 val role = document.getString("role") ?: "user"
@@ -307,17 +266,23 @@ class DashboardActivity : AppCompatActivity() {
                     }
 
                 loanLimitText.text =
-                    if (userLanguage == "fr") {
-                        if (maxLoanLimit == 0) {
+                    if (maxLoanLimit == 0) {
+                        if (userLanguage == "fr") {
                             "⚠️ Vérifiez votre identité pour débloquer les prêts"
                         } else {
-                            "💰 Limite de prêt disponible : $$maxLoanLimit"
+                            "⚠️ Verify your identity to unlock loans"
                         }
                     } else {
-                        if (maxLoanLimit == 0) {
-                            "⚠️ Verify your identity to unlock loans"
+                        val formattedLimit =
+                            CurrencyFormatter.format(
+                                maxLoanLimit.toDouble(),
+                                userLanguage
+                            )
+
+                        if (userLanguage == "fr") {
+                            "💰 Limite de prêt disponible : $formattedLimit"
                         } else {
-                            "💰 Available Loan Limit: $$maxLoanLimit"
+                            "💰 Available Loan Limit: $formattedLimit"
                         }
                     }
 
@@ -528,8 +493,14 @@ class DashboardActivity : AppCompatActivity() {
                         autoPayNextDateText.text =
                             dateText
 
+                        val numericAmount =
+                            parseMoney(amount)
+
                         autoPayAmountText.text =
-                            "$$amount"
+                            CurrencyFormatter.format(
+                                numericAmount,
+                                userLanguage
+                            )
                     } else {
                         autoPayStatusText.text =
                             "Auto Pay: Scheduled"
@@ -537,8 +508,14 @@ class DashboardActivity : AppCompatActivity() {
                         autoPayNextDateText.text =
                             dateText
 
+                        val numericAmount =
+                            parseMoney(amount)
+
                         autoPayAmountText.text =
-                            "$$amount"
+                            CurrencyFormatter.format(
+                                numericAmount,
+                                userLanguage
+                            )
                     }
                 } else {
                     autoPayStatusText.text =
@@ -555,7 +532,11 @@ class DashboardActivity : AppCompatActivity() {
                             "Not scheduled"
                         }
 
-                    autoPayAmountText.text = "$0.00"
+                    autoPayAmountText.text =
+                        CurrencyFormatter.format(
+                            0.0,
+                            userLanguage
+                        )
                 }
             }
     }
@@ -567,7 +548,7 @@ class DashboardActivity : AppCompatActivity() {
         approvedAmountText: TextView,
         rejectedLoansText: TextView
     ) {
-        val currencyFormat = NumberFormat.getCurrencyInstance()
+
 
         db.collection("loan_requests")
             .whereEqualTo("userId", userId)
@@ -596,10 +577,16 @@ class DashboardActivity : AppCompatActivity() {
                 }
 
                 totalRequestedText.text =
-                    currencyFormat.format(totalRequested)
+                    CurrencyFormatter.format(
+                        amount = totalRequested,
+                        languageCode = userLanguage
+                    )
 
                 approvedAmountText.text =
-                    currencyFormat.format(approvedAmount)
+                    CurrencyFormatter.format(
+                        amount = approvedAmount,
+                        languageCode = userLanguage
+                    )
 
                 pendingLoansText.text =
                     pendingCount.toString()
@@ -961,7 +948,9 @@ class DashboardActivity : AppCompatActivity() {
             "Platinum" -> "Emprunteur Platine"
             else -> borrowerLevel
         }
+
     }
+
 
 
 }

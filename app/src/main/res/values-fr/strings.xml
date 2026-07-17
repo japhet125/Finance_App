@@ -35,4 +35,6 @@
     <string name="dashboard_rejected_requests">Demandes rejetées</string>
     <string name="dashboard_notifications">Notifications</string>
     <string name="dashboard_notification_description">Mises à jour du compte et alertes de paiement</string>
+    <string name="language_updated">Langue mise à jour</string>
+    <string name="language_update_failed">Impossible de modifier la langue</string>
 </resources>

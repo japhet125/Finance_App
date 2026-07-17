@@ -170,11 +170,7 @@ class LoanHistoryActivity : AppCompatActivity() {
                             if (loan != null) {
 
                                 val remainingBalance =
-                                    loan.remainingBalance
-                                        .replace("$", "")
-                                        .replace(",", "")
-                                        .trim()
-                                        .toDoubleOrNull() ?: 0.0
+                                    parseMoney(loan.remainingBalance)
 
                                 val isLate =
                                     loan.status == "approved" &&
@@ -270,10 +266,10 @@ class LoanHistoryActivity : AppCompatActivity() {
             "Newest First" -> filteredLoans.sortedByDescending { it.createdAt }
             "Oldest First" -> filteredLoans.sortedBy { it.createdAt }
             "Highest Amount" -> filteredLoans.sortedByDescending {
-                it.amount.toDoubleOrNull() ?: 0.0
+                parseMoney(it.amount)
             }
             "Lowest Amount" -> filteredLoans.sortedBy {
-                it.amount.toDoubleOrNull() ?: 0.0
+                parseMoney(it.amount)
             }
             else -> filteredLoans
         }
@@ -290,6 +286,17 @@ class LoanHistoryActivity : AppCompatActivity() {
                 selectedItemId = R.id.navigationLoans
             )
         }
+    }
+    private fun parseMoney(value: String): Double {
+        return value
+            .replace("$", "")
+            .replace("F CFA", "")
+            .replace("FCFA", "")
+            .replace("CFA", "")
+            .replace(" ", "")
+            .replace(",", ".")
+            .trim()
+            .toDoubleOrNull() ?: 0.0
     }
 
 }
