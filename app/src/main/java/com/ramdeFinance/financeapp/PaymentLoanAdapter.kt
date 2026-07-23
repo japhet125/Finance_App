@@ -36,6 +36,26 @@ class PaymentLoanAdapter(
 
     override fun onBindViewHolder(holder: PaymentLoanViewHolder, position: Int) {
         val (documentId, loan) = loanList[position]
+        val formattedLoanAmount =
+            CurrencyFormatter.format(
+                amount = parseMoney(loan.amount),
+                currencyCode = "XOF",
+                languageCode = language
+            )
+
+        val formattedPaymentAmount =
+            CurrencyFormatter.format(
+                amount = parseMoney(loan.paymentAmount),
+                currencyCode = "XOF",
+                languageCode = language
+            )
+
+        val formattedRemainingBalance =
+            CurrencyFormatter.format(
+                amount = parseMoney(loan.remainingBalance),
+                currencyCode = "XOF",
+                languageCode = language
+            )
         val planText =
             if (language == "fr") {
                 when (loan.paymentFrequency) {
@@ -53,19 +73,41 @@ class PaymentLoanAdapter(
             }
 
         if (language == "fr") {
-            holder.amount.text = "Prêt initial : ${loan.amount}"
-            holder.reason.text = "Raison : ${loan.reason}"
-            holder.plan.text = "Plan : $planText | Paiement : ${loan.paymentAmount}"
-            holder.balance.text = "Solde restant : ${loan.remainingBalance}"
-            holder.payAmount.hint = "Montant du paiement"
-            holder.payButton.text = "Payer"
+            holder.amount.text =
+                "Prêt initial : $formattedLoanAmount"
+
+            holder.reason.text =
+                "Raison : ${loan.reason}"
+
+            holder.plan.text =
+                "Plan : $planText | Paiement : $formattedPaymentAmount"
+
+            holder.balance.text =
+                "Solde restant : $formattedRemainingBalance"
+
+            holder.payAmount.hint =
+                "Montant du paiement"
+
+            holder.payButton.text =
+                "Payer"
         } else {
-            holder.amount.text = "Original Loan: $${loan.amount}"
-            holder.reason.text = "Reason: ${loan.reason}"
-            holder.plan.text = "Plan: $planText | Payment: $${loan.paymentAmount}"
-            holder.balance.text = "Remaining Balance: $${loan.remainingBalance}"
-            holder.payAmount.hint = "Payment Amount"
-            holder.payButton.text = "Pay"
+            holder.amount.text =
+                "Original Loan: $formattedLoanAmount"
+
+            holder.reason.text =
+                "Reason: ${loan.reason}"
+
+            holder.plan.text =
+                "Plan: $planText | Payment: $formattedPaymentAmount"
+
+            holder.balance.text =
+                "Remaining Balance: $formattedRemainingBalance"
+
+            holder.payAmount.hint =
+                "Payment Amount"
+
+            holder.payButton.text =
+                "Pay"
         }
 
         val currentBalance = parseMoney(loan.remainingBalance)
@@ -157,23 +199,19 @@ class PaymentLoanAdapter(
 
                 return@setOnClickListener
             }
+            val formattedCurrentBalance =
+                CurrencyFormatter.format(
+                    amount = currentBalance,
+                    currencyCode = "XOF",
+                    languageCode = language
+                )
             if (loan.paymentFrequency == "one_time" && paymentValue < currentBalance) {
                 Toast.makeText(
                     holder.itemView.context,
                     if (language == "fr") {
-                        "Le paiement unique nécessite le montant total dû : $${
-                            String.format(
-                                "%.2f",
-                                currentBalance
-                            )
-                        }"
+                        "Le paiement unique nécessite le montant total dû : $formattedCurrentBalance"
                     } else {
-                        "One-time payment requires the full amount due: $${
-                            String.format(
-                                "%.2f",
-                                currentBalance
-                            )
-                        }"
+                        "One-time payment requires the full amount due: $formattedCurrentBalance"
                     },
                     Toast.LENGTH_LONG
                 ).show()

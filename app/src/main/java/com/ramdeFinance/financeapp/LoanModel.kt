@@ -18,5 +18,6 @@ data class LoanModel(
     val autoPayStatus: String = "",
     val nextPaymentDate: Long = 0,
     val nextPaymentAmount: String = "",
+    val currencyCode: String = "XOF",
     val loanId: String = ""
 )

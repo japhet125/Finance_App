@@ -3,38 +3,54 @@ package com.ramdefinance.financeapp
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
+import kotlin.math.roundToLong
 
 object CurrencyFormatter {
 
     fun format(
         amount: Double,
+        currencyCode: String,
         languageCode: String
     ): String {
-        return if (languageCode == "fr") {
-            formatCfa(amount)
-        } else {
-            formatUsd(amount)
+        return when (currencyCode.uppercase()) {
+            "XOF" -> formatXof(amount, languageCode)
+            "USD" -> formatUsd(amount, languageCode)
+            else -> "$amount $currencyCode"
         }
     }
 
-    private fun formatUsd(amount: Double): String {
-        val formatter =
-            NumberFormat.getCurrencyInstance(Locale.US)
+    private fun formatXof(
+        amount: Double,
+        languageCode: String
+    ): String {
+        val locale = if (languageCode == "fr") {
+            Locale.FRANCE
+        } else {
+            Locale.US
+        }
 
-        formatter.currency = Currency.getInstance("USD")
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
+        val number = NumberFormat
+            .getNumberInstance(locale)
+            .format(amount.roundToLong())
 
-        return formatter.format(amount)
+        return "$number F CFA"
     }
 
-    private fun formatCfa(amount: Double): String {
-        val formatter =
-            NumberFormat.getNumberInstance(Locale.FRANCE)
+    private fun formatUsd(
+        amount: Double,
+        languageCode: String
+    ): String {
+        val locale = if (languageCode == "fr") {
+            Locale.FRANCE
+        } else {
+            Locale.US
+        }
 
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-
-        return "${formatter.format(amount)} F CFA"
+        return NumberFormat
+            .getCurrencyInstance(locale)
+            .apply {
+                currency = Currency.getInstance("USD")
+            }
+            .format(amount)
     }
 }

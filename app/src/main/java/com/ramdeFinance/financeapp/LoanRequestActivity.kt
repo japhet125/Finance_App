@@ -350,6 +350,7 @@ class LoanRequestActivity : AppCompatActivity() {
                                 "nextPaymentAmount" to String.format("%.2f", paymentAmount),
                                 "status" to "pending",
                                 "paymentFrequency" to paymentFrequency,
+                                "currencyCode" to "XOF",
                                 "paymentTerm" to paymentTerm,
                                 "interestRate" to if (paymentFrequency == "monthly") 35 else 25,
                                 "totalRepayment" to String.format("%.2f", totalRepayment),

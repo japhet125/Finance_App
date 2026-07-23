@@ -133,13 +133,19 @@ class LoanStatementActivity : AppCompatActivity() {
                 parseMoney(loan.getString("paymentAmount") ?: "0.00")
 
             val formattedAmount =
-                CurrencyFormatter.format(amountValue, language)
+                CurrencyFormatter.format(amountValue,
+                    currencyCode = "XOF",
+                    language)
 
             val formattedBalance =
-                CurrencyFormatter.format(balanceValue, language)
+                CurrencyFormatter.format(balanceValue,
+                    currencyCode = "XOF",
+                    language)
 
             val formattedPaymentAmount =
-                CurrencyFormatter.format(paymentAmountValue, language)
+                CurrencyFormatter.format(paymentAmountValue,
+                    currencyCode = "XOF",
+                    language)
 
             paint.isFakeBoldText = true
             canvas.drawText("Loan ID: ${loan.id}", 50f, y, paint)

@@ -282,8 +282,15 @@ class AdminUserDetailsActivity : AppCompatActivity() {
 
                 txtTotalLoans.text = "Total Loans: $totalLoans"
 
+                val formattedBalance =
+                    CurrencyFormatter.format(
+                        amount = balance,
+                        currencyCode = "XOF",
+                        languageCode = "en"
+                    )
+
                 txtOutstandingBalance.text =
-                    "Outstanding Balance: $${String.format("%.2f", balance)}"
+                    "Outstanding Balance: $formattedBalance"
             }
         viewLoansButton.setOnClickListener {
 

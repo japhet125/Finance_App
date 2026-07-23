@@ -96,32 +96,37 @@ class LoanAdapter(
 
         val formattedAmount =
             CurrencyFormatter.format(
-                amountValue,
-                language
+                amount = amountValue,
+                currencyCode = loan.currencyCode,
+                languageCode = language
             )
 
         val formattedTotalRepayment =
             CurrencyFormatter.format(
-                totalRepaymentValue,
-                language
+                amount = amountValue,
+                currencyCode = loan.currencyCode,
+                languageCode = language
             )
 
         val formattedPaymentAmount =
             CurrencyFormatter.format(
-                paymentAmountValue,
-                language
+                amount = amountValue,
+                currencyCode = loan.currencyCode,
+                languageCode = language
             )
 
         val formattedRemainingBalance =
             CurrencyFormatter.format(
-                remainingBalanceValue,
-                language
+                amount = amountValue,
+                currencyCode = loan.currencyCode,
+                languageCode = language
             )
 
         val formattedNextPaymentAmount =
             CurrencyFormatter.format(
-                nextPaymentAmountValue,
-                language
+                amount = amountValue,
+                currencyCode = loan.currencyCode,
+                languageCode = language
             )
 
         bindBasicInformation(

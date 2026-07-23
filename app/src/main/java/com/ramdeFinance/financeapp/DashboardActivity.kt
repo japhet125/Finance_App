@@ -275,8 +275,9 @@ class DashboardActivity : AppCompatActivity() {
                     } else {
                         val formattedLimit =
                             CurrencyFormatter.format(
-                                maxLoanLimit.toDouble(),
-                                userLanguage
+                                amount = maxLoanLimit.toDouble(),
+                                currencyCode = "XOF",
+                                languageCode = userLanguage
                             )
 
                         if (userLanguage == "fr") {
@@ -498,8 +499,9 @@ class DashboardActivity : AppCompatActivity() {
 
                         autoPayAmountText.text =
                             CurrencyFormatter.format(
-                                numericAmount,
-                                userLanguage
+                                amount = numericAmount,
+                                currencyCode = "XOF",
+                                languageCode = userLanguage
                             )
                     } else {
                         autoPayStatusText.text =
@@ -513,8 +515,9 @@ class DashboardActivity : AppCompatActivity() {
 
                         autoPayAmountText.text =
                             CurrencyFormatter.format(
-                                numericAmount,
-                                userLanguage
+                                amount = numericAmount,
+                                currencyCode = "XOF",
+                                languageCode = userLanguage
                             )
                     }
                 } else {
@@ -534,8 +537,9 @@ class DashboardActivity : AppCompatActivity() {
 
                     autoPayAmountText.text =
                         CurrencyFormatter.format(
-                            0.0,
-                            userLanguage
+                            amount = 0.0,
+                            currencyCode = "XOF",
+                            languageCode = userLanguage
                         )
                 }
             }
@@ -576,15 +580,18 @@ class DashboardActivity : AppCompatActivity() {
                     }
                 }
 
+
                 totalRequestedText.text =
                     CurrencyFormatter.format(
                         amount = totalRequested,
+                        currencyCode = "XOF",
                         languageCode = userLanguage
                     )
 
                 approvedAmountText.text =
                     CurrencyFormatter.format(
                         amount = approvedAmount,
+                        currencyCode = "XOF",
                         languageCode = userLanguage
                     )
 
@@ -614,6 +621,15 @@ class DashboardActivity : AppCompatActivity() {
                         parseMoney(document.getString("remainingBalance") ?: "0")
                     val paymentAmount =
                         document.getString("nextPaymentAmount") ?: "0.00"
+                    val numericPaymentAmount =
+                        parseMoney(paymentAmount)
+
+                    val formattedPaymentAmount =
+                        CurrencyFormatter.format(
+                            amount = numericPaymentAmount,
+                            currencyCode = "XOF",
+                            languageCode = userLanguage
+                        )
 
                     val shouldSendReminder =
                         dueDate > 0 &&
@@ -628,7 +644,8 @@ class DashboardActivity : AppCompatActivity() {
                                 hashMapOf(
                                     "userId" to userId,
                                     "title" to "Rappel de paiement",
-                                    "message" to "Votre paiement de $$paymentAmount est dû demain.",
+                                    "message" to
+                                            "Votre paiement de $formattedPaymentAmount est dû demain.",
                                     "timestamp" to now,
                                     "isRead" to false
                                 )
@@ -636,7 +653,8 @@ class DashboardActivity : AppCompatActivity() {
                                 hashMapOf(
                                     "userId" to userId,
                                     "title" to "Payment Reminder",
-                                    "message" to "Your payment of $$paymentAmount is due tomorrow.",
+                                    "message" to
+                                            "Your payment of $formattedPaymentAmount is due tomorrow.",
                                     "timestamp" to now,
                                     "isRead" to false
                                 )
@@ -688,6 +706,12 @@ class DashboardActivity : AppCompatActivity() {
                         } else {
                             paymentAmount
                         }
+                    val formattedActualPayment =
+                        CurrencyFormatter.format(
+                            amount = actualPayment,
+                            currencyCode = "XOF",
+                            languageCode = userLanguage
+                        )
 
                     val newBalance = remainingBalance - actualPayment
 
@@ -752,9 +776,7 @@ class DashboardActivity : AppCompatActivity() {
                                     hashMapOf(
                                         "userId" to userId,
                                         "title" to "Paiement automatique traité",
-                                        "message" to "Votre paiement automatique de $${
-                                            String.format(Locale.US, "%.2f", actualPayment)
-                                        } a été traité.",
+                                        "message" to "Votre paiement automatique de $formattedActualPayment a été traité.",
                                         "timestamp" to now,
                                         "isRead" to false
                                     )
@@ -762,9 +784,7 @@ class DashboardActivity : AppCompatActivity() {
                                     hashMapOf(
                                         "userId" to userId,
                                         "title" to "Auto Pay Processed",
-                                        "message" to "Your automatic payment of $${
-                                            String.format(Locale.US, "%.2f", actualPayment)
-                                        } was processed.",
+                                        "message" to "Your automatic payment of $formattedActualPayment was processed.",
                                         "timestamp" to now,
                                         "isRead" to false
                                     )
