@@ -14,12 +14,12 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="@string/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loan Status Chart"
+            android:text="@string/loan_status_chart_title"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"

@@ -42,4 +42,186 @@
     <string name="save_language">Enregistrer la langue</string>
     <string name="back">Retour</string>
 
+    <string name="identity_verification_title">Vérification d’identité</string>
+
+    <string name="identity_name">Nom : %1$s</string>
+    <string name="identity_email">E-mail : %1$s</string>
+    <string name="identity_phone">Téléphone : %1$s</string>
+    <string name="identity_address">Adresse : %1$s</string>
+
+    <string name="identity_verified">✓ Identité vérifiée</string>
+    <string name="identity_rejected">✗ Identité rejetée</string>
+    <string name="identity_pending">Statut : En attente</string>
+
+    <string name="identity_verified_toast">Identité vérifiée.</string>
+    <string name="identity_rejected_toast">Identité rejetée.</string>
+
+    <string name="update_failed">Échec de la mise à jour : %1$s</string>
+
+    <string name="view_id">Voir la pièce</string>
+    <string name="verify">Vérifier</string>
+    <string name="reject">Rejeter</string>
+
+    <string name="admin_analytics_title">Statistiques administratives</string>
+
+    <string name="admin_total_users">👥 Nombre total d’utilisateurs : %1$d</string>
+    <string name="admin_total_loans">📄 Nombre total de prêts : %1$d</string>
+    <string name="admin_approved_loans">✅ Prêts approuvés : %1$d</string>
+    <string name="admin_overdue_loans">⚠️ Prêts en retard : %1$d</string>
+    <string name="admin_total_loaned">💰 Montant total prêté : %1$s</string>
+    <string name="admin_total_payments">💵 Paiements totaux reçus : %1$s</string>
+    <string name="admin_average_credit">⭐ Score de crédit moyen : %1$d</string>
+    <string name="admin_verified_users">🛡️ Utilisateurs vérifiés : %1$d</string>
+    <string name="admin_flagged_users">🚩 Utilisateurs signalés : %1$d</string>
+    <string name="admin_rejected_loans">❌ Prêts rejetés : %1$d</string>
+    <string name="admin_outstanding_balance">💰 Solde impayé : %1$s</string>
+
+    <string name="admin_total_users_default">👥 Nombre total d’utilisateurs : 0</string>
+    <string name="admin_total_loans_default">📄 Nombre total de prêts : 0</string>
+    <string name="admin_approved_loans_default">✅ Prêts approuvés : 0</string>
+    <string name="admin_overdue_loans_default">⚠️ Prêts en retard : 0</string>
+    <string name="admin_total_loaned_default">💰 Montant total prêté : 0 F CFA</string>
+    <string name="admin_total_payments_default">💵 Paiements totaux reçus : 0 F CFA</string>
+    <string name="admin_average_credit_default">⭐ Score de crédit moyen : 0</string>
+    <string name="admin_verified_users_default">🛡️ Utilisateurs vérifiés : 0</string>
+    <string name="admin_flagged_users_default">🚩 Utilisateurs signalés : 0</string>
+    <string name="admin_rejected_loans_default">❌ Prêts rejetés : 0</string>
+    <string name="admin_outstanding_balance_default">💰 Solde impayé : 0 F CFA</string>
+
+    <string name="view_loan_status_chart">Voir le graphique des prêts</string>
+    <string name="chart_approved">Approuvés</string>
+    <string name="chart_overdue">En retard</string>
+    <string name="chart_rejected">Rejetés</string>
+    <string name="chart_loans_by_status">Prêts par statut</string>
+    <string name="chart_total_payments">Paiements totaux</string>
+    <string name="admin_users_title">Utilisateurs</string>
+
+    <string name="admin_user_name">Nom : %1$s</string>
+    <string name="admin_user_email">E-mail : %1$s</string>
+    <string name="admin_user_phone">Téléphone : %1$s</string>
+    <string name="admin_user_role">Rôle : %1$s</string>
+    <string name="admin_user_credit_score">Score de crédit : %1$s</string>
+
+    <string name="admin_user_identity_verified">✓ Identité : %1$s</string>
+    <string name="admin_user_identity_not_verified">✗ Identité : %1$s</string>
+
+    <string name="user_role_admin">Administrateur</string>
+    <string name="user_role_borrower">Emprunteur</string>
+
+    <string name="identity_status_approved">Approuvée</string>
+    <string name="identity_status_pending">En attente</string>
+    <string name="identity_status_rejected">Rejetée</string>
+    <string name="identity_status_not_submitted">Non soumise</string>
+
+    <string name="audit_logs_title">Journaux d’audit</string>
+
+    <string name="audit_action">Action : %1$s</string>
+    <string name="audit_target">Cible : %1$s / %2$s</string>
+    <string name="audit_date">Date : %1$s</string>
+
+    <string name="audit_action_identity_verified">Identité vérifiée</string>
+    <string name="audit_action_identity_rejected">Identité rejetée</string>
+    <string name="audit_action_loan_approved">Prêt approuvé</string>
+    <string name="audit_action_loan_rejected">Prêt rejeté</string>
+    <string name="audit_action_payment_approved">Paiement approuvé</string>
+    <string name="audit_action_payment_rejected">Paiement rejeté</string>
+
+    <string name="audit_target_user">Utilisateur</string>
+    <string name="audit_target_loan">Prêt</string>
+    <string name="audit_target_payment">Paiement</string>
+    <string name="audit_target_transaction">Transaction</string>
+
+    <string name="audit_message_identity_verified">L’identité de l’utilisateur a été vérifiée.</string>
+    <string name="audit_message_identity_rejected">L’identité de l’utilisateur a été rejetée.</string>
+
+    <string name="admin_menu">Menu administrateur</string>
+    <string name="payment_review">Vérification des paiements</string>
+    <string name="admin_loan_requests_title">Demandes de prêt</string>
+    <string name="search_admin_loans">Rechercher par statut, motif ou montant</string>
+
+    <string name="pending_loans_default">Prêts en attente : 0</string>
+    <string name="pending_identities_default">Identités en attente : 0</string>
+    <string name="pending_payments_default">Paiements en attente : 0</string>
+
+    <string name="pending_loans_count">Prêts en attente : %1$d</string>
+    <string name="pending_identities_count">Identités en attente : %1$d</string>
+    <string name="pending_payments_count">Paiements en attente : %1$d</string>
+
+    <string name="mobile_money_title">Compte Mobile Money</string>
+    <string name="mobile_money_country">Pays du compte Mobile Money</string>
+    <string name="mobile_money_provider">Fournisseur Mobile Money</string>
+    <string name="mobile_money_phone">Numéro de téléphone Mobile Money</string>
+    <string name="mobile_money_account_holder">Nom du titulaire du compte</string>
+    <string name="currency">Devise</string>
+    <string name="save_mobile_money">Enregistrer le compte Mobile Money</string>
+
+    <string name="mobile_money_required_fields">Veuillez saisir le numéro de téléphone et le nom du titulaire du compte.</string>
+    <string name="mobile_money_saved">Les informations Mobile Money ont été enregistrées.</string>
+    <string name="mobile_money_save_failed">Échec de l’enregistrement : %1$s</string>
+    <string name="select_mobile_money_country">Veuillez sélectionner un pays.</string>
+    <string name="user_not_signed_in">Vous n’êtes pas connecté.</string>
+
+    <string name="country_burkina_faso">Burkina Faso</string>
+    <string name="country_mali">Mali</string>
+    <string name="country_niger">Niger</string>
+    <string name="country_cote_divoire">Côte d’Ivoire</string>
+
+    <string name="bank_account_title">Compte bancaire</string>
+    <string name="bank_name">Nom de la banque</string>
+    <string name="bank_account_type">Type de compte : courant ou épargne</string>
+    <string name="routing_number_bank_code">Numéro d’acheminement / code bancaire</string>
+    <string name="bank_account_number">Numéro de compte</string>
+    <string name="bank_country">Pays de la banque</string>
+    <string name="save_bank_account">Enregistrer le compte bancaire</string>
+
+    <string name="bank_required_fields">Veuillez remplir tous les champs obligatoires.</string>
+    <string name="bank_account_saved">Le compte bancaire a été enregistré.</string>
+    <string name="bank_account_save_failed">Échec de l’enregistrement : %1$s</string>
+    <string name="select_bank_country">Veuillez sélectionner un pays.</string>
+
+    <string name="country_united_states">États-Unis</string>
+
+    <string name="make_payment_title">Effectuer un paiement</string>
+
+    <string name="transaction_history_title">Historique des transactions</string>
+
+    <string name="transaction_payment_amount">Paiement : %1$s</string>
+    <string name="transaction_previous_balance">Solde précédent : %1$s</string>
+    <string name="transaction_new_balance">Nouveau solde : %1$s</string>
+    <string name="transaction_date">Date : %1$s</string>
+
+    <string name="loan_request_title">Demande de prêt</string>
+    <string name="loan_history_title">Historique des prêts</string>
+    <string name="loan_status_chart_title">Graphique du statut des prêts</string>
+    <string name="my_profile_title">Mon profil</string>
+
+    <!-- values-fr/strings.xml -->
+    <string name="edit_profile_title">Modifier le profil</string>
+    <string name="save_profile">Enregistrer le profil</string>
+
+    <!-- values-fr/strings.xml -->
+    <string name="download_statement">Télécharger le relevé</string>
+    <string name="search_by_reason">Rechercher par motif</string>
+    <string name="newest_first">Plus récents d’abord</string>
+    <string name="oldest_first">Plus anciens d’abord</string>
+    <string name="all_loans">Tous</string>
+
+    <!-- values-fr/strings.xml -->
+    <string name="loan_chart_pending_row">⏳ En attente : %1$d (%2$d%%)</string>
+    <string name="loan_chart_approved_row">✅ Approuvés : %1$d (%2$d%%)</string>
+    <string name="loan_chart_rejected_row">❌ Rejetés : %1$d (%2$d%%)</string>
+    <string name="loan_chart_overdue_row">⚠️ En retard : %1$d (%2$d%%)</string>
+    <string name="loan_chart_paid_row">💵 Payés : %1$d (%2$d%%)</string>
+
+    <string name="highest_amount">Montant le plus élevé</string>
+    <string name="lowest_amount">Montant le plus faible</string>
+
+    <string name="filter_all">Tous</string>
+    <string name="filter_pending">En attente</string>
+    <string name="filter_approved">Approuvés</string>
+    <string name="filter_rejected">Rejetés</string>
+    <string name="filter_overdue">En retard</string>
+    <string name="filter_paid">Payés</string>
+
+
 </resources>

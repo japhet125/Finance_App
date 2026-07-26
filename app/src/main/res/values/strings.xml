@@ -55,4 +55,188 @@
     <string name="language_settings_title">Language Settings</string>
     <string name="save_language">Save Language</string>
     <string name="back">Back</string>
+
+    <string name="identity_verification_title">Identity Verification</string>
+
+    <string name="identity_name">Name: %1$s</string>
+    <string name="identity_email">Email: %1$s</string>
+    <string name="identity_phone">Phone: %1$s</string>
+    <string name="identity_address">Address: %1$s</string>
+
+    <string name="identity_verified">✓ Identity Verified</string>
+    <string name="identity_rejected">✗ Identity Rejected</string>
+    <string name="identity_pending">Status: Pending</string>
+
+    <string name="identity_verified_toast">Identity verified.</string>
+    <string name="identity_rejected_toast">Identity rejected.</string>
+
+    <string name="update_failed">Update failed: %1$s</string>
+    <!-- identity_user_items -->
+    <string name="view_id">View ID</string>
+    <string name="verify">Verify</string>
+    <string name="reject">Reject</string>
+
+
+    <string name="admin_analytics_title">Admin Analytics</string>
+
+    <string name="admin_total_users">👥 Total Users: %1$d</string>
+    <string name="admin_total_loans">📄 Total Loans: %1$d</string>
+    <string name="admin_approved_loans">✅ Approved Loans: %1$d</string>
+    <string name="admin_overdue_loans">⚠️ Overdue Loans: %1$d</string>
+    <string name="admin_total_loaned">💰 Total Money Loaned: %1$s</string>
+    <string name="admin_total_payments">💵 Total Payments Received: %1$s</string>
+    <string name="admin_average_credit">⭐ Average Credit Score: %1$d</string>
+    <string name="admin_verified_users">🛡️ Verified Users: %1$d</string>
+    <string name="admin_flagged_users">🚩 Flagged Users: %1$d</string>
+    <string name="admin_rejected_loans">❌ Rejected Loans: %1$d</string>
+    <string name="admin_outstanding_balance">💰 Outstanding Balance: %1$s</string>
+
+    <string name="admin_total_users_default">👥 Total Users: 0</string>
+    <string name="admin_total_loans_default">📄 Total Loans: 0</string>
+    <string name="admin_approved_loans_default">✅ Approved Loans: 0</string>
+    <string name="admin_overdue_loans_default">⚠️ Overdue Loans: 0</string>
+    <string name="admin_total_loaned_default">💰 Total Money Loaned: 0 F CFA</string>
+    <string name="admin_total_payments_default">💵 Total Payments Received: 0 F CFA</string>
+    <string name="admin_average_credit_default">⭐ Average Credit Score: 0</string>
+    <string name="admin_verified_users_default">🛡️ Verified Users: 0</string>
+    <string name="admin_flagged_users_default">🚩 Flagged Users: 0</string>
+    <string name="admin_rejected_loans_default">❌ Rejected Loans: 0</string>
+    <string name="admin_outstanding_balance_default">💰 Outstanding Balance: 0 F CFA</string>
+
+    <string name="view_loan_status_chart">View Loan Status Chart</string>
+    <string name="chart_approved">Approved</string>
+    <string name="chart_overdue">Overdue</string>
+    <string name="chart_rejected">Rejected</string>
+    <string name="chart_loans_by_status">Loans by Status</string>
+    <string name="chart_total_payments">Total Payments</string>
+
+    <string name="admin_users_title">Users</string>
+
+    <string name="admin_user_name">Name: %1$s</string>
+    <string name="admin_user_email">Email: %1$s</string>
+    <string name="admin_user_phone">Phone: %1$s</string>
+    <string name="admin_user_role">Role: %1$s</string>
+    <string name="admin_user_credit_score">Credit Score: %1$s</string>
+
+    <string name="admin_user_identity_verified">✓ Identity: %1$s</string>
+    <string name="admin_user_identity_not_verified">✗ Identity: %1$s</string>
+
+    <string name="user_role_admin">Admin</string>
+    <string name="user_role_borrower">Borrower</string>
+
+    <string name="identity_status_approved">Approved</string>
+    <string name="identity_status_pending">Pending</string>
+    <string name="identity_status_rejected">Rejected</string>
+    <string name="identity_status_not_submitted">Not submitted</string>
+
+    <string name="audit_logs_title">Audit Logs</string>
+
+    <string name="audit_action">Action: %1$s</string>
+    <string name="audit_target">Target: %1$s / %2$s</string>
+    <string name="audit_date">Date: %1$s</string>
+
+    <string name="audit_action_identity_verified">Identity verified</string>
+    <string name="audit_action_identity_rejected">Identity rejected</string>
+    <string name="audit_action_loan_approved">Loan approved</string>
+    <string name="audit_action_loan_rejected">Loan rejected</string>
+    <string name="audit_action_payment_approved">Payment approved</string>
+    <string name="audit_action_payment_rejected">Payment rejected</string>
+
+    <string name="audit_target_user">User</string>
+    <string name="audit_target_loan">Loan</string>
+    <string name="audit_target_payment">Payment</string>
+    <string name="audit_target_transaction">Transaction</string>
+
+    <string name="audit_message_identity_verified">User identity was verified.</string>
+    <string name="audit_message_identity_rejected">User identity was rejected.</string>
+
+    <string name="admin_menu">Admin menu</string>
+    <string name="payment_review">Payment Review</string>
+    <string name="admin_loan_requests_title">Admin Loan Requests</string>
+    <string name="search_admin_loans">Search by status, reason, or amount</string>
+
+    <string name="pending_loans_default">Pending Loans: 0</string>
+    <string name="pending_identities_default">Pending IDs: 0</string>
+    <string name="pending_payments_default">Pending Payments: 0</string>
+
+    <string name="pending_loans_count">Pending Loans: %1$d</string>
+    <string name="pending_identities_count">Pending IDs: %1$d</string>
+    <string name="pending_payments_count">Pending Payments: %1$d</string>
+
+    <string name="mobile_money_title">Mobile Money</string>
+    <string name="mobile_money_country">Mobile money country</string>
+    <string name="mobile_money_provider">Mobile money provider</string>
+    <string name="mobile_money_phone">Mobile Money Phone Number</string>
+    <string name="mobile_money_account_holder">Account Holder Name</string>
+    <string name="currency">Currency</string>
+    <string name="save_mobile_money">Save Mobile Money</string>
+
+    <string name="mobile_money_required_fields">Please enter the phone number and account holder name.</string>
+    <string name="mobile_money_saved">Mobile money information saved.</string>
+    <string name="mobile_money_save_failed">Save failed: %1$s</string>
+    <string name="select_mobile_money_country">Please select a country.</string>
+    <string name="user_not_signed_in">You are not signed in.</string>
+
+    <string name="country_burkina_faso">Burkina Faso</string>
+    <string name="country_mali">Mali</string>
+    <string name="country_niger">Niger</string>
+    <string name="country_cote_divoire">Côte d’Ivoire</string>
+
+    <string name="bank_account_title">Bank Account</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="bank_account_type">Account Type: Checking or Savings</string>
+    <string name="routing_number_bank_code">Routing Number / Bank Code</string>
+    <string name="bank_account_number">Account Number</string>
+    <string name="bank_country">Bank country</string>
+    <string name="save_bank_account">Save Bank Account</string>
+
+    <string name="bank_required_fields">Please fill in all required fields.</string>
+    <string name="bank_account_saved">Bank account saved.</string>
+    <string name="bank_account_save_failed">Save failed: %1$s</string>
+    <string name="select_bank_country">Please select a country.</string>
+
+    <string name="country_united_states">United States</string>
+
+    <string name="make_payment_title">Make Payment</string>
+
+    <string name="transaction_history_title">Transaction History</string>
+
+    <string name="transaction_payment_amount">Payment: %1$s</string>
+    <string name="transaction_previous_balance">Previous Balance: %1$s</string>
+    <string name="transaction_new_balance">New Balance: %1$s</string>
+    <string name="transaction_date">Date: %1$s</string>
+
+    <string name="loan_request_title">Loan Request</string>
+    <string name="loan_history_title">Loan History</string>
+    <string name="loan_status_chart_title">Loan Status Chart</string>
+    <string name="my_profile_title">My Profile</string>
+
+    <!-- values/strings.xml -->
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="save_profile">Save Profile</string>
+
+    <!-- values/strings.xml -->
+    <string name="download_statement">Download Statement</string>
+    <string name="search_by_reason">Search by reason</string>
+    <string name="newest_first">Newest First</string>
+    <string name="oldest_first">Oldest First</string>
+    <string name="all_loans">All</string>
+
+    <!-- values/strings.xml -->
+    <string name="loan_chart_pending_row">⏳ Pending: %1$d (%2$d%%)</string>
+    <string name="loan_chart_approved_row">✅ Approved: %1$d (%2$d%%)</string>
+    <string name="loan_chart_rejected_row">❌ Rejected: %1$d (%2$d%%)</string>
+    <string name="loan_chart_overdue_row">⚠️ Overdue: %1$d (%2$d%%)</string>
+    <string name="loan_chart_paid_row">💵 Paid: %1$d (%2$d%%)</string>
+
+    <string name="highest_amount">Highest Amount</string>
+    <string name="lowest_amount">Lowest Amount</string>
+
+    <string name="filter_all">All</string>
+    <string name="filter_pending">Pending</string>
+    <string name="filter_approved">Approved</string>
+    <string name="filter_rejected">Rejected</string>
+    <string name="filter_overdue">Overdue</string>
+    <string name="filter_paid">Paid</string>
+
 </resources>

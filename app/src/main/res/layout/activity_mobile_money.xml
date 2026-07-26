@@ -14,34 +14,36 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="@string/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mobile Money"
-            android:textSize="30sp"
-            android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:text="@string/mobile_money_title"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/spinnerMobileMoneyCountry"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:contentDescription="@string/mobile_money_country" />
 
         <Spinner
             android:id="@+id/spinnerMobileMoneyProvider"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/mobile_money_provider" />
 
         <EditText
             android:id="@+id/etMobileMoneyPhone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
-            android:hint="Mobile Money Phone Number"
+            android:hint="@string/mobile_money_phone"
             android:inputType="phone" />
 
         <EditText
@@ -49,7 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
-            android:hint="Account Holder Name" />
+            android:hint="@string/mobile_money_account_holder"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/etMobileMoneyCurrency"
@@ -57,14 +60,14 @@
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:enabled="false"
-            android:hint="Currency" />
+            android:hint="@string/currency" />
 
         <Button
             android:id="@+id/btnSaveMobileMoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Mobile Money"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:text="@string/save_mobile_money" />
 
     </LinearLayout>
 </ScrollView>

@@ -14,36 +14,38 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="@string/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bank Account"
-            android:textSize="30sp"
-            android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:text="@string/bank_account_title"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etBankName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Bank Name" />
+            android:hint="@string/bank_name"
+            android:inputType="textCapWords" />
 
         <EditText
             android:id="@+id/etAccountType"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
-            android:hint="Account Type: Checking or Savings" />
+            android:hint="@string/bank_account_type"
+            android:inputType="textCapWords" />
 
         <EditText
             android:id="@+id/etRoutingNumber"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
-            android:hint="Routing Number / Bank Code"
+            android:hint="@string/routing_number_bank_code"
             android:inputType="number" />
 
         <EditText
@@ -51,14 +53,15 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
-            android:hint="Account Number"
+            android:hint="@string/bank_account_number"
             android:inputType="number" />
 
         <Spinner
             android:id="@+id/spinnerBankCountry"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/bank_country" />
 
         <EditText
             android:id="@+id/etCurrency"
@@ -66,14 +69,14 @@
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:enabled="false"
-            android:hint="Currency" />
+            android:hint="@string/currency" />
 
         <Button
             android:id="@+id/btnSaveBank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Bank Account"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:text="@string/save_bank_account" />
 
     </LinearLayout>
 </ScrollView>

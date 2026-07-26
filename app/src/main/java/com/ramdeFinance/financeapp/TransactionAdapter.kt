@@ -14,8 +14,9 @@ class TransactionAdapter(
     private var language: String = "en"
 ) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    class TransactionViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    class TransactionViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
 
         val amount: TextView =
             itemView.findViewById(R.id.txtTransactionAmount)
@@ -30,7 +31,9 @@ class TransactionAdapter(
             itemView.findViewById(R.id.txtPaymentDate)
     }
 
-    fun updateLanguage(newLanguage: String) {
+    fun updateLanguage(
+        newLanguage: String
+    ) {
         language = newLanguage
         notifyDataSetChanged()
     }
@@ -40,8 +43,13 @@ class TransactionAdapter(
         viewType: Int
     ): TransactionViewHolder {
 
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.transaction_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context)
+                .inflate(
+                    R.layout.transaction_item,
+                    parent,
+                    false
+                )
 
         return TransactionViewHolder(view)
     }
@@ -50,6 +58,7 @@ class TransactionAdapter(
         holder: TransactionViewHolder,
         position: Int
     ) {
+        val context = holder.itemView.context
         val transaction = transactionList[position]
 
         val locale =
@@ -59,58 +68,66 @@ class TransactionAdapter(
                 Locale.US
             }
 
-        val formattedDate = SimpleDateFormat(
-            "MMM dd, yyyy HH:mm",
-            locale
-        ).format(Date(transaction.paymentDate))
+        val formattedDate =
+            SimpleDateFormat(
+                "MMM dd, yyyy HH:mm",
+                locale
+            ).format(
+                Date(transaction.paymentDate)
+            )
 
         val formattedPaymentAmount =
             CurrencyFormatter.format(
-                amount = parseMoney(transaction.paymentAmount),
-                currencyCode = "XOF",
+                amount = parseMoney(
+                    transaction.paymentAmount
+                ),
+                currencyCode = CURRENCY_XOF,
                 languageCode = language
             )
 
         val formattedPreviousBalance =
             CurrencyFormatter.format(
-                amount = parseMoney(transaction.previousBalance),
-                currencyCode = "XOF",
+                amount = parseMoney(
+                    transaction.previousBalance
+                ),
+                currencyCode = CURRENCY_XOF,
                 languageCode = language
             )
 
         val formattedNewBalance =
             CurrencyFormatter.format(
-                amount = parseMoney(transaction.newBalance),
-                currencyCode = "XOF",
+                amount = parseMoney(
+                    transaction.newBalance
+                ),
+                currencyCode = CURRENCY_XOF,
                 languageCode = language
             )
 
-        if (language == "fr") {
-            holder.amount.text =
-                "Paiement : $formattedPaymentAmount"
+        holder.amount.text =
+            context.getString(
+                R.string.transaction_payment_amount,
+                formattedPaymentAmount
+            )
 
-            holder.previousBalance.text =
-                "Solde précédent : $formattedPreviousBalance"
+        holder.previousBalance.text =
+            context.getString(
+                R.string.transaction_previous_balance,
+                formattedPreviousBalance
+            )
 
-            holder.newBalance.text =
-                "Nouveau solde : $formattedNewBalance"
+        holder.newBalance.text =
+            context.getString(
+                R.string.transaction_new_balance,
+                formattedNewBalance
+            )
 
-            holder.paymentDate.text =
-                "Date : $formattedDate"
-        } else {
-            holder.amount.text =
-                "Payment: $formattedPaymentAmount"
-
-            holder.previousBalance.text =
-                "Previous Balance: $formattedPreviousBalance"
-
-            holder.newBalance.text =
-                "New Balance: $formattedNewBalance"
-
-            holder.paymentDate.text =
-                "Date: $formattedDate"
-        }
+        holder.paymentDate.text =
+            context.getString(
+                R.string.transaction_date,
+                formattedDate
+            )
     }
+
     private fun parseMoney(
         value: String
     ): Double {
@@ -127,6 +144,7 @@ class TransactionAdapter(
         return when {
             cleanedValue.contains(",") &&
                     cleanedValue.contains(".") -> {
+
                 cleanedValue
                     .replace(",", "")
                     .toDoubleOrNull()
@@ -150,5 +168,9 @@ class TransactionAdapter(
 
     override fun getItemCount(): Int {
         return transactionList.size
+    }
+
+    companion object {
+        private const val CURRENCY_XOF = "XOF"
     }
 }

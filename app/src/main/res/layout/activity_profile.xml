@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
-                android:text="My Profile"
+                android:text="@string/my_profile_title"
                 android:textColor="#1C1C1C"
                 android:textSize="30sp"
                 android:textStyle="bold" />

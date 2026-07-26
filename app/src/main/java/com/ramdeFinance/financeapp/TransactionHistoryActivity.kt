@@ -17,65 +17,91 @@ class TransactionHistoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_history)
 
-        val backButton = findViewById<Button>(R.id.btnBack)
+        val backButton =
+            findViewById<Button>(R.id.btnBack)
+
+        recyclerView =
+            findViewById(R.id.recyclerTransactions)
 
         backButton.setOnClickListener {
             finish()
         }
 
-        recyclerView = findViewById(R.id.recyclerTransactions)
-
         transactionList = mutableListOf()
-
         adapter = TransactionAdapter(transactionList)
 
         recyclerView.adapter = adapter
 
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val db = FirebaseFirestore.getInstance()
+        val userId =
+            FirebaseAuth.getInstance()
+                .currentUser
+                ?.uid
 
-        if (userId != null) {
+        val db =
+            FirebaseFirestore.getInstance()
 
-            db.collection("transactions")
-                .whereEqualTo("userId", userId)
-                .addSnapshotListener { snapshots, error ->
-
-                    if (error != null) {
-                        return@addSnapshotListener
-                    }
-
-                    transactionList.clear()
-
-                    if (snapshots != null) {
-
-                        for (document in snapshots.documents) {
-
-                            val transaction =
-                                document.toObject(TransactionModel::class.java)
-
-                            if (transaction != null) {
-                                transactionList.add(transaction)
-                            }
-                        }
-                    }
-
-                    adapter.notifyDataSetChanged()
-                }
+        if (userId == null) {
+            return
         }
-        if (userId != null) {
-            db.collection("users")
-                .document(userId)
-                .get()
-                .addOnSuccessListener { document ->
 
-                    val language =
-                        document.getString("language") ?: "en"
+        loadUserLanguage(
+            db = db,
+            userId = userId
+        )
 
-                    adapter.updateLanguage(language)
+        loadTransactions(
+            db = db,
+            userId = userId
+        )
+    }
 
-                    backButton.text =
-                        if (language == "fr") "Retour" else "Back"
+    private fun loadUserLanguage(
+        db: FirebaseFirestore,
+        userId: String
+    ) {
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+
+                val language =
+                    document.getString("language") ?: "en"
+
+                adapter.updateLanguage(language)
+            }
+    }
+
+    private fun loadTransactions(
+        db: FirebaseFirestore,
+        userId: String
+    ) {
+        db.collection("transactions")
+            .whereEqualTo("userId", userId)
+            .addSnapshotListener { snapshots, error ->
+
+                if (error != null) {
+                    return@addSnapshotListener
                 }
-        }
+
+                val temporaryList =
+                    mutableListOf<TransactionModel>()
+
+                snapshots?.documents?.forEach { document ->
+
+                    val transaction =
+                        document.toObject(
+                            TransactionModel::class.java
+                        )
+
+                    if (transaction != null) {
+                        temporaryList.add(transaction)
+                    }
+                }
+
+                transactionList.clear()
+                transactionList.addAll(temporaryList)
+
+                adapter.notifyDataSetChanged()
+            }
     }
 }

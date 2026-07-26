@@ -16,12 +16,12 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="@string/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile_title"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
@@ -93,7 +93,7 @@
             android:id="@+id/btnSaveProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Profile"
+            android:text="@string/save_profile"
             android:layout_marginTop="24dp" />
 
     </LinearLayout>

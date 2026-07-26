@@ -10,80 +10,119 @@ import com.google.firebase.firestore.FirebaseFirestore
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var loanList: MutableList<Pair<String, PaymentLoanModel>>
+    private lateinit var loanList:
+            MutableList<Pair<String, PaymentLoanModel>>
+
     private lateinit var adapter: PaymentLoanAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        val backButton = findViewById<Button>(R.id.btnBack)
+        val backButton =
+            findViewById<Button>(R.id.btnBack)
+
+        recyclerView =
+            findViewById(R.id.recyclerPayments)
 
         backButton.setOnClickListener {
             finish()
         }
-
-        recyclerView = findViewById(R.id.recyclerPayments)
 
         loanList = mutableListOf()
         adapter = PaymentLoanAdapter(loanList)
 
         recyclerView.adapter = adapter
 
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val db = FirebaseFirestore.getInstance()
+        val userId =
+            FirebaseAuth.getInstance()
+                .currentUser
+                ?.uid
 
-        if (userId != null) {
-            db.collection("loan_requests")
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("status", "approved")
-                .addSnapshotListener { snapshots, error ->
+        val db =
+            FirebaseFirestore.getInstance()
 
-                    if (error != null) {
-                        return@addSnapshotListener
-                    }
-
-                    loanList.clear()
-
-                    val tempList = mutableListOf<Pair<String, PaymentLoanModel>>()
-
-                    if (snapshots != null) {
-                        for (document in snapshots.documents) {
-                            val loan = document.toObject(PaymentLoanModel::class.java)
-
-                            if (loan != null) {
-                                tempList.add(Pair(document.id, loan))
-                            }
-                        }
-                    }
-
-                    tempList.sortWith(
-                        compareBy<Pair<String, PaymentLoanModel>> {
-                            if (it.second.status == "paid") 1 else 0
-                        }.thenByDescending {
-                            it.second.createdAt
-                        }
-                    )
-
-                    loanList.addAll(tempList)
-
-                    adapter.notifyDataSetChanged()
-                }
+        if (userId == null) {
+            return
         }
-        if (userId != null) {
-            db.collection("users")
-                .document(userId)
-                .get()
-                .addOnSuccessListener { document ->
 
-                    val language =
-                        document.getString("language") ?: "en"
+        loadUserLanguage(
+            db = db,
+            userId = userId
+        )
 
-                    adapter.updateLanguage(language)
+        loadApprovedLoans(
+            db = db,
+            userId = userId
+        )
+    }
 
-                    backButton.text =
-                        if (language == "fr") "Retour" else "Back"
+    private fun loadUserLanguage(
+        db: FirebaseFirestore,
+        userId: String
+    ) {
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+
+                val language =
+                    document.getString("language") ?: "en"
+
+                adapter.updateLanguage(language)
+            }
+    }
+
+    private fun loadApprovedLoans(
+        db: FirebaseFirestore,
+        userId: String
+    ) {
+        db.collection("loan_requests")
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("status", "approved")
+            .addSnapshotListener { snapshots, error ->
+
+                if (error != null) {
+                    return@addSnapshotListener
                 }
-        }
+
+                val temporaryList =
+                    mutableListOf<
+                            Pair<String, PaymentLoanModel>
+                            >()
+
+                snapshots?.documents?.forEach { document ->
+
+                    val loan =
+                        document.toObject(
+                            PaymentLoanModel::class.java
+                        )
+
+                    if (loan != null) {
+                        temporaryList.add(
+                            Pair(document.id, loan)
+                        )
+                    }
+                }
+
+                temporaryList.sortWith(
+                    compareBy<
+                            Pair<String, PaymentLoanModel>
+                            > {
+                        if (it.second.status == "paid") {
+                            1
+                        } else {
+                            0
+                        }
+                    }.thenByDescending {
+                        it.second.createdAt
+                    }
+                )
+
+                loanList.clear()
+                loanList.addAll(temporaryList)
+
+                adapter.notifyDataSetChanged()
+            }
     }
 }

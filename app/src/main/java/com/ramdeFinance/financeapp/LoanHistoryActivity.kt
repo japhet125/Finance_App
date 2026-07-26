@@ -22,9 +22,9 @@ class LoanHistoryActivity : AppCompatActivity() {
     private lateinit var loanList: MutableList<LoanModel>
     private lateinit var adapter: LoanAdapter
     private lateinit var allLoans: MutableList<LoanModel>
-    private var selectedFilter = "All"
+    private var selectedFilter = FILTER_ALL
     private var searchQuery = ""
-    private var selectedSort = "Newest First"
+    private var selectedSort = SORT_NEWEST
     private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,12 +63,28 @@ class LoanHistoryActivity : AppCompatActivity() {
         val userId = auth.currentUser?.uid
         val filterSpinner = findViewById<Spinner>(R.id.spinnerLoanFilter)
 
-        val filters = listOf("All", "Pending", "Approved", "Rejected", "Overdue", "Paid")
+        val filterLabels = listOf(
+            getString(R.string.filter_all),
+            getString(R.string.filter_pending),
+            getString(R.string.filter_approved),
+            getString(R.string.filter_rejected),
+            getString(R.string.filter_overdue),
+            getString(R.string.filter_paid)
+        )
+
+        val filterValues = listOf(
+            FILTER_ALL,
+            FILTER_PENDING,
+            FILTER_APPROVED,
+            FILTER_REJECTED,
+            FILTER_OVERDUE,
+            FILTER_PAID
+        )
 
         val spinnerAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            filters
+            filterLabels
         )
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -77,11 +93,12 @@ class LoanHistoryActivity : AppCompatActivity() {
         val sortSpinner = findViewById<Spinner>(R.id.spinnerLoanSort)
 
         val sortOptions = listOf(
-            "Newest First",
-            "Oldest First",
-            "Highest Amount",
-            "Lowest Amount"
+            getString(R.string.newest_first),
+            getString(R.string.oldest_first),
+            getString(R.string.highest_amount),
+            getString(R.string.lowest_amount)
         )
+
 
         val sortAdapter = ArrayAdapter(
             this,
@@ -92,33 +109,49 @@ class LoanHistoryActivity : AppCompatActivity() {
         sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sortSpinner.adapter = sortAdapter
 
-        sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedSort = sortOptions[position]
-                applyLoanFilter()
-            }
+        sortSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    selectedSort = when (position) {
+                        0 -> SORT_NEWEST
+                        1 -> SORT_OLDEST
+                        2 -> SORT_HIGHEST
+                        3 -> SORT_LOWEST
+                        else -> SORT_NEWEST
+                    }
+
+                    applyLoanFilter()
+                }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedFilter = filters[position]
-                applyLoanFilter()
-            }
+        filterSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedFilter = filterValues[position]
+                    applyLoanFilter()
+                }
+
+                override fun onNothingSelected(
+                    parent: AdapterView<*>?
+                ) {
+
+                }
+            }
         val searchInput = findViewById<EditText>(R.id.etLoanSearch)
 
         searchInput.addTextChangedListener(object : TextWatcher {
@@ -250,12 +283,14 @@ class LoanHistoryActivity : AppCompatActivity() {
 
         var filteredLoans = allLoans.toList()
 
-        if (selectedFilter != "All") {
+        if (selectedFilter != FILTER_ALL) {
             filteredLoans = filteredLoans.filter {
-                it.status.equals(selectedFilter, ignoreCase = true)
+                it.status.equals(
+                    selectedFilter,
+                    ignoreCase = true
+                )
             }
         }
-
         if (searchQuery.isNotBlank()) {
             filteredLoans = filteredLoans.filter {
                 it.reason.contains(searchQuery, ignoreCase = true)
@@ -263,14 +298,27 @@ class LoanHistoryActivity : AppCompatActivity() {
         }
 
         filteredLoans = when (selectedSort) {
-            "Newest First" -> filteredLoans.sortedByDescending { it.createdAt }
-            "Oldest First" -> filteredLoans.sortedBy { it.createdAt }
-            "Highest Amount" -> filteredLoans.sortedByDescending {
-                parseMoney(it.amount)
-            }
-            "Lowest Amount" -> filteredLoans.sortedBy {
-                parseMoney(it.amount)
-            }
+
+            SORT_NEWEST ->
+                filteredLoans.sortedByDescending {
+                    it.createdAt
+                }
+
+            SORT_OLDEST ->
+                filteredLoans.sortedBy {
+                    it.createdAt
+                }
+
+            SORT_HIGHEST ->
+                filteredLoans.sortedByDescending {
+                    parseMoney(it.amount)
+                }
+
+            SORT_LOWEST ->
+                filteredLoans.sortedBy {
+                    parseMoney(it.amount)
+                }
+
             else -> filteredLoans
         }
 
@@ -297,6 +345,20 @@ class LoanHistoryActivity : AppCompatActivity() {
             .replace(",", ".")
             .trim()
             .toDoubleOrNull() ?: 0.0
+    }
+    private companion object {
+
+        const val SORT_NEWEST = "newest"
+        const val SORT_OLDEST = "oldest"
+        const val SORT_HIGHEST = "highest"
+        const val SORT_LOWEST = "lowest"
+
+        const val FILTER_ALL = "all"
+        const val FILTER_PENDING = "pending"
+        const val FILTER_APPROVED = "approved"
+        const val FILTER_REJECTED = "rejected"
+        const val FILTER_OVERDUE = "overdue"
+        const val FILTER_PAID = "paid"
     }
 
 }

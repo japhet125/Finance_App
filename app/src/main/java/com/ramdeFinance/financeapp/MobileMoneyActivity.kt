@@ -15,146 +15,408 @@ import com.google.firebase.firestore.FirebaseFirestore
 class MobileMoneyActivity : AppCompatActivity() {
 
     private val providersByCountry = mapOf(
-        "Burkina Faso" to listOf("Orange Money", "Moov Money", "Wave"),
-        "Mali" to listOf("Orange Money", "Moov Money"),
-        "Niger" to listOf("Airtel Money", "Moov Money", "Zamani Cash"),
-        "Côte d'Ivoire" to listOf("Orange Money", "MTN MoMo", "Moov Money", "Wave")
+        COUNTRY_BURKINA_FASO to
+                listOf("Orange Money", "Moov Money", "Wave"),
+
+        COUNTRY_MALI to
+                listOf("Orange Money", "Moov Money"),
+
+        COUNTRY_NIGER to
+                listOf("Airtel Money", "Moov Money", "Zamani Cash"),
+
+        COUNTRY_COTE_DIVOIRE to
+                listOf(
+                    "Orange Money",
+                    "MTN MoMo",
+                    "Moov Money",
+                    "Wave"
+                )
+    )
+
+    private val countryCodes = listOf(
+        COUNTRY_BURKINA_FASO,
+        COUNTRY_MALI,
+        COUNTRY_NIGER,
+        COUNTRY_COTE_DIVOIRE
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_money)
 
-        val backButton = findViewById<Button>(R.id.btnBack)
-        val countrySpinner = findViewById<Spinner>(R.id.spinnerMobileMoneyCountry)
-        val providerSpinner = findViewById<Spinner>(R.id.spinnerMobileMoneyProvider)
-        val phoneInput = findViewById<EditText>(R.id.etMobileMoneyPhone)
-        val nameInput = findViewById<EditText>(R.id.etMobileMoneyName)
-        val currencyInput = findViewById<EditText>(R.id.etMobileMoneyCurrency)
-        val saveButton = findViewById<Button>(R.id.btnSaveMobileMoney)
+        val backButton =
+            findViewById<Button>(R.id.btnBack)
+
+        val countrySpinner =
+            findViewById<Spinner>(
+                R.id.spinnerMobileMoneyCountry
+            )
+
+        val providerSpinner =
+            findViewById<Spinner>(
+                R.id.spinnerMobileMoneyProvider
+            )
+
+        val phoneInput =
+            findViewById<EditText>(
+                R.id.etMobileMoneyPhone
+            )
+
+        val nameInput =
+            findViewById<EditText>(
+                R.id.etMobileMoneyName
+            )
+
+        val currencyInput =
+            findViewById<EditText>(
+                R.id.etMobileMoneyCurrency
+            )
+
+        val saveButton =
+            findViewById<Button>(
+                R.id.btnSaveMobileMoney
+            )
 
         backButton.setOnClickListener {
             finish()
         }
 
-        val countries = providersByCountry.keys.toList()
+        currencyInput.setText(CURRENCY_XOF)
+
+        setupCountrySpinner(
+            countrySpinner = countrySpinner,
+            providerSpinner = providerSpinner,
+            currencyInput = currencyInput
+        )
+
+        val userId =
+            FirebaseAuth.getInstance()
+                .currentUser
+                ?.uid
+
+        val db =
+            FirebaseFirestore.getInstance()
+
+        if (userId != null) {
+            loadSavedMobileMoney(
+                db = db,
+                userId = userId,
+                countrySpinner = countrySpinner,
+                providerSpinner = providerSpinner,
+                phoneInput = phoneInput,
+                nameInput = nameInput,
+                currencyInput = currencyInput
+            )
+        }
+
+        saveButton.setOnClickListener {
+            saveMobileMoney(
+                db = db,
+                userId = userId,
+                countrySpinner = countrySpinner,
+                providerSpinner = providerSpinner,
+                phoneInput = phoneInput,
+                nameInput = nameInput,
+                currencyInput = currencyInput
+            )
+        }
+    }
+
+    private fun setupCountrySpinner(
+        countrySpinner: Spinner,
+        providerSpinner: Spinner,
+        currencyInput: EditText
+    ) {
+        val localizedCountries =
+            countryCodes.map { countryCode ->
+                getLocalizedCountryName(countryCode)
+            }
 
         val countryAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            countries
+            localizedCountries
         )
 
-        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        countryAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
         countrySpinner.adapter = countryAdapter
 
-        fun updateProviderSpinner(country: String) {
-            val providers = providersByCountry[country] ?: emptyList()
+        countrySpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
 
-            val providerAdapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                providers
-            )
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val countryCode =
+                        countryCodes[position]
 
-            providerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            providerSpinner.adapter = providerAdapter
-            currencyInput.setText("XOF")
-        }
+                    updateProviderSpinner(
+                        countryCode = countryCode,
+                        providerSpinner = providerSpinner
+                    )
 
-        countrySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                updateProviderSpinner(countries[position])
+                    currencyInput.setText(CURRENCY_XOF)
+                }
+
+                override fun onNothingSelected(
+                    parent: AdapterView<*>?
+                ) {
+                    // No action required.
+                }
             }
+    }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+    private fun updateProviderSpinner(
+        countryCode: String,
+        providerSpinner: Spinner
+    ) {
+        val providers =
+            providersByCountry[countryCode].orEmpty()
 
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val db = FirebaseFirestore.getInstance()
+        val providerAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            providers
+        )
 
-        if (userId != null) {
-            db.collection("users")
-                .document(userId)
-                .get()
-                .addOnSuccessListener { document ->
+        providerAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
 
-                    val savedCountry = document.getString("mobileMoneyCountry")
-                    val savedProvider = document.getString("mobileMoneyProvider")
+        providerSpinner.adapter = providerAdapter
+    }
 
-                    phoneInput.setText(document.getString("mobileMoneyPhone") ?: "")
-                    nameInput.setText(document.getString("mobileMoneyName") ?: "")
-                    currencyInput.setText(document.getString("mobileMoneyCurrency") ?: "XOF")
+    private fun loadSavedMobileMoney(
+        db: FirebaseFirestore,
+        userId: String,
+        countrySpinner: Spinner,
+        providerSpinner: Spinner,
+        phoneInput: EditText,
+        nameInput: EditText,
+        currencyInput: EditText
+    ) {
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
 
-                    if (savedCountry != null && countries.contains(savedCountry)) {
-                        val countryIndex = countries.indexOf(savedCountry)
-                        countrySpinner.setSelection(countryIndex)
+                val savedCountry =
+                    document.getString(
+                        "mobileMoneyCountry"
+                    )
 
-                        providerSpinner.post {
-                            val providers = providersByCountry[savedCountry] ?: emptyList()
-                            val providerIndex = providers.indexOf(savedProvider)
+                val savedProvider =
+                    document.getString(
+                        "mobileMoneyProvider"
+                    )
 
-                            if (providerIndex >= 0) {
-                                providerSpinner.setSelection(providerIndex)
-                            }
+                phoneInput.setText(
+                    document.getString(
+                        "mobileMoneyPhone"
+                    ).orEmpty()
+                )
+
+                nameInput.setText(
+                    document.getString(
+                        "mobileMoneyName"
+                    ).orEmpty()
+                )
+
+                currencyInput.setText(
+                    document.getString(
+                        "mobileMoneyCurrency"
+                    ) ?: CURRENCY_XOF
+                )
+
+                if (
+                    savedCountry != null &&
+                    countryCodes.contains(savedCountry)
+                ) {
+                    val countryIndex =
+                        countryCodes.indexOf(savedCountry)
+
+                    countrySpinner.setSelection(
+                        countryIndex
+                    )
+
+                    providerSpinner.post {
+                        val providers =
+                            providersByCountry[
+                                savedCountry
+                            ].orEmpty()
+
+                        val providerIndex =
+                            providers.indexOf(
+                                savedProvider
+                            )
+
+                        if (providerIndex >= 0) {
+                            providerSpinner.setSelection(
+                                providerIndex
+                            )
                         }
                     }
                 }
+            }
+    }
+
+    private fun saveMobileMoney(
+        db: FirebaseFirestore,
+        userId: String?,
+        countrySpinner: Spinner,
+        providerSpinner: Spinner,
+        phoneInput: EditText,
+        nameInput: EditText,
+        currencyInput: EditText
+    ) {
+        if (userId == null) {
+            Toast.makeText(
+                this,
+                getString(R.string.user_not_signed_in),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            return
         }
 
-        saveButton.setOnClickListener {
+        val countryPosition =
+            countrySpinner.selectedItemPosition
 
-            val countryText = countrySpinner.selectedItem.toString()
-            val providerText = providerSpinner.selectedItem.toString()
-            val phoneText = phoneInput.text.toString().trim()
-            val nameText = nameInput.text.toString().trim()
-            val currencyText = currencyInput.text.toString().trim()
+        if (
+            countryPosition < 0 ||
+            countryPosition >= countryCodes.size
+        ) {
+            Toast.makeText(
+                this,
+                getString(
+                    R.string.select_mobile_money_country
+                ),
+                Toast.LENGTH_SHORT
+            ).show()
 
-            if (phoneText.isBlank() || nameText.isBlank()) {
+            return
+        }
+
+        val selectedProvider =
+            providerSpinner.selectedItem
+                ?.toString()
+                .orEmpty()
+
+        val phoneText =
+            phoneInput.text
+                .toString()
+                .trim()
+
+        val nameText =
+            nameInput.text
+                .toString()
+                .trim()
+
+        val currencyText =
+            currencyInput.text
+                .toString()
+                .trim()
+                .ifBlank { CURRENCY_XOF }
+
+        if (
+            phoneText.isBlank() ||
+            nameText.isBlank()
+        ) {
+            Toast.makeText(
+                this,
+                getString(
+                    R.string.mobile_money_required_fields
+                ),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            return
+        }
+
+        val selectedCountry =
+            countryCodes[countryPosition]
+
+        val mobileMoneyInfo = mapOf(
+            "mobileMoneyCountry" to selectedCountry,
+            "mobileMoneyProvider" to selectedProvider,
+            "mobileMoneyPhone" to phoneText,
+            "mobileMoneyName" to nameText,
+            "mobileMoneyCurrency" to currencyText,
+            "mobileMoneySubmitted" to true,
+            "mobileMoneyUpdatedAt" to
+                    System.currentTimeMillis()
+        )
+
+        db.collection("users")
+            .document(userId)
+            .update(mobileMoneyInfo)
+            .addOnSuccessListener {
                 Toast.makeText(
                     this,
-                    "Please enter phone number and account holder name",
+                    getString(
+                        R.string.mobile_money_saved
+                    ),
                     Toast.LENGTH_SHORT
                 ).show()
-                return@setOnClickListener
-            }
 
-            if (userId != null) {
-                val mobileMoneyInfo = mapOf(
-                    "mobileMoneyCountry" to countryText,
-                    "mobileMoneyProvider" to providerText,
-                    "mobileMoneyPhone" to phoneText,
-                    "mobileMoneyName" to nameText,
-                    "mobileMoneyCurrency" to currencyText,
-                    "mobileMoneySubmitted" to true,
-                    "mobileMoneyUpdatedAt" to System.currentTimeMillis()
+                finish()
+            }
+            .addOnFailureListener { error ->
+                Toast.makeText(
+                    this,
+                    getString(
+                        R.string.mobile_money_save_failed,
+                        error.localizedMessage.orEmpty()
+                    ),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+    }
+
+    private fun getLocalizedCountryName(
+        countryCode: String
+    ): String {
+        return when (countryCode) {
+            COUNTRY_BURKINA_FASO ->
+                getString(
+                    R.string.country_burkina_faso
                 )
 
-                db.collection("users")
-                    .document(userId)
-                    .update(mobileMoneyInfo)
-                    .addOnSuccessListener {
-                        Toast.makeText(
-                            this,
-                            "Mobile money information saved",
-                            Toast.LENGTH_SHORT
-                        ).show()
+            COUNTRY_MALI ->
+                getString(R.string.country_mali)
 
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(
-                            this,
-                            "Save failed: ${e.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-            }
+            COUNTRY_NIGER ->
+                getString(R.string.country_niger)
+
+            COUNTRY_COTE_DIVOIRE ->
+                getString(
+                    R.string.country_cote_divoire
+                )
+
+            else -> countryCode
         }
+    }
+
+    companion object {
+        private const val COUNTRY_BURKINA_FASO =
+            "Burkina Faso"
+
+        private const val COUNTRY_MALI =
+            "Mali"
+
+        private const val COUNTRY_NIGER =
+            "Niger"
+
+        private const val COUNTRY_COTE_DIVOIRE =
+            "Côte d'Ivoire"
+
+        private const val CURRENCY_XOF =
+            "XOF"
     }
 }

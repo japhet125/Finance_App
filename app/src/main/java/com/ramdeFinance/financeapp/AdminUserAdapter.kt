@@ -27,36 +27,108 @@ class AdminUserAdapter(
         return AdminUserViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AdminUserViewHolder, position: Int) {
-        val (_, user) = userList[position]
+    override fun onBindViewHolder(
+        holder: AdminUserViewHolder,
+        position: Int
+    ) {
+        val (userId, user) = userList[position]
+        val context = holder.itemView.context
 
-        holder.name.text = "Name: ${user.fullName}"
-        holder.email.text = "Email: ${user.email}"
-        holder.phone.text = "Phone: ${user.phone}"
-        holder.role.text = "Role: ${user.role}"
-        holder.credit.text = "Credit Score: ${user.creditScore}"
+        holder.name.text =
+            context.getString(
+                R.string.admin_user_name,
+                user.fullName
+            )
 
-        val identityText = if (user.identityVerified) {
-            "✓ Identity: ${user.identityStatus}"
-        } else {
-            "✗ Identity: ${user.identityStatus}"
-        }
+        holder.email.text =
+            context.getString(
+                R.string.admin_user_email,
+                user.email
+            )
 
-        holder.identity.text = identityText
+        holder.phone.text =
+            context.getString(
+                R.string.admin_user_phone,
+                user.phone
+            )
+
+        holder.role.text =
+            context.getString(
+                R.string.admin_user_role,
+                translateRole(context, user.role)
+            )
+
+        holder.credit.text =
+            context.getString(
+                R.string.admin_user_credit_score,
+                user.creditScore
+            )
+
+        holder.identity.text =
+            if (user.identityVerified) {
+                context.getString(
+                    R.string.admin_user_identity_verified,
+                    translateIdentityStatus(
+                        context,
+                        user.identityStatus
+                    )
+                )
+            } else {
+                context.getString(
+                    R.string.admin_user_identity_not_verified,
+                    translateIdentityStatus(
+                        context,
+                        user.identityStatus
+                    )
+                )
+            }
+
         holder.itemView.setOnClickListener {
-
             val intent = Intent(
-                holder.itemView.context,
+                context,
                 AdminUserDetailsActivity::class.java
             )
 
-            intent.putExtra("USER_ID", userList[position].first)
-
-            holder.itemView.context.startActivity(intent)
+            intent.putExtra("USER_ID", userId)
+            context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
         return userList.size
+    }
+
+    private fun translateRole(
+        context: android.content.Context,
+        role: String
+    ): String {
+        return when (role.lowercase()) {
+            "admin" ->
+                context.getString(R.string.user_role_admin)
+
+            "borrower", "user" ->
+                context.getString(R.string.user_role_borrower)
+
+            else -> role
+        }
+    }
+
+    private fun translateIdentityStatus(
+        context: android.content.Context,
+        status: String
+    ): String {
+        return when (status.lowercase()) {
+            "approved" ->
+                context.getString(R.string.identity_status_approved)
+
+            "pending" ->
+                context.getString(R.string.identity_status_pending)
+
+            "rejected" ->
+                context.getString(R.string.identity_status_rejected)
+
+            else ->
+                context.getString(R.string.identity_status_not_submitted)
+        }
     }
 }

@@ -62,11 +62,35 @@ class LoanStatusChartActivity : AppCompatActivity() {
                     return if (total > 0) ((value.toDouble() / total) * 100).toInt() else 0
                 }
 
-                pendingText.text = "⏳ Pending: $pending (${percentage(pending)}%)"
-                approvedText.text = "✅ Approved: $approved (${percentage(approved)}%)"
-                rejectedText.text = "❌ Rejected: $rejected (${percentage(rejected)}%)"
-                overdueText.text = "⚠️ Overdue: $overdue (${percentage(overdue)}%)"
-                paidText.text = "💵 Paid: $paid (${percentage(paid)}%)"
+                pendingText.text = getString(
+                    R.string.loan_chart_pending_row,
+                    pending,
+                    percentage(pending)
+                )
+
+                approvedText.text = getString(
+                    R.string.loan_chart_approved_row,
+                    approved,
+                    percentage(approved)
+                )
+
+                rejectedText.text = getString(
+                    R.string.loan_chart_rejected_row,
+                    rejected,
+                    percentage(rejected)
+                )
+
+                overdueText.text = getString(
+                    R.string.loan_chart_overdue_row,
+                    overdue,
+                    percentage(overdue)
+                )
+
+                paidText.text = getString(
+                    R.string.loan_chart_paid_row,
+                    paid,
+                    percentage(paid)
+                )
 
                 pendingBar.progress = percentage(pending)
                 approvedBar.progress = percentage(approved)

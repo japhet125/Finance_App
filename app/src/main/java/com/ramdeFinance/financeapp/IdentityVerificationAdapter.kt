@@ -37,26 +37,43 @@ class IdentityVerificationAdapter(
     override fun onBindViewHolder(holder: IdentityViewHolder, position: Int) {
         val (documentId, user) = userList[position]
 
-        holder.name.text = "Name: ${user.fullName}"
-        holder.email.text = "Email: ${user.email}"
-        holder.phone.text = "Phone: ${user.phone}"
+        holder.name.text = holder.itemView.context.getString(
+            R.string.identity_name,
+            user.fullName
+        )
+
+        holder.email.text = holder.itemView.context.getString(
+            R.string.identity_email,
+            user.email
+        )
+
+        holder.phone.text = holder.itemView.context.getString(
+            R.string.identity_phone,
+            user.phone
+        )
         holder.address.text =
-            "Address: ${user.address}, Apt ${user.apt}, ${user.city}, ${user.state} ${user.zipCode}, ${user.country}"
+            holder.itemView.context.getString(
+                R.string.identity_address,
+                "${user.address}, Apt ${user.apt}, ${user.city}, ${user.state} ${user.zipCode}, ${user.country}"
+            )
         if (user.identityDocumentUrl.isBlank()) {
             holder.viewIdButton.visibility = View.GONE
         } else {
             holder.viewIdButton.visibility = View.VISIBLE
         }
         if (user.identityStatus == "approved") {
-            holder.status.text = "✓ Identity Verified"
+            holder.status.text =
+                holder.itemView.context.getString(R.string.identity_verified)
             holder.verifyButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
         } else if (user.identityStatus == "rejected") {
-            holder.status.text = "✗ Identity Rejected"
+            holder.status.text =
+                holder.itemView.context.getString(R.string.identity_rejected)
             holder.verifyButton.visibility = View.GONE
             holder.rejectButton.visibility = View.GONE
         } else {
-            holder.status.text = "Status: Pending"
+            holder.status.text =
+                holder.itemView.context.getString(R.string.identity_pending)
             holder.verifyButton.visibility = View.VISIBLE
             holder.rejectButton.visibility = View.VISIBLE
         }
@@ -83,7 +100,8 @@ class IdentityVerificationAdapter(
                 )
                 .addOnSuccessListener {
 
-                    holder.status.text = "✓ Identity Verified"
+                    holder.status.text =
+                        holder.itemView.context.getString(R.string.identity_verified)
                     holder.verifyButton.visibility = View.GONE
                     holder.rejectButton.visibility = View.GONE
                     holder.viewIdButton.visibility = View.GONE
@@ -154,13 +172,16 @@ class IdentityVerificationAdapter(
 
                     Toast.makeText(
                         holder.itemView.context,
-                        "Identity verified",
+                        holder.itemView.context.getString(R.string.identity_verified_toast),
                         Toast.LENGTH_SHORT
                     ).show()
                 }.addOnFailureListener { e ->
                     Toast.makeText(
                         holder.itemView.context,
-                        "Update failed: ${e.message}",
+                        holder.itemView.context.getString(
+                            R.string.update_failed,
+                            e.message ?: ""
+                        ),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -248,13 +269,16 @@ class IdentityVerificationAdapter(
 
                     Toast.makeText(
                         holder.itemView.context,
-                        "Identity rejected",
+                        holder.itemView.context.getString(R.string.identity_rejected_toast),
                         Toast.LENGTH_SHORT
                     ).show()
                 }.addOnFailureListener { e ->
                     Toast.makeText(
                         holder.itemView.context,
-                        "Update failed: ${e.message}",
+                        holder.itemView.context.getString(
+                            R.string.update_failed,
+                            e.message ?: ""
+                        ),
                         Toast.LENGTH_LONG
                     ).show()
                 }

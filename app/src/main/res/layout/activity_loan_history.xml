@@ -18,13 +18,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Back" />
+            android:text="@string/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Loan History"
+            android:text="@string/loan_history_title"
             android:textColor="#F8F8F8"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -34,14 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Download Statement" />
+            android:text="@string/download_statement" />
 
         <EditText
             android:id="@+id/etLoanSearch"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="12dp"
-            android:hint="Search by reason"
+            android:hint="@string/search_by_reason"
             android:inputType="text"
             android:textColor="#333333"
             android:textColorHint="#777777"

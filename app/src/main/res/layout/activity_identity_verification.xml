@@ -12,12 +12,12 @@
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="@string/back" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Identity Verification"
+        android:text="@string/identity_verification_title"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
