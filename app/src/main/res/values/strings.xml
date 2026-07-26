@@ -51,4 +51,8 @@
     <string name="icon_pending" translatable="false">⏳</string>
     <string name="icon_rejected" translatable="false">❌</string>
     <string name="icon_notification" translatable="false">🔔</string>
+
+    <string name="language_settings_title">Language Settings</string>
+    <string name="save_language">Save Language</string>
+    <string name="back">Back</string>
 </resources>

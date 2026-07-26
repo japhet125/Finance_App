@@ -7,11 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AdminUserLoanAdapter(
-    private val loanList: List<Pair<String, AdminLoanModel>>
+    private val loanList: List<Pair<String, AdminLoanModel>>,
+    private var language: String = "en"
 ) : RecyclerView.Adapter<AdminUserLoanAdapter.UserLoanViewHolder>() {
 
-    class UserLoanViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    class UserLoanViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
 
         val amount: TextView =
             itemView.findViewById(R.id.txtLoanAmount)
@@ -31,8 +33,13 @@ class AdminUserLoanAdapter(
         viewType: Int
     ): UserLoanViewHolder {
 
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.admin_user_loan_item, parent, false)
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(
+                R.layout.admin_user_loan_item,
+                parent,
+                false
+            )
 
         return UserLoanViewHolder(view)
     }
@@ -41,21 +48,118 @@ class AdminUserLoanAdapter(
         holder: UserLoanViewHolder,
         position: Int
     ) {
-
         val (_, loan) = loanList[position]
 
-        holder.amount.text =
-            "Amount: $${loan.amount}"
 
-        holder.reason.text =
-            "Reason: ${loan.reason}"
+        val formattedAmount =
+            CurrencyFormatter.format(
+                amount = parseMoney(loan.amount),
+                currencyCode = "XOF",
+                languageCode = language
+            )
 
-        holder.status.text =
-            "Status: ${loan.status}"
+        val formattedBalance =
+            CurrencyFormatter.format(
+                amount = parseMoney(loan.remainingBalance),
+                currencyCode = "XOF",
+                languageCode = language
+            )
+        if (language == "fr") {
+            holder.amount.text =
+                "Montant : $formattedAmount"
 
-        holder.balance.text =
-            "Balance: $${loan.remainingBalance}"
+            holder.reason.text =
+                "Raison : ${loan.reason}"
+
+            holder.status.text =
+                "Statut : ${translateStatus(loan.status)}"
+
+            holder.balance.text =
+                "Solde : $formattedBalance"
+        } else {
+            holder.amount.text =
+                "Amount: $formattedAmount"
+
+            holder.reason.text =
+                "Reason: ${loan.reason}"
+
+            holder.status.text =
+                "Status: ${formatEnglishStatus(loan.status)}"
+
+            holder.balance.text =
+                "Balance: $formattedBalance"
+        }
     }
 
-    override fun getItemCount() = loanList.size
+    private fun parseMoney(
+        value: String
+    ): Double {
+        val cleanedValue =
+            value
+                .replace("$", "")
+                .replace("F CFA", "")
+                .replace("FCFA", "")
+                .replace("CFA", "")
+                .replace("\u00A0", "")
+                .replace("\u202F", "")
+                .replace(" ", "")
+                .trim()
+
+        return when {
+            cleanedValue.contains(",") &&
+                    cleanedValue.contains(".") -> {
+                cleanedValue
+                    .replace(",", "")
+                    .toDoubleOrNull()
+                    ?: 0.0
+            }
+
+            cleanedValue.contains(",") -> {
+                cleanedValue
+                    .replace(",", ".")
+                    .toDoubleOrNull()
+                    ?: 0.0
+            }
+
+            else -> {
+                cleanedValue
+                    .toDoubleOrNull()
+                    ?: 0.0
+            }
+        }
+    }
+
+    private fun translateStatus(
+        status: String
+    ): String {
+        return when (status.lowercase()) {
+            "pending" -> "En attente"
+            "approved" -> "Approuvé"
+            "rejected" -> "Rejeté"
+            "overdue" -> "En retard"
+            "paid" -> "Payé"
+            else -> status
+        }
+    }
+
+    private fun formatEnglishStatus(
+        status: String
+    ): String {
+        return status
+            .replace("_", " ")
+            .replaceFirstChar { character ->
+                character.uppercase()
+            }
+    }
+
+    fun updateLanguage(
+        newLanguage: String
+    ) {
+        language = newLanguage
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount(): Int {
+        return loanList.size
+    }
 }

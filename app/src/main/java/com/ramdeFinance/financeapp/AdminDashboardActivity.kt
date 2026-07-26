@@ -32,12 +32,12 @@ class AdminDashboardActivity : AppCompatActivity() {
             finish()
         }
         recyclerView = findViewById(R.id.recyclerAdminLoans)
+        var userLanguage = "en"
 
         allLoansList = mutableListOf()
         loanList = mutableListOf()
-        adapter = AdminLoanAdapter(loanList)
-        var userLanguage = "en"
 
+        adapter = AdminLoanAdapter(loanList)
         recyclerView.adapter = adapter
         val paymentReviewButton = findViewById<Button>(R.id.btnPaymentReview)
         val pendingLoansText = findViewById<TextView>(R.id.txtPendingLoans)

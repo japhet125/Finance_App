@@ -288,7 +288,10 @@ class PaymentLoanAdapter(
 
                             Toast.makeText(
                                 holder.itemView.context,
-                                "Payment failed: ${e.message}",
+                                if (language == "fr")
+                                    "Échec du paiement : ${e.message}"
+                                else
+                                    "Payment failed: ${e.message}",
                                 Toast.LENGTH_LONG
                             ).show()
                         }

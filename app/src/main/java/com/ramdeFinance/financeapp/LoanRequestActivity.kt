@@ -23,6 +23,7 @@ class LoanRequestActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var pendingLoanRequest: MutableMap<String, Any>
+    private var userLanguage: String = "en"
 
     private val agreementLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -45,11 +46,27 @@ class LoanRequestActivity : AppCompatActivity() {
                 db.collection("loan_requests")
                     .add(pendingLoanRequest)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Loan request submitted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            if (userLanguage == "fr") {
+                                "Demande de prêt soumise."
+                            } else {
+                                "Loan request submitted."
+                            },
+                            Toast.LENGTH_SHORT
+                        ).show()
                         finish()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this,
+                            if (userLanguage == "fr") {
+                                "Erreur : ${e.message}"
+                            } else {
+                                "Error: ${e.message}"
+                            },
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
             }
         }
@@ -66,7 +83,11 @@ class LoanRequestActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        var userLanguage = "en"
+        val formattedMinimum = CurrencyFormatter.format(
+            amount = 2000.0,
+            currencyCode = "USD",
+            languageCode = "en"
+        )
 
         val amount = findViewById<EditText>(R.id.etLoanAmount)
         val reason = findViewById<EditText>(R.id.etLoanReason)
@@ -143,17 +164,41 @@ class LoanRequestActivity : AppCompatActivity() {
             val amountValue = amountText.toDoubleOrNull()
 
             if (amountText.isBlank() || reasonText.isBlank()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    if (userLanguage == "fr") {
+                        "Veuillez remplir tous les champs."
+                    } else {
+                        "Please fill in all fields."
+                    },
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             if (amountValue == null || amountValue <= 0.0) {
-                Toast.makeText(this, "Enter a valid loan amount", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    if (userLanguage == "fr") {
+                        "Entrez un montant de prêt valide."
+                    } else {
+                        "Enter a valid loan amount."
+                    },
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             if (paymentPlanGroup.checkedRadioButtonId == -1) {
-                Toast.makeText(this, "Please select a payment plan", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    if (userLanguage == "fr") {
+                        "Veuillez sélectionner un plan de paiement."
+                    } else {
+                        "Please select a payment plan."
+                    },
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -188,7 +233,15 @@ class LoanRequestActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    Toast.makeText(this, "Invalid payment plan", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        if (userLanguage == "fr") {
+                            "Plan de paiement invalide."
+                        } else {
+                            "Invalid payment plan."
+                        },
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
             }
@@ -266,7 +319,11 @@ class LoanRequestActivity : AppCompatActivity() {
 
                     Toast.makeText(
                         this,
-                        "Monthly payment is only available for USA loans of $2,000 or more.",
+                        if (userLanguage == "fr") {
+                            "Le paiement mensuel est disponible uniquement pour les prêts américains de $formattedMinimum ou plus."
+                        } else {
+                            "Monthly payment is only available for U.S. loans of $formattedMinimum or more."
+                        },
                         Toast.LENGTH_LONG
                     ).show()
 
@@ -302,14 +359,19 @@ class LoanRequestActivity : AppCompatActivity() {
                     "Bronze" -> 500.0
                     else -> 250.0
                 }
+                val formattedMaxAllowed = CurrencyFormatter.format(
+                    amount = maxAllowed,
+                    currencyCode = "XOF",
+                    languageCode = userLanguage
+                )
 
                 if (amountValue > maxAllowed) {
                     Toast.makeText(
                         this,
                         if (userLanguage == "fr") {
-                            "Prêt refusé. Votre niveau emprunteur permet jusqu'à $${maxAllowed.toInt()}."
+                            "Prêt refusé. Votre niveau emprunteur permet jusqu'à $formattedMaxAllowed."
                         } else {
-                            "Loan denied. Your borrower level allows up to $${maxAllowed.toInt()}."
+                            "Loan denied. Your borrower level allows up to $formattedMaxAllowed."
                         },
                         Toast.LENGTH_LONG
                     ).show()
@@ -359,62 +421,92 @@ class LoanRequestActivity : AppCompatActivity() {
                                 "createdAt" to System.currentTimeMillis(),
                                 "dueDate" to dueDate,
                             )
-                            val planDisplay = when (paymentFrequency) {
-                                "one_time" -> "One-Time Payment"
-                                "monthly" -> "Monthly (12 Payments)"
-                                "weekly" -> "Weekly ($paymentTerm Payments)"
-                                else -> paymentFrequency
-                            }
+                            val planDisplay =
+                                if (userLanguage == "fr") {
+                                    when (paymentFrequency) {
+                                        "one_time" -> "Paiement unique"
+                                        "monthly" -> "Mensuel (12 paiements)"
+                                        "weekly" -> "Hebdomadaire ($paymentTerm paiements)"
+                                        else -> paymentFrequency
+                                    }
+                                } else {
+                                    when (paymentFrequency) {
+                                        "one_time" -> "One-Time Payment"
+                                        "monthly" -> "Monthly (12 Payments)"
+                                        "weekly" -> "Weekly ($paymentTerm Payments)"
+                                        else -> paymentFrequency
+                                    }
+                                }
 
                             val dueDateDisplay =
                                 java.text.SimpleDateFormat(
                                     "MMM dd, yyyy",
                                     java.util.Locale.getDefault()
                                 ).format(java.util.Date(dueDate))
+                            val formattedLoanAmount = CurrencyFormatter.format(
+                                amount = amountValue,
+                                currencyCode = "XOF",
+                                languageCode = userLanguage
+                            )
+
+                            val formattedTotalRepayment = CurrencyFormatter.format(
+                                amount = totalRepayment,
+                                currencyCode = "XOF",
+                                languageCode = userLanguage
+                            )
+
+                            val formattedPaymentAmount = CurrencyFormatter.format(
+                                amount = paymentAmount,
+                                currencyCode = "XOF",
+                                languageCode = userLanguage
+                            )
+
 
                             val summaryMessage =
                                 if (userLanguage == "fr") {
                                     """
-Niveau emprunteur : $borrowerLevel
+Niveau emprunteur :
+$borrowerLevel
 
 Limite actuelle :
-$${maxAllowed.toInt()}
+$formattedMaxAllowed
 
 Identité :
 ${if (identityVerified) "Vérifiée" else "Non vérifiée"}
 
 Montant du prêt :
-$${String.format("%.2f", amountValue)}
+$formattedLoanAmount
 
 Plan :
 $planDisplay
 
 Taux d'intérêt :
-${(interestRate * 100).toInt()}%
+${(interestRate * 100).toInt()} %
 
 Remboursement total :
-$${String.format("%.2f", totalRepayment)}
+$formattedTotalRepayment
 
 Montant du paiement :
-$${String.format("%.2f", paymentAmount)}
+$formattedPaymentAmount
 
 Date d'échéance :
 $dueDateDisplay
 
 Voulez-vous soumettre cette demande de prêt ?
-""".trimIndent()
+        """.trimIndent()
                                 } else {
                                     """
-Borrower Level: $borrowerLevel
+Borrower Level:
+$borrowerLevel
 
 Current Limit:
-$${maxAllowed.toInt()}
+$formattedMaxAllowed
 
 Identity:
 ${if (identityVerified) "Verified" else "Not Verified"}
 
 Loan Amount:
-$${String.format("%.2f", amountValue)}
+$formattedLoanAmount
 
 Plan:
 $planDisplay
@@ -423,16 +515,16 @@ Interest Rate:
 ${(interestRate * 100).toInt()}%
 
 Total Repayment:
-$${String.format("%.2f", totalRepayment)}
+$formattedTotalRepayment
 
 Payment Amount:
-$${String.format("%.2f", paymentAmount)}
+$formattedPaymentAmount
 
 Due Date:
 $dueDateDisplay
 
 Do you want to submit this loan request?
-""".trimIndent()
+        """.trimIndent()
                                 }
 
                             AlertDialog.Builder(this)

@@ -37,4 +37,9 @@
     <string name="dashboard_notification_description">Mises à jour du compte et alertes de paiement</string>
     <string name="language_updated">Langue mise à jour</string>
     <string name="language_update_failed">Impossible de modifier la langue</string>
+
+    <string name="language_settings_title">Paramètres de langue</string>
+    <string name="save_language">Enregistrer la langue</string>
+    <string name="back">Retour</string>
+
 </resources>

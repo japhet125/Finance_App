@@ -40,6 +40,13 @@ class AdminLoanAdapter(
 
         val (documentId, loan) = loanList[position]
         val db = FirebaseFirestore.getInstance()
+
+        val formattedAmount =
+            CurrencyFormatter.format(
+                amount = parseMoney(loan.amount),
+                currencyCode = "XOF",
+                languageCode = language
+            )
         val planText =
             if (language == "fr") {
                 when (loan.paymentFrequency) {
@@ -57,7 +64,7 @@ class AdminLoanAdapter(
             }
 
         if (language == "fr") {
-            holder.amount.text = "Montant : ${loan.amount}"
+            holder.amount.text = "Montant : $formattedAmount"
             holder.reason.text = "Raison : ${loan.reason}"
             holder.plan.text = "Plan : $planText"
             holder.status.text = "Statut : ${translateStatus(loan.status)}"
@@ -65,7 +72,7 @@ class AdminLoanAdapter(
             holder.rejectButton.text = "Rejeter"
             holder.recommendation.text = "Recommandation : Chargement..."
         } else {
-            holder.amount.text = "Amount: $${loan.amount}"
+            holder.amount.text = "Amount: $formattedAmount"
             holder.reason.text = "Reason: ${loan.reason}"
             holder.plan.text = "Plan: $planText"
             holder.status.text = "Status: ${loan.status}"
@@ -246,7 +253,7 @@ class AdminLoanAdapter(
                     val notification = hashMapOf(
                         "userId" to loan.userId,
                         "title" to "Loan Approved",
-                        "message" to "Your loan request for $${loan.amount} was approved.",
+                        "message" to "Your loan request for $formattedAmount was approved.",
                         "timestamp" to System.currentTimeMillis(),
                         "isRead" to false
                     )
@@ -275,7 +282,7 @@ class AdminLoanAdapter(
                                     """
                 Bonjour $fullName,
 
-                Félicitations ! Votre demande de prêt de $${loan.amount} a été approuvée.
+                Félicitations ! "Votre demande de prêt de $formattedAmount a été approuvée.".
 
                 Merci d'avoir choisi Baobab Finance.
 
@@ -285,7 +292,7 @@ class AdminLoanAdapter(
                                     """
                 Hello $fullName,
 
-                Congratulations! Your loan request for $${loan.amount} has been approved.
+                Congratulations! Your loan request for $formattedAmount has been approved.
 
                 Thank you for choosing Baobab Finance.
 
@@ -331,7 +338,7 @@ class AdminLoanAdapter(
                     val notification = hashMapOf(
                         "userId" to loan.userId,
                         "title" to "Loan Rejected",
-                        "message" to "Your loan request for $${loan.amount} was rejected.",
+                        "message" to "Your loan request for $formattedAmount was rejected.",
                         "timestamp" to System.currentTimeMillis(),
                         "isRead" to false
                     )
@@ -359,7 +366,7 @@ class AdminLoanAdapter(
                                     """
                 Bonjour $fullName,
 
-                Votre demande de prêt de $${loan.amount} a été rejetée.
+                Votre demande de prêt de $formattedAmount a été rejetée.
 
                 Veuillez contacter le support si vous avez des questions.
 
@@ -369,7 +376,7 @@ class AdminLoanAdapter(
                                     """
                 Hello $fullName,
 
-                Your loan request for $${loan.amount} has been rejected.
+                Your loan request for $formattedAmount has been rejected.
 
                 Please contact support if you have any questions.
 
@@ -425,5 +432,35 @@ class AdminLoanAdapter(
     fun updateLanguage(newLanguage: String) {
         language = newLanguage
         notifyDataSetChanged()
+    }
+    private fun parseMoney(value: String): Double {
+        val cleanedValue = value
+            .replace("$", "")
+            .replace("F CFA", "")
+            .replace("FCFA", "")
+            .replace("CFA", "")
+            .replace("\u00A0", "")
+            .replace("\u202F", "")
+            .replace(" ", "")
+            .trim()
+
+        return when {
+            cleanedValue.contains(",") &&
+                    cleanedValue.contains(".") -> {
+                cleanedValue
+                    .replace(",", "")
+                    .toDoubleOrNull() ?: 0.0
+            }
+
+            cleanedValue.contains(",") -> {
+                cleanedValue
+                    .replace(",", ".")
+                    .toDoubleOrNull() ?: 0.0
+            }
+
+            else -> {
+                cleanedValue.toDoubleOrNull() ?: 0.0
+            }
+        }
     }
 }

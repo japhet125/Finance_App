@@ -11,12 +11,12 @@
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="@string/back" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language Settings"
+        android:text="@string/language_settings_title"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginTop="24dp" />
@@ -31,7 +31,7 @@
         android:id="@+id/btnSaveLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Language"
+        android:text="@string/save_language"
         android:layout_marginTop="24dp" />
 
 </LinearLayout>
