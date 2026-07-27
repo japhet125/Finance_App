@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import android.widget.ProgressBar
 
 class AdminDashboardActivity : AppCompatActivity() {
 
@@ -24,6 +25,9 @@ class AdminDashboardActivity : AppCompatActivity() {
             MutableList<Pair<String, AdminLoanModel>>
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var emptyText: TextView
+
     private lateinit var adapter: AdminLoanAdapter
 
     private var userLanguage = "en"
@@ -55,6 +59,14 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         recyclerView =
             findViewById(R.id.recyclerAdminLoans)
+        recyclerView =
+            findViewById(R.id.recyclerAdminLoans)
+
+        progressBar =
+            findViewById(R.id.progressAdminLoans)
+
+        emptyText =
+            findViewById(R.id.tvAdminLoansEmpty)
 
         allLoansList = mutableListOf()
         loanList = mutableListOf()
@@ -243,6 +255,38 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
 
         adapter.notifyDataSetChanged()
+
+        when {
+            allLoansList.isEmpty() -> {
+                ListStateHelper.showEmpty(
+                    recyclerView = recyclerView,
+                    progressBar = progressBar,
+                    emptyText = emptyText,
+                    message = getString(
+                        R.string.admin_loans_empty
+                    )
+                )
+            }
+
+            loanList.isEmpty() -> {
+                ListStateHelper.showEmpty(
+                    recyclerView = recyclerView,
+                    progressBar = progressBar,
+                    emptyText = emptyText,
+                    message = getString(
+                        R.string.admin_loans_no_results
+                    )
+                )
+            }
+
+            else -> {
+                ListStateHelper.showContent(
+                    recyclerView = recyclerView,
+                    progressBar = progressBar,
+                    emptyText = emptyText
+                )
+            }
+        }
     }
 
     private fun loadAdminLanguage(
@@ -359,7 +403,17 @@ class AdminDashboardActivity : AppCompatActivity() {
                 Query.Direction.DESCENDING
             )
             .addSnapshotListener { snapshots, error ->
+
                 if (error != null) {
+                    ListStateHelper.showError(
+                        recyclerView = recyclerView,
+                        progressBar = progressBar,
+                        emptyText = emptyText,
+                        message = getString(
+                            R.string.admin_loans_load_failed
+                        )
+                    )
+
                     return@addSnapshotListener
                 }
 
@@ -382,9 +436,25 @@ class AdminDashboardActivity : AppCompatActivity() {
                 }
 
                 adapter.notifyDataSetChanged()
+
+                if (loanList.isEmpty()) {
+                    ListStateHelper.showEmpty(
+                        recyclerView = recyclerView,
+                        progressBar = progressBar,
+                        emptyText = emptyText,
+                        message = getString(
+                            R.string.admin_loans_empty
+                        )
+                    )
+                } else {
+                    ListStateHelper.showContent(
+                        recyclerView = recyclerView,
+                        progressBar = progressBar,
+                        emptyText = emptyText
+                    )
+                }
             }
     }
-
     companion object {
         private const val MENU_AUDIT_LOGS = 1
         private const val MENU_USERS = 2

@@ -41,11 +41,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="12dp"
+            android:backgroundTint="#6C54B5"
             android:hint="@string/search_by_reason"
             android:inputType="text"
             android:textColor="#333333"
-            android:textColorHint="#777777"
-            android:backgroundTint="#6C54B5"/>
+            android:textColorHint="#777777" />
 
         <Spinner
             android:id="@+id/spinnerLoanSort"
@@ -61,14 +61,41 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerLoans"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerLoans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <ProgressBar
+            android:id="@+id/progressLoanHistory"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/loading_loan_history"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvLoanHistoryEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/loan_history_empty"
+            android:textColor="#F8F8F8"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <include
         layout="@layout/component_bottom_navigation"

@@ -2,6 +2,8 @@ package com.ramdefinance.financeapp
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -10,6 +12,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 class TransactionHistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var emptyText: TextView
+
     private lateinit var transactionList: MutableList<TransactionModel>
     private lateinit var adapter: TransactionAdapter
 
@@ -23,6 +28,12 @@ class TransactionHistoryActivity : AppCompatActivity() {
         recyclerView =
             findViewById(R.id.recyclerTransactions)
 
+        progressBar =
+            findViewById(R.id.progressTransactions)
+
+        emptyText =
+            findViewById(R.id.tvTransactionEmpty)
+
         backButton.setOnClickListener {
             finish()
         }
@@ -31,6 +42,12 @@ class TransactionHistoryActivity : AppCompatActivity() {
         adapter = TransactionAdapter(transactionList)
 
         recyclerView.adapter = adapter
+
+        ListStateHelper.showLoading(
+            recyclerView = recyclerView,
+            progressBar = progressBar,
+            emptyText = emptyText
+        )
 
         val userId =
             FirebaseAuth.getInstance()
@@ -41,6 +58,13 @@ class TransactionHistoryActivity : AppCompatActivity() {
             FirebaseFirestore.getInstance()
 
         if (userId == null) {
+            ListStateHelper.showError(
+                recyclerView = recyclerView,
+                progressBar = progressBar,
+                emptyText = emptyText,
+                message = getString(R.string.user_not_signed_in)
+            )
+
             return
         }
 
@@ -80,6 +104,15 @@ class TransactionHistoryActivity : AppCompatActivity() {
             .addSnapshotListener { snapshots, error ->
 
                 if (error != null) {
+                    ListStateHelper.showError(
+                        recyclerView = recyclerView,
+                        progressBar = progressBar,
+                        emptyText = emptyText,
+                        message = getString(
+                            R.string.transaction_history_load_failed
+                        )
+                    )
+
                     return@addSnapshotListener
                 }
 
@@ -102,6 +135,23 @@ class TransactionHistoryActivity : AppCompatActivity() {
                 transactionList.addAll(temporaryList)
 
                 adapter.notifyDataSetChanged()
+
+                if (transactionList.isEmpty()) {
+                    ListStateHelper.showEmpty(
+                        recyclerView = recyclerView,
+                        progressBar = progressBar,
+                        emptyText = emptyText,
+                        message = getString(
+                            R.string.transaction_history_empty
+                        )
+                    )
+                } else {
+                    ListStateHelper.showContent(
+                        recyclerView = recyclerView,
+                        progressBar = progressBar,
+                        emptyText = emptyText
+                    )
+                }
             }
     }
 }

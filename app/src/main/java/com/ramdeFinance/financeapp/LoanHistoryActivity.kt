@@ -14,17 +14,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.content.Intent
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoanHistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var emptyText: TextView
     private lateinit var loanList: MutableList<LoanModel>
     private lateinit var adapter: LoanAdapter
     private lateinit var allLoans: MutableList<LoanModel>
     private var selectedFilter = FILTER_ALL
     private var searchQuery = ""
     private var selectedSort = SORT_NEWEST
+
     private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +56,13 @@ class LoanHistoryActivity : AppCompatActivity() {
         }
 
         recyclerView = findViewById(R.id.recyclerLoans)
+        progressBar = findViewById(R.id.progressLoanHistory)
+        emptyText = findViewById(R.id.tvLoanHistoryEmpty)
+        ListStateHelper.showLoading(
+            recyclerView = recyclerView,
+            progressBar = progressBar,
+            emptyText = emptyText
+        )
 
         loanList = mutableListOf()
         allLoans = mutableListOf()
@@ -182,9 +195,22 @@ class LoanHistoryActivity : AppCompatActivity() {
                 .addSnapshotListener { snapshots, error ->
 
                     if (error != null) {
+
+                        ListStateHelper.showError(
+                            recyclerView = recyclerView,
+                            progressBar = progressBar,
+                            emptyText = emptyText,
+                            message = getString(R.string.loan_history_load_failed)
+                        )
+
+                        Toast.makeText(
+                            this,
+                            getString(R.string.loan_history_load_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
                         return@addSnapshotListener
                     }
-
                     allLoans.clear()
 
                     if (snapshots != null) {
@@ -324,6 +350,34 @@ class LoanHistoryActivity : AppCompatActivity() {
 
         loanList.addAll(filteredLoans)
         adapter.notifyDataSetChanged()
+
+        when {
+            allLoans.isEmpty() -> {
+                ListStateHelper.showEmpty(
+                    recyclerView = recyclerView,
+                    progressBar = progressBar,
+                    emptyText = emptyText,
+                    message = getString(R.string.loan_history_empty)
+                )
+            }
+
+            loanList.isEmpty() -> {
+                ListStateHelper.showEmpty(
+                    recyclerView = recyclerView,
+                    progressBar = progressBar,
+                    emptyText = emptyText,
+                    message = getString(R.string.loan_history_no_results)
+                )
+            }
+
+            else -> {
+                ListStateHelper.showContent(
+                    recyclerView = recyclerView,
+                    progressBar = progressBar,
+                    emptyText = emptyText
+                )
+            }
+        }
     }
     override fun onResume() {
         super.onResume()

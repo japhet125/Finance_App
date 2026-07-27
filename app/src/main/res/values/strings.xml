@@ -239,4 +239,31 @@
     <string name="filter_overdue">Overdue</string>
     <string name="filter_paid">Paid</string>
 
+    <string name="loan_history_empty">No loans yet</string>
+    <string name="loan_history_no_results">No loans match your filters</string>
+    <string name="loan_history_load_failed">Unable to load your loan history</string>
+    <string name="loading_loan_history">Loading loan history</string>
+    <string name="transaction_history_empty">No transactions yet</string>
+    <string name="transaction_history_load_failed">Unable to load transaction history</string>
+    <string name="loading_transaction_history">Loading transaction history</string>
+
+    <string name="admin_payments_empty">No pending payment requests</string>
+    <string name="admin_payments_load_failed">Unable to load payment requests</string>
+    <string name="loading_admin_payments">Loading payment requests</string>
+    <string name="admin_loans_empty">No loan requests available</string>
+    <string name="admin_loans_no_results">No loan requests match your search</string>
+    <string name="admin_loans_load_failed">Unable to load loan requests</string>
+    <string name="loading_admin_loans">Loading loan requests</string>
+    <string name="admin_users_empty">No users available</string>
+    <string name="admin_users_load_failed">Unable to load users</string>
+    <string name="loading_admin_users">Loading users</string>
+
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_empty">No notifications yet</string>
+    <string name="notifications_load_failed">Unable to load notifications</string>
+    <string name="loading_notifications">Loading notifications</string>
+    <string name="notification_read_update_failed">Unable to update notification status</string>
+
+
+
 </resources>

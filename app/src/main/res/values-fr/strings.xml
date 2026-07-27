@@ -223,5 +223,33 @@
     <string name="filter_overdue">En retard</string>
     <string name="filter_paid">Payés</string>
 
+    <string name="loan_history_empty">Aucun prêt pour le moment</string>
+    <string name="loan_history_no_results">Aucun prêt ne correspond à vos filtres</string>
+    <string name="loan_history_load_failed">Impossible de charger l’historique de vos prêts</string>
+    <string name="loading_loan_history">Chargement de l’historique des prêts</string>
+
+    <string name="transaction_history_empty">Aucune transaction pour le moment</string>
+    <string name="transaction_history_load_failed">Impossible de charger l’historique des transactions</string>
+    <string name="loading_transaction_history">Chargement de l’historique des transactions</string>
+
+    <string name="admin_payments_empty">Aucune demande de paiement en attente</string>
+    <string name="admin_payments_load_failed">Impossible de charger les demandes de paiement</string>
+    <string name="loading_admin_payments">Chargement des demandes de paiement</string>
+
+    <string name="admin_loans_empty">Aucune demande de prêt disponible</string>
+    <string name="admin_loans_no_results">Aucune demande de prêt ne correspond à votre recherche</string>
+    <string name="admin_loans_load_failed">Impossible de charger les demandes de prêt</string>
+    <string name="loading_admin_loans">Chargement des demandes de prêt</string>
+
+    <string name="admin_users_empty">Aucun utilisateur disponible</string>
+    <string name="admin_users_load_failed">Impossible de charger les utilisateurs</string>
+    <string name="loading_admin_users">Chargement des utilisateurs</string>
+
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_empty">Aucune notification pour le moment</string>
+    <string name="notifications_load_failed">Impossible de charger les notifications</string>
+    <string name="loading_notifications">Chargement des notifications</string>
+    <string name="notification_read_update_failed">Impossible de mettre à jour le statut de la notification</string>
+
 
 </resources>
