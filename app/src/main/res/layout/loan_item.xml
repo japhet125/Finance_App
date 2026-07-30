@@ -1,90 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:background="#EEEEEE">
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
-
-    <TextView
-        android:id="@+id/txtReason"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/txtPlan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txtInterest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txtTotalRepayment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txtPaymentAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txtRemainingBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txtAutoPayStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Auto Pay:"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp" />
-
-    <TextView
-        android:id="@+id/txtNextPayment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Payment:"
-        android:textSize="16sp"
-        android:layout_marginTop="4dp" />
-    <TextView
-        android:id="@+id/txtLoanProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Progress: 0%"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp" />
-
-    <ProgressBar
-        android:id="@+id/progressLoan"
-        style="?android:attr/progressBarStyleHorizontal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="0"
-        android:layout_marginTop="6dp" />
-    <TextView
-        android:id="@+id/txtDueDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
+        <!-- Loan amount -->
+        <TextView
+            android:id="@+id/txtAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loan_amount_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_statistic"
+            android:textStyle="bold" />
 
+        <!-- Loan reason -->
+        <TextView
+            android:id="@+id/txtReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_reason_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-</LinearLayout>
+        <!-- Loan status -->
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_status_default"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
+
+        <!-- Repayment details -->
+        <TextView
+            android:id="@+id/txtPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loan_plan_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtInterest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_interest_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtTotalRepayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_total_repayment_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtPaymentAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_payment_amount_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtRemainingBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_remaining_balance_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
+
+        <!-- Payment schedule -->
+        <TextView
+            android:id="@+id/txtAutoPayStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loan_auto_pay_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtNextPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_next_payment_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtDueDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/loan_due_date_default"
+            android:textColor="@color/text_muted"
+            android:textSize="@dimen/text_regular" />
+
+        <!-- Loan progress -->
+        <TextView
+            android:id="@+id/txtLoanProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:text="@string/loan_progress_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressLoan"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/chart_progress_height"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:max="100"
+            android:progress="0"
+            android:progressBackgroundTint="@color/background_secondary"
+            android:progressTint="@color/brand_green" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

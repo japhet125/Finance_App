@@ -1,37 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="@dimen/screen_padding">
 
         <TextView
             android:id="@+id/txtAgreement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:lineSpacingExtra="4dp" />
 
         <CheckBox
             android:id="@+id/cbAgreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I agree to the terms and conditions"/>
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/agreement_checkbox"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:buttonTint="@color/brand_green" />
 
-        <EditText
-            android:id="@+id/etSignature"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Type your full legal name" />
-
-        <Button
-            android:id="@+id/btnAcceptAgreement"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Accept Agreement"/>
+            android:layout_marginTop="@dimen/spacing_md"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/legal_name_hint"
+                android:inputType="textPersonName|textCapWords"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAcceptAgreement"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/accept_agreement"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@color/brand_green"
+            app:cornerRadius="@dimen/button_corner_radius" />
+
     </LinearLayout>
 
 </ScrollView>

@@ -1,49 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:background="#EEEEEE">
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtPaymentLoanAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtPaymentLoanReason"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtPaymentLoanPlan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtPaymentLoanBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/etPayAmount"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:hint="Enter payment amount"
-        android:inputType="numberDecimal" />
-
-    <Button
-        android:id="@+id/btnPayLoan"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pay This Loan"
-        android:layout_marginTop="12dp" />
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/txtPaymentLoanAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/payment_loan_amount_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_statistic"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtPaymentLoanReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_loan_reason_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtPaymentLoanPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_loan_plan_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <TextView
+            android:id="@+id/txtPaymentLoanBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_loan_balance_default"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_payment_amount"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="@dimen/button_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/button_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/button_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/button_corner_radius"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPayAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:minHeight="@dimen/touch_target_min"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint"
+                android:textSize="@dimen/text_body" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPayLoan"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:text="@string/pay_this_loan"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@color/brand_green"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:rippleColor="@color/navigation_ripple" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

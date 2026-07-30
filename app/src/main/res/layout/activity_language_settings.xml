@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_primary"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#F5F7FA">
+    android:padding="@dimen/screen_padding">
 
-    <Button
+    <!-- Back button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back" />
+        android:layout_height="@dimen/touch_target_min"
+        android:minWidth="0dp"
+        android:paddingStart="@dimen/spacing_sm"
+        android:paddingEnd="@dimen/spacing_sm"
+        android:text="@string/back"
+        android:textColor="@color/brand_green"
+        android:textSize="@dimen/text_body"
+        app:rippleColor="@color/navigation_ripple" />
 
+    <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_lg"
         android:text="@string/language_settings_title"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="24dp" />
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_statistic"
+        android:textStyle="bold" />
 
+    <!-- Language Selector -->
     <Spinner
         android:id="@+id/spLanguage"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp" />
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/spacing_lg"
+        android:backgroundTint="@color/brand_green"
+        android:contentDescription="@string/language" />
 
-    <Button
+    <!-- Save Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveLanguage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/spacing_lg"
         android:text="@string/save_language"
-        android:layout_marginTop="24dp" />
+        android:textSize="@dimen/text_body"
+        app:backgroundTint="@color/brand_green"
+        app:cornerRadius="@dimen/button_corner_radius" />
 
 </LinearLayout>

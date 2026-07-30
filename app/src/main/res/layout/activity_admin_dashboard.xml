@@ -4,81 +4,157 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_primary"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/screen_padding_compact">
 
+    <!-- Admin menu -->
     <ImageButton
         android:id="@+id/btnAdminMenu"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/touch_target_min"
+        android:layout_height="@dimen/touch_target_min"
         android:layout_gravity="end"
-        android:background="@android:color/transparent"
+        android:background="@color/transparent"
         android:contentDescription="@string/admin_menu"
-        android:src="@android:drawable/ic_menu_sort_by_size" />
+        android:padding="@dimen/spacing_12"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        app:tint="@color/text_primary" />
 
-    <Button
+    <!-- Back button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/back" />
+        android:layout_height="@dimen/touch_target_min"
+        android:layout_marginBottom="@dimen/spacing_md"
+        android:minWidth="0dp"
+        android:paddingStart="@dimen/spacing_sm"
+        android:paddingEnd="@dimen/spacing_sm"
+        android:text="@string/back"
+        android:textColor="@color/brand_green"
+        android:textSize="@dimen/text_body"
+        app:rippleColor="@color/navigation_ripple" />
 
-    <Button
+    <!-- Payment review -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPaymentReview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/payment_review" />
+        android:layout_height="@dimen/button_height"
+        android:text="@string/payment_review"
+        android:textColor="@color/text_on_brand"
+        android:textSize="@dimen/text_body"
+        app:backgroundTint="@color/brand_green"
+        app:cornerRadius="@dimen/button_corner_radius"
+        app:rippleColor="@color/navigation_ripple" />
 
-    <TextView
-        android:id="@+id/txtPendingLoans"
+    <!-- Pending loans -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="#FFFFFF"
-        android:padding="16dp"
-        android:text="@string/pending_loans_default"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/spacing_12"
+        app:cardBackgroundColor="@color/status_warning_background"
+        app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+        app:cardElevation="@dimen/card_elevation_primary"
+        app:strokeColor="@color/status_warning"
+        app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtPendingIdentity"
+        <TextView
+            android:id="@+id/txtPendingLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_padding_compact"
+            android:text="@string/pending_loans_default"
+            android:textColor="@color/status_warning"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Pending identities -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="#FFFFFF"
-        android:padding="16dp"
-        android:text="@string/pending_identities_default"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/spacing_sm"
+        app:cardBackgroundColor="@color/status_info_background"
+        app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+        app:cardElevation="@dimen/card_elevation_primary"
+        app:strokeColor="@color/status_info"
+        app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtPendingPayments"
+        <TextView
+            android:id="@+id/txtPendingIdentity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_padding_compact"
+            android:text="@string/pending_identities_default"
+            android:textColor="@color/status_info"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Pending payments -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="#FFFFFF"
-        android:padding="16dp"
-        android:text="@string/pending_payments_default"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:layout_marginBottom="@dimen/spacing_md"
+        app:cardBackgroundColor="@color/status_success_background"
+        app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+        app:cardElevation="@dimen/card_elevation_primary"
+        app:strokeColor="@color/status_success"
+        app:strokeWidth="@dimen/card_stroke_width">
 
+        <TextView
+            android:id="@+id/txtPendingPayments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_padding_compact"
+            android:text="@string/pending_payments_default"
+            android:textColor="@color/status_success"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Screen title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/spacing_md"
         android:text="@string/admin_loan_requests_title"
-        android:textSize="28sp"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_statistic"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/etSearchLoans"
+    <!-- Search field -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/search_admin_loans"
-        android:inputType="text" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_md"
+        app:boxBackgroundColor="@color/surface_input"
+        app:boxCornerRadiusBottomEnd="@dimen/button_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/button_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/button_corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/button_corner_radius"
+        app:boxStrokeColor="@color/brand_green"
+        app:hintTextColor="@color/text_muted">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearchLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_admin_loans"
+            android:inputType="text"
+            android:minHeight="@dimen/touch_target_min"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/input_hint"
+            android:textSize="@dimen/text_body" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Loan request states -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -88,15 +164,18 @@
             android:id="@+id/recyclerAdminLoans"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_md"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:id="@+id/progressAdminLoans"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
             android:layout_gravity="center"
             android:contentDescription="@string/loading_admin_loans"
+            android:indeterminateTint="@color/brand_green"
             android:visibility="visible" />
 
         <TextView
@@ -105,11 +184,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="@dimen/screen_padding"
             android:text="@string/admin_loans_empty"
-            android:textColor="#333333"
-            android:textSize="18sp"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_section_title"
             android:visibility="gone" />
 
     </FrameLayout>
+
 </LinearLayout>

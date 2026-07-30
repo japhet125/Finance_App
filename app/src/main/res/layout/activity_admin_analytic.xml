@@ -1,154 +1,326 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="@color/background_primary"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/screen_padding">
 
-        <Button
+        <!-- Back button -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back" />
+            android:layout_height="@dimen/touch_target_min"
+            android:minWidth="0dp"
+            android:paddingStart="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_sm"
+            android:text="@string/back"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            app:rippleColor="@color/navigation_ripple" />
 
+        <!-- Screen title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_lg"
             android:text="@string/admin_analytics_title"
-            android:textSize="30sp"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_display"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtTotalUsers"
+        <!-- Total Users -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_total_users_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtTotalLoans"
+            <TextView
+                android:id="@+id/txtTotalUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_total_users_default"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Total Loans -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_total_loans_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtApprovedLoans"
+            <TextView
+                android:id="@+id/txtTotalLoans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_total_loans_default"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Approved Loans -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_approved_loans_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/status_success_background"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/status_success"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtOverdueLoans"
+            <TextView
+                android:id="@+id/txtApprovedLoans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_approved_loans_default"
+                android:textColor="@color/status_success"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Overdue Loans -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_overdue_loans_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/status_error_background"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/status_error"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtTotalLoaned"
+            <TextView
+                android:id="@+id/txtOverdueLoans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_overdue_loans_default"
+                android:textColor="@color/status_error"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Total Loaned -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_total_loaned_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtTotalPayments"
+            <TextView
+                android:id="@+id/txtTotalLoaned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_total_loaned_default"
+                android:textColor="@color/brand_green"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Total Payments -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_total_payments_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtAverageCredit"
+            <TextView
+                android:id="@+id/txtTotalPayments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_total_payments_default"
+                android:textColor="@color/brand_green"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Average Credit -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
-            android:padding="20dp"
-            android:text="@string/admin_average_credit_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtVerifiedUsers"
+            <TextView
+                android:id="@+id/txtAverageCredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_average_credit_default"
+                android:textColor="@color/brand_gold"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Verified Users -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/admin_verified_users_default"
-            android:textSize="18sp" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtFlaggedUsers"
+            <TextView
+                android:id="@+id/txtVerifiedUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_verified_users_default"
+                android:textColor="@color/status_success"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Flagged Users -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/admin_flagged_users_default"
-            android:textSize="18sp" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtRejectedLoans"
+            <TextView
+                android:id="@+id/txtFlaggedUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_flagged_users_default"
+                android:textColor="@color/status_warning"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Rejected Loans -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/admin_rejected_loans_default"
-            android:textSize="18sp" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <TextView
-            android:id="@+id/txtOutstandingBalance"
+            <TextView
+                android:id="@+id/txtRejectedLoans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_rejected_loans_default"
+                android:textColor="@color/status_error"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Outstanding Balance -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/admin_outstanding_balance_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <Button
+            <TextView
+                android:id="@+id/txtOutstandingBalance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@string/admin_outstanding_balance_default"
+                android:textColor="@color/brand_gold"
+                android:textSize="@dimen/text_section_title"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Chart button -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLoanStatusChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/view_loan_status_chart" />
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_12"
+            android:text="@string/view_loan_status_chart"
+            android:textColor="@color/text_on_brand"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@color/brand_green"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:rippleColor="@color/navigation_ripple" />
 
+        <!-- Loan status chart -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieLoansStatus"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="24dp" />
+            android:layout_height="@dimen/chart_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:background="@color/surface_card" />
 
+        <!-- Payment chart -->
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barPayments"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="24dp" />
+            android:layout_height="@dimen/chart_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginBottom="@dimen/spacing_lg"
+            android:background="@color/surface_card" />
 
     </LinearLayout>
+
 </ScrollView>

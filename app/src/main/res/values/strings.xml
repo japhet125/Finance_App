@@ -264,6 +264,171 @@
     <string name="loading_notifications">Loading notifications</string>
     <string name="notification_read_update_failed">Unable to update notification status</string>
 
+    <string name="account_status_default">Account Status: Active</string>
+    <string name="flag_status_default">Flag Status: Not Flagged</string>
+
+    <string name="suspend_user">Suspend User</string>
+    <string name="reactivate_user">Reactivate User</string>
+    <string name="flag_user">Flag User</string>
+    <string name="clear_flag">Clear Flag</string>
+    <string name="view_user_loans">View User Loans</string>
+    <string name="promote_to_admin">Promote to Admin</string>
+    <string name="demote_to_user">Demote to User</string>
+    <string name="view_user_transactions">View User Transactions</string>
+
+    <string name="user_loans_title">User Loans</string>
+    <string name="user_transactions_title">User Transactions</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="street_address">Street Address</string>
+    <string name="apartment_unit">Apartment / Unit</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip_code">ZIP Code</string>
+    <string name="country">Country</string>
+    <string name="language">Language</string>
+
+    <string name="reset_password_title">Reset Password</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="send_reset_email">Send Reset Email</string>
+
+    <string name="id_type">Identification type</string>
+    <string name="id_number">ID Number</string>
+    <string name="id_expiration_date_hint">Expiration Date MM/DD/YYYY</string>
+    <string name="id_country">Country of issue</string>
+    <string name="choose_id_picture">Choose ID Picture</string>
+    <string name="id_picture_preview">Selected identification picture preview</string>
+    <string name="submit_verification">Submit Verification</string>
+
+    <string name="agreement_checkbox">I agree to the terms and conditions</string>
+    <string name="legal_name_hint">Type your full legal name</string>
+    <string name="accept_agreement">Accept Agreement</string>
+
+    <string name="loan_sort_options">Loan sorting options</string>
+    <string name="loan_filter_options">Loan filtering options</string>
+
+    <string name="loan_amount">Loan Amount</string>
+    <string name="loan_reason">Reason for Loan</string>
+    <string name="payment_plan">Payment Plan</string>
+    <string name="payment_plan_weekly_10">Weekly — 10 weeks — 25% interest</string>
+    <string name="payment_plan_weekly_14">Weekly — 14 weeks — 25% interest</string>
+    <string name="payment_plan_monthly_12">Monthly — 12 months — 35% interest</string>
+    <string name="payment_plan_one_time">One-Time Payment</string>
+    <string name="enable_auto_pay">Enable Auto Pay</string>
+    <string name="submit_loan_request">Submit Loan Request</string>
+
+    <string name="loan_chart_pending_default">Pending: 0</string>
+    <string name="loan_chart_approved_default">Approved: 0</string>
+    <string name="loan_chart_rejected_default">Rejected: 0</string>
+    <string name="loan_chart_overdue_default">Overdue: 0</string>
+    <string name="loan_chart_paid_default">Paid: 0</string>
+
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <string name="welcome_subtitle">Borrow money safely and manage your finances</string>
+    <string name="create_account">Create Account</string>
+    <string name="baobab_logo_description">Baobab Finance logo</string>
+
+    <string name="phone_verification_title">Phone Verification</string>
+    <string name="phone_verification_instruction">Enter your phone number and tap Send Verification Code.</string>
+    <string name="phone_number_hint">+17180000000</string>
+    <string name="send_verification_code">Send Verification Code</string>
+    <string name="otp_code_hint">Enter 6-digit code</string>
+
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_name_default">Name:</string>
+    <string name="profile_email_default">Email:</string>
+    <string name="profile_phone_default">Phone:</string>
+    <string name="profile_role_default">Role:</string>
+    <string name="profile_credit_score_default">Credit Score:</string>
+    <string name="verification_status_title">Verification Status</string>
+    <string name="email_verification_pending">Email Verification: Pending</string>
+    <string name="phone_verification_pending">Phone Verification: Pending</string>
+    <string name="identity_status_default">Identity Status:</string>
+    <string name="verification_level_default">Verification Level</string>
+    <string name="verify_phone">Verify Phone</string>
+    <string name="submit_identity_verification">Submit Identity Verification</string>
+
+
+    <string name="state_region">State / Region</string>
+    <string name="postal_code">ZIP / Postal Code</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="user_management_title">User Management</string>
+
+    <string name="admin_loan_plan_default">Plan:</string>
+    <string name="admin_loan_status_default">Status:</string>
+    <string name="admin_recommendation_default">Recommendation:</string>
+    <string name="admin_risk_flags_default">Risk flags:</string>
+    <string name="approve">Approve</string>
+
+    <string name="payment_customer_default">Customer:</string>
+    <string name="payment_loan_id_default">Loan ID:</string>
+    <string name="payment_amount_default">Payment Amount:</string>
+    <string name="payment_balance_default">Balance:</string>
+    <string name="payment_submitted_default">Submitted:</string>
+    <string name="approve_payment">Approve Payment</string>
+    <string name="reject_payment">Reject Payment</string>
+
+    <string name="admin_user_name_default">Name:</string>
+    <string name="admin_user_email_default">Email:</string>
+    <string name="admin_user_phone_default">Phone:</string>
+    <string name="admin_user_role_default">Role:</string>
+    <string name="admin_user_credit_default">Credit Score:</string>
+    <string name="admin_user_identity_default">Identity Status:</string>
+
+    <string name="loan_amount_default">Loan Amount:</string>
+    <string name="loan_reason_default">Reason:</string>
+    <string name="loan_status_default">Status:</string>
+    <string name="loan_balance_default">Remaining Balance:</string>
+    <string name="audit_action_default">Action</string>
+    <string name="audit_message_default">Message</string>
+    <string name="audit_target_default">Target</string>
+    <string name="audit_date_default">Date</string>
+
+    <string name="identity_name_default">Name:</string>
+    <string name="identity_email_default">Email:</string>
+    <string name="identity_phone_default">Phone:</string>
+    <string name="identity_address_default">Address:</string>
+
+    <string name="loan_plan_default">Repayment Plan:</string>
+    <string name="loan_interest_default">Interest:</string>
+    <string name="loan_total_repayment_default">Total Repayment:</string>
+    <string name="loan_payment_amount_default">Payment Amount:</string>
+    <string name="loan_remaining_balance_default">Remaining Balance:</string>
+    <string name="loan_auto_pay_default">Auto Pay:</string>
+    <string name="loan_next_payment_default">Next Payment:</string>
+    <string name="loan_due_date_default">Due Date:</string>
+    <string name="loan_progress_default">Progress: 0%%</string>
+
+    <string name="notification_title_default">Notification</string>
+    <string name="notification_message_default">Message</string>
+    <string name="notification_date_default">Date</string>
+
+    <string name="payment_loan_amount_default">Loan Amount:</string>
+    <string name="payment_loan_reason_default">Reason:</string>
+    <string name="payment_loan_plan_default">Repayment Plan:</string>
+    <string name="payment_loan_balance_default">Remaining Balance:</string>
+    <string name="enter_payment_amount">Enter payment amount</string>
+    <string name="pay_this_loan">Pay This Loan</string>
+
+    <string name="transaction_amount_default">Transaction Amount:</string>
+    <string name="previous_balance_default">Previous Balance:</string>
+    <string name="new_balance_default">New Balance:</string>
+    <string name="payment_date_default">Payment Date:</string>
+
+    <string name="user_name_default">Name:</string>
+    <string name="user_email_default">Email:</string>
+    <string name="user_phone_default">Phone:</string>
+    <string name="user_role_default">Role:</string>
+    <string name="user_credit_default">Credit Score:</string>
+    <string name="user_risk_default">Risk:</string>
+
+
+
 
 
 </resources>

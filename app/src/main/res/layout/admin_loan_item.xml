@@ -1,69 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:background="#EEEEEE">
-
-
-    <TextView
-        android:id="@+id/txtAdminAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
-
-    <TextView
-        android:id="@+id/txtAdminReason"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txtAdminPlan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Plan:"
-        android:layout_marginTop="6dp" />
-
-    <TextView
-        android:id="@+id/txtAdminStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/txtRecommendation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recommendation:"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp" />
-    <TextView
-        android:id="@+id/txtRiskFlags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Risk Flags:"
-        android:layout_marginTop="8dp" />
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp">
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-        <Button
-            android:id="@+id/btnApprove"
-            android:layout_width="wrap_content"
+        <!-- Loan amount -->
+        <TextView
+            android:id="@+id/txtAdminAmount"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Approve"/>
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_statistic"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnReject"
-            android:layout_width="wrap_content"
+        <!-- Loan reason -->
+        <TextView
+            android:id="@+id/txtAdminReason"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reject"
-            android:layout_marginStart="12dp"/>
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <!-- Repayment plan -->
+        <TextView
+            android:id="@+id/txtAdminPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/admin_loan_plan_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <!-- Loan status -->
+        <TextView
+            android:id="@+id/txtAdminStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/admin_loan_status_default"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
+
+        <!-- Recommendation -->
+        <TextView
+            android:id="@+id/txtRecommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_recommendation_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <!-- Risk flags -->
+        <TextView
+            android:id="@+id/txtRiskFlags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/admin_risk_flags_default"
+            android:textColor="@color/status_warning"
+            android:textSize="@dimen/text_body" />
+
+        <!-- Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnApprove"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:text="@string/approve"
+                android:textSize="@dimen/text_body"
+                app:backgroundTint="@color/status_success"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReject"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginStart="@dimen/spacing_12"
+                android:layout_weight="1"
+                android:text="@string/reject"
+                android:textColor="@color/status_error"
+                android:textSize="@dimen/text_body"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple"
+                app:strokeColor="@color/status_error" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -4,25 +4,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_primary"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F7FA">
+    android:padding="@dimen/screen_padding">
 
-    <Button
+    <!-- Back -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back" />
+        android:layout_height="@dimen/touch_target_min"
+        android:minWidth="0dp"
+        android:paddingStart="@dimen/spacing_sm"
+        android:paddingEnd="@dimen/spacing_sm"
+        android:text="@string/back"
+        android:textColor="@color/brand_green"
+        android:textSize="@dimen/text_body"
+        app:rippleColor="@color/navigation_ripple" />
 
+    <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:layout_marginBottom="@dimen/spacing_md"
         android:text="@string/transaction_history_title"
-        android:textSize="30sp"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_display"
         android:textStyle="bold" />
 
+    <!-- List states -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,27 +43,30 @@
             android:id="@+id/recyclerTransactions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_md"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:id="@+id/progressTransactions"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
             android:layout_gravity="center"
             android:contentDescription="@string/loading_transaction_history"
+            android:indeterminateTint="@color/brand_green"
             android:visibility="visible" />
 
         <TextView
             android:id="@+id/tvTransactionEmpty"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="@dimen/screen_padding"
             android:text="@string/transaction_history_empty"
-            android:textColor="#333333"
-            android:textSize="18sp"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_section_title"
             android:visibility="gone" />
 
     </FrameLayout>

@@ -1,75 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="@color/background_primary"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/screen_padding"
+        android:paddingBottom="@dimen/spacing_4xl">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back" />
+            android:layout_height="@dimen/touch_target_min"
+            android:minWidth="0dp"
+            android:paddingStart="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_sm"
+            android:text="@string/back"
+            android:textColor="@color/brand_green"
+            app:rippleColor="@color/navigation_ripple" />
 
         <TextView
             android:id="@+id/txtIdentityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Identity Verification"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/identity_verification_title"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_statistic"
+            android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/spIdType"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="24dp" />
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:backgroundTint="@color/brand_green"
+            android:contentDescription="@string/id_type" />
 
-        <EditText
-            android:id="@+id/etIdNumber"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:hint="ID Number" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
 
-        <EditText
-            android:id="@+id/etIdExpiration"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etIdNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/id_number"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:hint="Expiration Date MM/DD/YYYY" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etIdExpiration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/id_expiration_date_hint"
+                android:inputType="datetime"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
             android:id="@+id/spIdCountry"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp" />
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_12"
+            android:backgroundTint="@color/brand_green"
+            android:contentDescription="@string/id_country" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUploadIdPicture"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:text="@string/choose_id_picture"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:strokeColor="@color/brand_green" />
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose ID Picture"
-            android:layout_marginTop="16dp" />
-        <ImageView
-            android:id="@+id/imgIdPreview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="@dimen/spacing_12"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/card_corner_radius_secondary"
+            app:cardElevation="@dimen/card_elevation_primary"
+            app:strokeColor="@color/surface_stroke"
+            app:strokeWidth="@dimen/card_stroke_width">
 
-        <Button
+            <ImageView
+                android:id="@+id/imgIdPreview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/identity_preview_height"
+                android:contentDescription="@string/id_picture_preview"
+                android:scaleType="centerCrop" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitIdentity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit Verification"
-            android:layout_marginTop="24dp" />
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/submit_verification"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@color/brand_green"
+            app:cornerRadius="@dimen/button_corner_radius" />
 
     </LinearLayout>
+
 </ScrollView>

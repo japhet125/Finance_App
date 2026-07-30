@@ -1,73 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:background="#EEEEEE">
-
-    <TextView
-        android:id="@+id/txtIdentityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/txtIdentityEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtIdentityPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtIdentityAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtIdentityStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold" />
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-        <Button
-            android:id="@+id/btnViewId"
-            android:layout_width="0dp"
+        <!-- Customer Name -->
+        <TextView
+            android:id="@+id/txtIdentityName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/view_id"
-            android:textSize="12sp" />
+            android:text="@string/identity_name_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnVerifyIdentity"
-            android:layout_width="0dp"
+        <!-- Email -->
+        <TextView
+            android:id="@+id/txtIdentityEmail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/verify"
-            android:textSize="12sp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/identity_email_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-        <Button
-            android:id="@+id/btnRejectIdentity"
-            android:layout_width="0dp"
+        <!-- Phone -->
+        <TextView
+            android:id="@+id/txtIdentityPhone"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/reject"
-            android:textSize="12sp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/identity_phone_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <!-- Address -->
+        <TextView
+            android:id="@+id/txtIdentityAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/identity_address_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
+
+        <!-- Verification Status -->
+        <TextView
+            android:id="@+id/txtIdentityStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/identity_status_default"
+            android:textColor="@color/status_warning"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewId"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:text="@string/view_id"
+                android:textSize="@dimen/text_regular"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple"
+                app:strokeColor="@color/brand_green" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVerifyIdentity"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="@string/verify"
+                android:textSize="@dimen/text_regular"
+                app:backgroundTint="@color/status_success"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRejectIdentity"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="@string/reject"
+                android:textColor="@color/status_error"
+                android:textSize="@dimen/text_regular"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple"
+                app:strokeColor="@color/status_error" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

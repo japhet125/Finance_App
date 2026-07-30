@@ -4,29 +4,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_primary"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F7FA">
+    android:padding="@dimen/screen_padding">
 
-    <Button
+    <!-- Back button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back" />
+        android:layout_height="@dimen/touch_target_min"
+        android:minWidth="0dp"
+        android:paddingStart="@dimen/spacing_sm"
+        android:paddingEnd="@dimen/spacing_sm"
+        android:text="@string/back"
+        android:textColor="@color/brand_green"
+        android:textSize="@dimen/text_body"
+        app:rippleColor="@color/navigation_ripple" />
 
+    <!-- Screen title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:layout_marginBottom="@dimen/spacing_md"
         android:text="@string/identity_verification_title"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_statistic"
+        android:textStyle="bold" />
 
+    <!-- Identity verification list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerIdentityUsers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/spacing_md"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>

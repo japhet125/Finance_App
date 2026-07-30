@@ -1,98 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F5F7FA">
-
+    android:background="@color/background_primary"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:paddingBottom="80dp">
-        <Button
+        android:padding="@dimen/screen_padding"
+        android:paddingBottom="@dimen/spacing_4xl">
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:layout_marginBottom="16dp"/>
-
+            android:layout_height="@dimen/touch_target_min"
+            android:minWidth="0dp"
+            android:paddingStart="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_sm"
+            android:text="@string/back"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            app:rippleColor="@color/navigation_ripple" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginBottom="@dimen/spacing_lg"
             android:text="@string/loan_request_title"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_display"
+            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/etLoanAmount"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Loan Amount"
-            android:inputType="numberDecimal"/>
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint"
+            app:prefixText="$">
 
-        <EditText
-            android:id="@+id/etLoanReason"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLoanAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/loan_amount"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="Reason for Loan"
-            android:gravity="top"
-            android:layout_marginTop="16dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLoanReason"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/multiline_input_height"
+                android:gravity="top|start"
+                android:hint="@string/loan_reason"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="5"
+                android:minLines="4"
+                android:paddingTop="@dimen/spacing_md"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Payment Plan"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/payment_plan"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/rgPaymentPlan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
             android:orientation="vertical">
-
 
             <RadioButton
                 android:id="@+id/rbWeekly10"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Weekly - 10 weeks - 25% interest"/>
+                android:minHeight="@dimen/touch_target_min"
+                android:buttonTint="@color/brand_green"
+                android:text="@string/payment_plan_weekly_10"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" />
 
             <RadioButton
                 android:id="@+id/rbWeekly14"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Weekly - 14 weeks - 25% interest"/>
+                android:minHeight="@dimen/touch_target_min"
+                android:buttonTint="@color/brand_green"
+                android:text="@string/payment_plan_weekly_14"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" />
 
             <RadioButton
                 android:id="@+id/rbMonthly12"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Monthly - 12 months - 35% interest"/>
+                android:minHeight="@dimen/touch_target_min"
+                android:buttonTint="@color/brand_green"
+                android:text="@string/payment_plan_monthly_12"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" />
+
             <RadioButton
                 android:id="@+id/rbOneTime"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="One-Time Payment" />
+                android:minHeight="@dimen/touch_target_min"
+                android:buttonTint="@color/brand_green"
+                android:text="@string/payment_plan_one_time"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" />
+
         </RadioGroup>
+
         <CheckBox
             android:id="@+id/cbAutoPay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enable Auto Pay"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/spacing_md"
+            android:buttonTint="@color/brand_green"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/enable_auto_pay"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitLoan"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit Loan Request"
-            android:layout_marginTop="24dp"/>
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/submit_loan_request"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@color/brand_green"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:rippleColor="@color/navigation_ripple" />
 
     </LinearLayout>
 

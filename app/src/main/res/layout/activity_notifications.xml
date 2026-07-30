@@ -4,69 +4,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#228B22"
+    android:background="@color/background_primary"
     android:orientation="vertical">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/brand_green_dark"
         android:orientation="vertical"
-        android:paddingStart="24dp"
-        android:paddingTop="24dp"
-        android:paddingEnd="24dp">
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingTop="@dimen/spacing_md"
+        android:paddingEnd="@dimen/screen_padding"
+        android:paddingBottom="@dimen/spacing_lg">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back" />
+            android:layout_height="@dimen/touch_target_min"
+            android:minWidth="0dp"
+            android:paddingStart="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_sm"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_body"
+            app:rippleColor="@color/navigation_ripple" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/spacing_sm"
             android:text="@string/notifications_title"
-            android:textColor="#4A4850"
-            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_display"
             android:textStyle="bold" />
 
     </LinearLayout>
 
+    <!-- Notification states -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/background_primary">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerNotifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="16dp"
+            android:paddingStart="@dimen/screen_padding"
+            android:paddingTop="@dimen/spacing_md"
+            android:paddingEnd="@dimen/screen_padding"
+            android:paddingBottom="@dimen/spacing_lg"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:id="@+id/progressNotifications"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
             android:layout_gravity="center"
             android:contentDescription="@string/loading_notifications"
+            android:indeterminateTint="@color/brand_green"
             android:visibility="visible" />
 
         <TextView
             android:id="@+id/tvNotificationsEmpty"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="@dimen/screen_padding"
             android:text="@string/notifications_empty"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_section_title"
             android:visibility="gone" />
 
     </FrameLayout>

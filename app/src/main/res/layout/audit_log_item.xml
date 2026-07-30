@@ -1,33 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:background="#EEEEEE">
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtAuditAction"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-    <TextView
-        android:id="@+id/txtAuditMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- Action -->
+        <TextView
+            android:id="@+id/txtAuditAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/audit_action_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtAuditTarget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- Message -->
+        <TextView
+            android:id="@+id/txtAuditMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/audit_message_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-    <TextView
-        android:id="@+id/txtAuditDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
 
-</LinearLayout>
+        <!-- Target -->
+        <TextView
+            android:id="@+id/txtAuditTarget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/audit_target_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/txtAuditDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/audit_date_default"
+            android:textColor="@color/text_muted"
+            android:textSize="@dimen/text_regular" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

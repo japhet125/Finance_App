@@ -1,108 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="@color/background_primary"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/screen_padding"
+        android:paddingBottom="@dimen/spacing_4xl">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back" />
+            android:layout_height="@dimen/touch_target_min"
+            android:minWidth="0dp"
+            android:paddingStart="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_sm"
+            android:text="@string/back"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            app:rippleColor="@color/navigation_ripple" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_lg"
             android:text="@string/loan_status_chart_title"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp" />
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_display"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtPendingChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⏳ Pending: 0"
-            android:textSize="18sp"
+            android:text="@string/loan_chart_pending_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
             android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressPending"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100" />
+            android:layout_height="@dimen/chart_progress_height"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:max="100"
+            android:progressBackgroundTint="@color/status_warning_background"
+            android:progressTint="@color/status_warning" />
 
         <TextView
             android:id="@+id/txtApprovedChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="✅ Approved: 0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/loan_chart_approved_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressApproved"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100" />
+            android:layout_height="@dimen/chart_progress_height"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:max="100"
+            android:progressBackgroundTint="@color/status_success_background"
+            android:progressTint="@color/status_success" />
 
         <TextView
             android:id="@+id/txtRejectedChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="❌ Rejected: 0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/loan_chart_rejected_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressRejected"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100" />
+            android:layout_height="@dimen/chart_progress_height"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:max="100"
+            android:progressBackgroundTint="@color/status_error_background"
+            android:progressTint="@color/status_error" />
 
         <TextView
             android:id="@+id/txtOverdueChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⚠️ Overdue: 0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/loan_chart_overdue_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressOverdue"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100" />
+            android:layout_height="@dimen/chart_progress_height"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:max="100"
+            android:progressBackgroundTint="@color/status_warning_background"
+            android:progressTint="@color/status_warning" />
 
         <TextView
             android:id="@+id/txtPaidChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💵 Paid: 0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/loan_chart_paid_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressPaid"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100" />
+            android:layout_height="@dimen/chart_progress_height"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:max="100"
+            android:progressBackgroundTint="@color/status_info_background"
+            android:progressTint="@color/status_info" />
 
     </LinearLayout>
+
 </ScrollView>

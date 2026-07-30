@@ -1,54 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/background_primary"
     android:gravity="center"
-    android:padding="24dp"
-    android:background="#F5F7FA">
+    android:orientation="vertical"
+    android:padding="@dimen/screen_padding">
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/baobab_logo"
+        android:layout_width="@dimen/welcome_logo_size"
+        android:layout_height="@dimen/welcome_logo_size"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"/>
-
+        android:layout_marginBottom="@dimen/spacing_lg"
+        android:contentDescription="@string/baobab_logo_description"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baobab_logo" />
 
     <TextView
         android:id="@+id/txtAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Baobab"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#0B1F3A"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="@dimen/spacing_12"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_display"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtSubtitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Borrow money safely and manage your finance"
-        android:textSize="16sp"
-        android:textColor="#5F6B7A"
+        android:layout_marginBottom="@dimen/spacing_2xl"
         android:gravity="center"
-        android:layout_marginBottom="40dp" />
+        android:lineSpacingExtra="@dimen/spacing_2xs"
+        android:text="@string/welcome_subtitle"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/text_body" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create Account"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="@dimen/button_height"
+        android:layout_marginBottom="@dimen/spacing_md"
+        android:text="@string/create_account"
+        android:textSize="@dimen/text_body"
+        app:backgroundTint="@color/brand_green"
+        app:cornerRadius="@dimen/button_corner_radius"
+        app:rippleColor="@color/navigation_ripple" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login" />
+        android:layout_height="@dimen/button_height"
+        android:text="@string/login"
+        android:textColor="@color/brand_green"
+        android:textSize="@dimen/text_body"
+        app:cornerRadius="@dimen/button_corner_radius"
+        app:rippleColor="@color/navigation_ripple"
+        app:strokeColor="@color/brand_green"
+        app:strokeWidth="@dimen/card_stroke_width" />
 
 </LinearLayout>

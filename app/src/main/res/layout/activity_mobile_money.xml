@@ -1,73 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="@color/background_primary"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/screen_padding"
+        android:paddingBottom="@dimen/spacing_4xl">
 
-        <Button
+        <!-- Back -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back" />
+            android:layout_height="@dimen/touch_target_min"
+            android:minWidth="0dp"
+            android:paddingStart="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_sm"
+            android:text="@string/back"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            app:rippleColor="@color/navigation_ripple" />
 
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_lg"
             android:text="@string/mobile_money_title"
-            android:textSize="30sp"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_display"
             android:textStyle="bold" />
 
+        <!-- Country -->
         <Spinner
             android:id="@+id/spinnerMobileMoneyCountry"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/brand_green"
             android:contentDescription="@string/mobile_money_country" />
 
+        <!-- Provider -->
         <Spinner
             android:id="@+id/spinnerMobileMoneyProvider"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_12"
+            android:backgroundTint="@color/brand_green"
             android:contentDescription="@string/mobile_money_provider" />
 
-        <EditText
-            android:id="@+id/etMobileMoneyPhone"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:hint="@string/mobile_money_phone"
-            android:inputType="phone" />
-
-        <EditText
-            android:id="@+id/etMobileMoneyName"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:hint="@string/mobile_money_account_holder"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/etMobileMoneyCurrency"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:enabled="false"
-            android:hint="@string/currency" />
-
-        <Button
-            android:id="@+id/btnSaveMobileMoney"
+        <!-- Phone -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/save_mobile_money" />
+            android:layout_marginTop="@dimen/spacing_12"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMobileMoneyPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/mobile_money_phone"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Account Holder -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMobileMoneyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/mobile_money_account_holder"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Currency -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:boxBackgroundColor="@color/surface_input"
+            app:boxStrokeColor="@color/brand_green"
+            app:hintTextColor="@color/input_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMobileMoneyCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="@string/currency"
+                android:textColor="@color/text_secondary"
+                android:textColorHint="@color/input_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Save -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveMobileMoney"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/save_mobile_money"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@color/brand_green"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:rippleColor="@color/navigation_ripple" />
 
     </LinearLayout>
+
 </ScrollView>

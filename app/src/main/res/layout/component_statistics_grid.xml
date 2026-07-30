@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginBottom="@dimen/section_spacing">
+    android:layout_marginBottom="@dimen/section_spacing"
+    android:orientation="vertical">
 
     <!-- Section heading -->
     <TextView
@@ -13,19 +13,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_14"
+        android:letterSpacing="0.12"
         android:text="@string/dashboard_activity_overview"
         android:textAllCaps="true"
         android:textColor="@color/text_secondary"
         android:textSize="@dimen/text_label"
-        android:textStyle="bold"
-        android:letterSpacing="0.12" />
+        android:textStyle="bold" />
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:rowCount="2"
-        android:alignmentMode="alignMargins"
         android:useDefaultMargins="false">
 
         <!-- Total Requested -->
@@ -230,7 +230,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/surface_card"
-        app:cardCornerRadius="@dimen/statistics_card_corner_radius"
+        app:cardCornerRadius="@dimen/card_corner_radius_secondary"
         app:cardElevation="@dimen/card_elevation_primary"
         app:strokeColor="@color/surface_stroke"
         app:strokeWidth="@dimen/card_stroke_width">
@@ -268,7 +268,7 @@
                     android:id="@+id/txtNotificationsSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_3"
+                    android:layout_marginTop="@dimen/spacing_2xs"
                     android:text="@string/dashboard_notification_description"
                     android:textColor="@color/text_muted"
                     android:textSize="@dimen/text_caption" />
@@ -280,12 +280,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_notification_count"
-                android:minWidth="@dimen/notification_badge_min_width"
                 android:gravity="center"
+                android:minWidth="@dimen/notification_badge_min_width"
                 android:paddingStart="@dimen/spacing_10"
-                android:paddingTop="@dimen/spacing_7"
+                android:paddingTop="@dimen/spacing_sm"
                 android:paddingEnd="@dimen/spacing_10"
-                android:paddingBottom="@dimen/spacing_7"
+                android:paddingBottom="@dimen/spacing_sm"
                 android:text="@string/placeholder_zero"
                 android:textColor="@color/background_primary"
                 android:textSize="@dimen/text_regular"

@@ -2,134 +2,194 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_primary">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/screen_padding"
+        android:fillViewport="true">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"/>
+            android:layout_height="@dimen/touch_target_min"
+            android:text="@string/back"
+            android:textColor="@color/brand_green"/>
 
         <TextView
             android:id="@+id/txtUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_loan_limit"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="@dimen/spacing_md"/>
 
         <TextView
             android:id="@+id/txtUserEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
 
         <TextView
             android:id="@+id/txtUserPhone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
 
         <TextView
             android:id="@+id/txtUserAddress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
 
         <TextView
             android:id="@+id/txtUserRole"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
 
         <TextView
             android:id="@+id/txtUserCredit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
 
         <TextView
             android:id="@+id/txtUserIdentity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
         <TextView
             android:id="@+id/txtAccountStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Account Status: Active"
+            android:text="@string/account_status_default"
+            android:textColor="@color/status_success"
             android:textStyle="bold"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_section_title" />
 
         <TextView
             android:id="@+id/txtTotalLoans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular" />
 
         <TextView
             android:id="@+id/txtOutstandingBalance"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_regular"/>
+
         <TextView
             android:id="@+id/txtFlagStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Flag Status: Not Flagged"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginTop="12dp" />
-        <Button
+            android:layout_marginTop="@dimen/spacing_12"
+            android:text="@string/flag_status_default"
+            android:textColor="@color/status_warning"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSuspendUser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Suspend User"
-            android:layout_marginTop="24dp" />
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/suspend_user"
+            android:layout_marginTop="@dimen/spacing_lg"
+            app:backgroundTint="@color/status_error"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReactivateUser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Reactivate User"
-            android:layout_marginTop="12dp" />
-        <Button
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/reactivate_user"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:backgroundTint="@color/status_success"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFlagUser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Flag User"
-            android:layout_marginTop="16dp" />
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/flag_user"
+            android:layout_marginTop="@dimen/spacing_md"
+            app:backgroundTint="@color/status_warning"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnClearFlag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clear Flag"
-            android:layout_marginTop="12dp" />
-        <Button
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/clear_flag"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:backgroundTint="@color/brand_green"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViewUserLoans"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View User Loans"
-            android:layout_marginTop="16dp" />
-        <Button
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/view_user_loans"
+            android:layout_marginTop="@dimen/spacing_md"
+            app:backgroundTint="@color/brand_green"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPromoteAdmin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Promote to Admin"
-            android:layout_marginTop="16dp" />
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/promote_to_admin"
+            android:layout_marginTop="@dimen/spacing_md"
+            app:backgroundTint="@color/status_info"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDemoteUser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Demote to User"
-            android:layout_marginTop="12dp" />
-        <Button
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/demote_to_user"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:backgroundTint="@color/brand_gold"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViewUserTransactions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View User Transactions"
-            android:layout_marginTop="12dp" />
+            android:layout_height="@dimen/button_height"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:textSize="@dimen/text_body"
+            android:text="@string/view_user_transactions"
+            android:layout_marginTop="@dimen/spacing_12"
+            app:backgroundTint="@color/brand_green"/>
 
     </LinearLayout>
 

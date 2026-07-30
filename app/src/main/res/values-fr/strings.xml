@@ -250,6 +250,171 @@
     <string name="notifications_load_failed">Impossible de charger les notifications</string>
     <string name="loading_notifications">Chargement des notifications</string>
     <string name="notification_read_update_failed">Impossible de mettre à jour le statut de la notification</string>
+    <string name="account_status_default">Statut du compte : Actif</string>
+    <string name="flag_status_default">Statut du signalement : Non signalé</string>
+
+    <string name="suspend_user">Suspendre l’utilisateur</string>
+    <string name="reactivate_user">Réactiver l’utilisateur</string>
+    <string name="flag_user">Signaler l’utilisateur</string>
+    <string name="clear_flag">Retirer le signalement</string>
+    <string name="view_user_loans">Voir les prêts de l’utilisateur</string>
+    <string name="promote_to_admin">Promouvoir comme administrateur</string>
+    <string name="demote_to_user">Rétrograder comme utilisateur</string>
+    <string name="view_user_transactions">Voir les transactions de l’utilisateur</string>
+    <string name="user_loans_title">Prêts de l’utilisateur</string>
+    <string name="user_transactions_title">Transactions de l’utilisateur</string>
+
+    <string name="full_name">Nom complet</string>
+    <string name="phone_number">Numéro de téléphone</string>
+    <string name="street_address">Adresse</string>
+    <string name="apartment_unit">Appartement / Unité</string>
+    <string name="city">Ville</string>
+    <string name="state">État / Province</string>
+    <string name="zip_code">Code postal</string>
+    <string name="country">Pays</string>
+    <string name="language">Langue</string>
+
+    <string name="reset_password_title">Réinitialiser le mot de passe</string>
+    <string name="enter_your_email">Entrez votre adresse e-mail</string>
+    <string name="send_reset_email">Envoyer l’e-mail de réinitialisation</string>
+
+    <string name="id_type">Type de pièce d’identité</string>
+    <string name="id_number">Numéro de la pièce d’identité</string>
+    <string name="id_expiration_date_hint">Date d’expiration JJ/MM/AAAA</string>
+    <string name="id_country">Pays de délivrance</string>
+    <string name="choose_id_picture">Choisir une photo de la pièce d’identité</string>
+    <string name="id_picture_preview">Aperçu de la pièce d’identité sélectionnée</string>
+    <string name="submit_verification">Soumettre la vérification</string>
+
+    <string name="agreement_checkbox">J\'accepte les conditions générales</string>
+    <string name="legal_name_hint">Saisissez votre nom légal complet</string>
+    <string name="accept_agreement">Accepter l\'accord</string>
+    <string name="loan_sort_options">Options de tri des prêts</string>
+    <string name="loan_filter_options">Options de filtrage des prêts</string>
+
+    <string name="loan_amount">Montant du prêt</string>
+    <string name="loan_reason">Motif du prêt</string>
+    <string name="payment_plan">Plan de remboursement</string>
+    <string name="payment_plan_weekly_10">Hebdomadaire — 10 semaines — 25 % d’intérêt</string>
+    <string name="payment_plan_weekly_14">Hebdomadaire — 14 semaines — 25 % d’intérêt</string>
+    <string name="payment_plan_monthly_12">Mensuel — 12 mois — 35 % d’intérêt</string>
+    <string name="payment_plan_one_time">Paiement unique</string>
+    <string name="enable_auto_pay">Activer le paiement automatique</string>
+    <string name="submit_loan_request">Soumettre la demande de prêt</string>
+
+    <string name="loan_chart_pending_default">En attente : 0</string>
+    <string name="loan_chart_approved_default">Approuvés : 0</string>
+    <string name="loan_chart_rejected_default">Rejetés : 0</string>
+    <string name="loan_chart_overdue_default">En retard : 0</string>
+    <string name="loan_chart_paid_default">Remboursés : 0</string>
+
+    <string name="login">Connexion</string>
+    <string name="email">Adresse e-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+
+    <string name="welcome_subtitle">Empruntez en toute sécurité et gérez vos finances</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="baobab_logo_description">Logo de Baobab Finance</string>
+
+    <string name="phone_verification_title">Vérification du téléphone</string>
+    <string name="phone_verification_instruction">Saisissez votre numéro de téléphone puis appuyez sur « Envoyer le code de vérification ».</string>
+    <string name="phone_number_hint">+17180000000</string>
+    <string name="send_verification_code">Envoyer le code de vérification</string>
+    <string name="otp_code_hint">Saisissez le code à 6 chiffres</string>
+
+    <string name="edit_profile">Modifier le profil</string>
+    <string name="profile_name_default">Nom :</string>
+    <string name="profile_email_default">Adresse e-mail :</string>
+    <string name="profile_phone_default">Téléphone :</string>
+    <string name="profile_role_default">Rôle :</string>
+    <string name="profile_credit_score_default">Cote de crédit :</string>
+    <string name="verification_status_title">Statut de vérification</string>
+    <string name="email_verification_pending">Vérification de l’e-mail : en attente</string>
+    <string name="phone_verification_pending">Vérification du téléphone : en attente</string>
+    <string name="identity_status_default">Statut d’identité :</string>
+    <string name="verification_level_default">Niveau de vérification</string>
+    <string name="verify_phone">Vérifier le téléphone</string>
+    <string name="submit_identity_verification">Soumettre la vérification d’identité</string>
+
+
+
+    <string name="state_region">État / Région</string>
+    <string name="postal_code">Code postal</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="user_management_title">Gestion des utilisateurs</string>
+
+    <string name="admin_loan_plan_default">Plan :</string>
+    <string name="admin_loan_status_default">Statut :</string>
+    <string name="admin_recommendation_default">Recommandation :</string>
+    <string name="admin_risk_flags_default">Indicateurs de risque :</string>
+    <string name="approve">Approuver</string>
+
+    <string name="payment_customer_default">Client :</string>
+    <string name="payment_loan_id_default">Identifiant du prêt :</string>
+    <string name="payment_amount_default">Montant du paiement :</string>
+    <string name="payment_balance_default">Solde :</string>
+    <string name="payment_submitted_default">Soumis le :</string>
+    <string name="approve_payment">Approuver le paiement</string>
+    <string name="reject_payment">Rejeter le paiement</string>
+
+    <string name="admin_user_name_default">Nom :</string>
+    <string name="admin_user_email_default">Adresse e-mail :</string>
+    <string name="admin_user_phone_default">Téléphone :</string>
+    <string name="admin_user_role_default">Rôle :</string>
+    <string name="admin_user_credit_default">Cote de crédit :</string>
+    <string name="admin_user_identity_default">Statut d’identité :</string>
+
+    <string name="loan_amount_default">Montant du prêt :</string>
+    <string name="loan_reason_default">Motif :</string>
+    <string name="loan_status_default">Statut :</string>
+    <string name="loan_balance_default">Solde restant :</string>
+
+    <string name="audit_action_default">Action</string>
+    <string name="audit_message_default">Message</string>
+    <string name="audit_target_default">Cible</string>
+    <string name="audit_date_default">Date</string>
+
+    <string name="identity_name_default">Nom :</string>
+    <string name="identity_email_default">Adresse e-mail :</string>
+    <string name="identity_phone_default">Téléphone :</string>
+    <string name="identity_address_default">Adresse :</string>
+
+    <string name="loan_plan_default">Plan de remboursement :</string>
+    <string name="loan_interest_default">Intérêt :</string>
+    <string name="loan_total_repayment_default">Remboursement total :</string>
+    <string name="loan_payment_amount_default">Montant du paiement :</string>
+    <string name="loan_remaining_balance_default">Solde restant :</string>
+    <string name="loan_auto_pay_default">Paiement automatique :</string>
+    <string name="loan_next_payment_default">Prochain paiement :</string>
+    <string name="loan_due_date_default">Date d’échéance :</string>
+    <string name="loan_progress_default">Progression : 0%%</string>
+
+    <string name="notification_title_default">Notification</string>
+    <string name="notification_message_default">Message</string>
+    <string name="notification_date_default">Date</string>
+
+    <string name="payment_loan_amount_default">Montant du prêt :</string>
+    <string name="payment_loan_reason_default">Motif :</string>
+    <string name="payment_loan_plan_default">Plan de remboursement :</string>
+    <string name="payment_loan_balance_default">Solde restant :</string>
+    <string name="enter_payment_amount">Saisissez le montant du paiement</string>
+    <string name="pay_this_loan">Payer ce prêt</string>
+
+    <string name="transaction_amount_default">Montant de la transaction :</string>
+    <string name="previous_balance_default">Solde précédent :</string>
+    <string name="new_balance_default">Nouveau solde :</string>
+    <string name="payment_date_default">Date du paiement :</string>
+
+    <string name="user_name_default">Nom :</string>
+    <string name="user_email_default">Adresse e-mail :</string>
+    <string name="user_phone_default">Téléphone :</string>
+    <string name="user_role_default">Rôle :</string>
+    <string name="user_credit_default">Cote de crédit :</string>
+    <string name="user_risk_default">Risque :</string>
+
+
+
 
 
 </resources>

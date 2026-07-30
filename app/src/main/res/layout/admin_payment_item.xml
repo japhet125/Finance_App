@@ -1,65 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#FFFFFF"
-    android:padding="18dp"
-    android:layout_marginBottom="12dp">
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtPaymentUserId"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer:"
-        android:textStyle="bold"
-        android:textSize="15sp" />
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-    <TextView
-        android:id="@+id/txtPaymentLoanId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Loan ID:"
-        android:textSize="15sp"
-        android:layout_marginTop="6dp" />
+        <TextView
+            android:id="@+id/txtPaymentUserId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/payment_customer_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtPaymentAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Payment Amount:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="6dp" />
+        <TextView
+            android:id="@+id/txtPaymentLoanId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_loan_id_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-    <TextView
-        android:id="@+id/txtPaymentBalance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Balance:"
-        android:textSize="15sp"
-        android:layout_marginTop="6dp" />
+        <TextView
+            android:id="@+id/txtPaymentAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_amount_default"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtPaymentDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submitted:"
-        android:textSize="14sp"
-        android:layout_marginTop="6dp" />
+        <TextView
+            android:id="@+id/txtPaymentBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_balance_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-    <Button
-        android:id="@+id/btnApprovePayment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Approve Payment"
-        android:layout_marginTop="12dp" />
+        <TextView
+            android:id="@+id/txtPaymentDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/payment_submitted_default"
+            android:textColor="@color/text_muted"
+            android:textSize="@dimen/text_regular" />
 
-    <Button
-        android:id="@+id/btnRejectPayment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reject Payment"
-        android:layout_marginTop="8dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnApprovePayment"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:text="@string/approve_payment"
+                android:textSize="@dimen/text_body"
+                app:backgroundTint="@color/status_success"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRejectPayment"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginStart="@dimen/spacing_12"
+                android:layout_weight="1"
+                android:text="@string/reject_payment"
+                android:textColor="@color/status_error"
+                android:textSize="@dimen/text_body"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:rippleColor="@color/navigation_ripple"
+                app:strokeColor="@color/status_error" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

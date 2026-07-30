@@ -1,44 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:background="#FFFFFF">
+    android:layout_marginBottom="@dimen/spacing_12"
+    app:cardBackgroundColor="@color/surface_card"
+    app:cardCornerRadius="@dimen/card_corner_radius_primary"
+    app:cardElevation="@dimen/card_elevation_primary"
+    app:strokeColor="@color/surface_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
-    <TextView
-        android:id="@+id/txtUserName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-    <TextView
-        android:id="@+id/txtUserEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- User Name -->
+        <TextView
+            android:id="@+id/txtUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_section_title"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtUserPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- Email -->
+        <TextView
+            android:id="@+id/txtUserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/user_email_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-    <TextView
-        android:id="@+id/txtUserRole"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- Phone -->
+        <TextView
+            android:id="@+id/txtUserPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/user_phone_default"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
 
-    <TextView
-        android:id="@+id/txtUserCredit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold" />
-    <TextView
-        android:id="@+id/txtUserRisk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Risk:"
-        android:textStyle="bold"
-        android:layout_marginTop="6dp" />
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_stroke_width"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:background="@color/surface_divider" />
+
+        <!-- Role -->
+        <TextView
+            android:id="@+id/txtUserRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_role_default"
+            android:textColor="@color/brand_green"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <!-- Credit Score -->
+        <TextView
+            android:id="@+id/txtUserCredit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/user_credit_default"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <!-- Risk Status -->
+        <TextView
+            android:id="@+id/txtUserRisk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/user_risk_default"
+            android:textColor="@color/status_warning"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
