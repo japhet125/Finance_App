@@ -79,20 +79,20 @@
         <Spinner
             android:id="@+id/spinnerLoanSort"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="@dimen/spacing_12"
-            android:backgroundTint="@color/brand_gold"
-            android:contentDescription="@string/loan_sort_options"
-            android:popupBackground="@color/surface_card" />
+            android:layout_height="@dimen/input_height"
+            android:background="@drawable/bg_spinner"
+            android:popupBackground="@color/surface_card"
+            android:spinnerMode="dropdown"
+            android:contentDescription="@string/loan_sort_options" />
 
         <Spinner
             android:id="@+id/spinnerLoanFilter"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="@dimen/spacing_12"
-            android:backgroundTint="@color/brand_gold"
-            android:contentDescription="@string/loan_filter_options"
-            android:popupBackground="@color/surface_card" />
+            android:layout_height="@dimen/input_height"
+            android:background="@drawable/bg_spinner"
+            android:popupBackground="@color/surface_card"
+            android:spinnerMode="dropdown"
+            android:contentDescription="@string/loan_filter_options" />
 
     </LinearLayout>
 

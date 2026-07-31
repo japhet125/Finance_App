@@ -148,7 +148,7 @@
             android:hint="@string/search_admin_loans"
             android:inputType="text"
             android:minHeight="@dimen/touch_target_min"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/input_text"
             android:textColorHint="@color/input_hint"
             android:textSize="@dimen/text_body" />
 

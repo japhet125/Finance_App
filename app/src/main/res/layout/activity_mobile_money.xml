@@ -43,17 +43,20 @@
         <Spinner
             android:id="@+id/spinnerMobileMoneyCountry"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:backgroundTint="@color/brand_green"
+            android:layout_height="@dimen/input_height"
+            android:background="@drawable/bg_spinner"
+            android:popupBackground="@color/surface_card"
+            android:spinnerMode="dropdown"
             android:contentDescription="@string/mobile_money_country" />
 
         <!-- Provider -->
         <Spinner
             android:id="@+id/spinnerMobileMoneyProvider"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="@dimen/spacing_12"
-            android:backgroundTint="@color/brand_green"
+            android:layout_height="@dimen/input_height"
+            android:background="@drawable/bg_spinner"
+            android:popupBackground="@color/surface_card"
+            android:spinnerMode="dropdown"
             android:contentDescription="@string/mobile_money_provider" />
 
         <!-- Phone -->

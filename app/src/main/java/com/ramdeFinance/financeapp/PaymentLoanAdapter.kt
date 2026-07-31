@@ -3,30 +3,41 @@ package com.ramdefinance.financeapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import android.text.Editable
 import android.text.TextWatcher
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
 class PaymentLoanAdapter(
     private val loanList: List<Pair<String, PaymentLoanModel>>,
     private var language: String = "en"
 ) : RecyclerView.Adapter<PaymentLoanAdapter.PaymentLoanViewHolder>() {
 
-    class PaymentLoanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val amount: TextView = itemView.findViewById(R.id.txtPaymentLoanAmount)
-        val reason: TextView = itemView.findViewById(R.id.txtPaymentLoanReason)
-        val plan: TextView = itemView.findViewById(R.id.txtPaymentLoanPlan)
-        val balance: TextView = itemView.findViewById(R.id.txtPaymentLoanBalance)
-        val payAmount: EditText = itemView.findViewById(R.id.etPayAmount)
-        val payButton: Button = itemView.findViewById(R.id.btnPayLoan)
+    class PaymentLoanViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
+        val amount: TextView =
+            itemView.findViewById(R.id.txtPaymentLoanAmount)
+
+        val reason: TextView =
+            itemView.findViewById(R.id.txtPaymentLoanReason)
+
+        val plan: TextView =
+            itemView.findViewById(R.id.txtPaymentLoanPlan)
+
+        val balance: TextView =
+            itemView.findViewById(R.id.txtPaymentLoanBalance)
+
+        val payAmount: TextInputEditText =
+            itemView.findViewById(R.id.etPayAmount)
+
+        val payButton: MaterialButton =
+            itemView.findViewById(R.id.btnPayLoan)
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentLoanViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.payment_loan_item, parent, false)
@@ -85,9 +96,6 @@ class PaymentLoanAdapter(
             holder.balance.text =
                 "Solde restant : $formattedRemainingBalance"
 
-            holder.payAmount.hint =
-                "Montant du paiement"
-
             holder.payButton.text =
                 "Payer"
         } else {
@@ -102,9 +110,6 @@ class PaymentLoanAdapter(
 
             holder.balance.text =
                 "Remaining Balance: $formattedRemainingBalance"
-
-            holder.payAmount.hint =
-                "Payment Amount"
 
             holder.payButton.text =
                 "Pay"
@@ -272,14 +277,15 @@ class PaymentLoanAdapter(
 
                             Toast.makeText(
                                 holder.itemView.context,
-                                if (language == "fr")
+                                if (language == "fr") {
                                     "Paiement soumis pour approbation."
-                                else
-                                    "Payment submitted for admin review.",
+                                } else {
+                                    "Payment submitted for admin review."
+                                },
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            holder.payAmount.text.clear()
+                            holder.payAmount.text?.clear()
                         }
                         .addOnFailureListener { e ->
 
@@ -298,23 +304,23 @@ class PaymentLoanAdapter(
                 }
         }
     }
-        override fun getItemCount(): Int {
-            return loanList.size
-        }
-
-        private fun parseMoney(value: String): Double {
-            return value
-                .replace("$", "")
-                .replace("FCFA", "")
-                .replace("F CFA", "")
-                .replace("CFA", "")
-                .replace(",", ".")
-                .trim()
-                .toDoubleOrNull() ?: 0.0
-        }
-
-        fun updateLanguage(newLanguage: String) {
-            language = newLanguage
-            notifyDataSetChanged()
-        }
+    override fun getItemCount(): Int {
+        return loanList.size
     }
+
+    private fun parseMoney(value: String): Double {
+        return value
+            .replace("$", "")
+            .replace("FCFA", "")
+            .replace("F CFA", "")
+            .replace("CFA", "")
+            .replace(",", ".")
+            .trim()
+            .toDoubleOrNull() ?: 0.0
+    }
+
+    fun updateLanguage(newLanguage: String) {
+        language = newLanguage
+        notifyDataSetChanged()
+    }
+}

@@ -3,12 +3,12 @@ package com.ramdefinance.financeapp
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -17,52 +17,40 @@ class LanguageSettingsActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
+    private lateinit var saveButton: MaterialButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language_settings)
 
-        val backButton = findViewById<Button>(R.id.btnBack)
-        val languageSpinner = findViewById<Spinner>(R.id.spLanguage)
-        val saveButton = findViewById<Button>(R.id.btnSaveLanguage)
+        val backButton =
+            findViewById<MaterialButton>(R.id.btnBack)
+
+        val languageSpinner =
+            findViewById<Spinner>(R.id.spLanguage)
+
+        saveButton =
+            findViewById(R.id.btnSaveLanguage)
 
         backButton.setOnClickListener {
             finish()
         }
 
-        val adapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.languages,
-            android.R.layout.simple_spinner_item
-        )
-
-        adapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        languageSpinner.adapter = adapter
+        setupLanguageSpinner(languageSpinner)
 
         val userId = auth.currentUser?.uid
 
-        if (userId != null) {
-            db.collection("users")
-                .document(userId)
-                .get()
-                .addOnSuccessListener { document ->
-                    val language =
-                        document.getString("language") ?: getCurrentLanguage()
-
-                    languageSpinner.setSelection(
-                        if (language == "fr") 1 else 0
-                    )
-                }
-        }
+        loadSavedLanguage(
+            userId = userId,
+            languageSpinner = languageSpinner
+        )
 
         saveButton.setOnClickListener {
             val languageCode =
                 if (languageSpinner.selectedItemPosition == 1) {
-                    "fr"
+                    LANGUAGE_FRENCH
                 } else {
-                    "en"
+                    LANGUAGE_ENGLISH
                 }
 
             saveLanguage(
@@ -72,11 +60,75 @@ class LanguageSettingsActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupLanguageSpinner(
+        languageSpinner: Spinner
+    ) {
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.languages,
+            R.layout.item_spinner_selected
+        )
+
+        adapter.setDropDownViewResource(
+            R.layout.item_spinner_dropdown
+        )
+
+        languageSpinner.adapter = adapter
+    }
+
+    private fun loadSavedLanguage(
+        userId: String?,
+        languageSpinner: Spinner
+    ) {
+        if (userId == null) {
+            setSpinnerSelection(
+                languageSpinner = languageSpinner,
+                languageCode = getCurrentLanguage()
+            )
+
+            return
+        }
+
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                val languageCode =
+                    document.getString("language")
+                        ?: getCurrentLanguage()
+
+                setSpinnerSelection(
+                    languageSpinner = languageSpinner,
+                    languageCode = languageCode
+                )
+            }
+            .addOnFailureListener {
+                setSpinnerSelection(
+                    languageSpinner = languageSpinner,
+                    languageCode = getCurrentLanguage()
+                )
+            }
+    }
+
+    private fun setSpinnerSelection(
+        languageSpinner: Spinner,
+        languageCode: String
+    ) {
+        val position =
+            if (languageCode == LANGUAGE_FRENCH) {
+                1
+            } else {
+                0
+            }
+
+        languageSpinner.setSelection(position)
+    }
+
     private fun saveLanguage(
         userId: String?,
         languageCode: String
     ) {
-        saveButtonEnabled(false)
+        setSaveButtonEnabled(false)
 
         if (userId == null) {
             applyLanguage(languageCode)
@@ -96,30 +148,38 @@ class LanguageSettingsActivity : AppCompatActivity() {
                 applyLanguage(languageCode)
             }
             .addOnFailureListener { error ->
-                saveButtonEnabled(true)
+                setSaveButtonEnabled(true)
 
                 Toast.makeText(
                     this,
-                    error.message ?: getString(R.string.language_update_failed),
+                    error.message
+                        ?: getString(
+                            R.string.language_update_failed
+                        ),
                     Toast.LENGTH_LONG
                 ).show()
             }
     }
 
-    private fun applyLanguage(languageCode: String) {
+    private fun applyLanguage(
+        languageCode: String
+    ) {
         AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(languageCode)
+            LocaleListCompat.forLanguageTags(
+                languageCode
+            )
         )
 
-        val intent = Intent(
-            this,
-            DashboardActivity::class.java
-        ).apply {
-            flags =
-                Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                        Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+        val intent =
+            Intent(
+                this,
+                DashboardActivity::class.java
+            ).apply {
+                flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                            Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
 
         startActivity(intent)
         finish()
@@ -132,10 +192,20 @@ class LanguageSettingsActivity : AppCompatActivity() {
             ?: resources.configuration.locales[0].language
     }
 
-    private fun saveButtonEnabled(enabled: Boolean) {
-        findViewById<Button>(R.id.btnSaveLanguage).apply {
-            isEnabled = enabled
-            alpha = if (enabled) 1f else 0.6f
-        }
+    private fun setSaveButtonEnabled(
+        enabled: Boolean
+    ) {
+        saveButton.isEnabled = enabled
+        saveButton.alpha =
+            if (enabled) {
+                1f
+            } else {
+                0.6f
+            }
+    }
+
+    private companion object {
+        const val LANGUAGE_ENGLISH = "en"
+        const val LANGUAGE_FRENCH = "fr"
     }
 }

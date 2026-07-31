@@ -37,34 +37,48 @@
             android:textSize="@dimen/text_display"
             android:textStyle="bold" />
 
+        <!-- Loan amount -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutLoanAmount"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/loan_amount"
             app:boxBackgroundColor="@color/surface_input"
+            app:boxCornerRadiusBottomEnd="@dimen/button_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/button_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/button_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/button_corner_radius"
             app:boxStrokeColor="@color/brand_green"
             app:hintTextColor="@color/input_hint"
-            app:prefixText="$">
+            app:prefixText="$ "
+            app:prefixTextColor="@color/input_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLoanAmount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/loan_amount"
+                android:layout_height="@dimen/input_height"
                 android:imeOptions="actionNext"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/input_hint" />
+                android:textColor="@color/input_text"
+                android:textSize="@dimen/text_body" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Loan reason -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutLoanReason"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
+            android:hint="@string/loan_reason"
             app:boxBackgroundColor="@color/surface_input"
+            app:boxCornerRadiusBottomEnd="@dimen/button_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/button_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/button_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/button_corner_radius"
             app:boxStrokeColor="@color/brand_green"
             app:hintTextColor="@color/input_hint">
 
@@ -73,13 +87,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/multiline_input_height"
                 android:gravity="top|start"
-                android:hint="@string/loan_reason"
+                android:imeOptions="actionDone"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="5"
                 android:minLines="4"
                 android:paddingTop="@dimen/spacing_md"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/input_hint" />
+                android:textColor="@color/input_text"
+                android:textSize="@dimen/text_body" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,58 +113,58 @@
             android:layout_marginTop="@dimen/spacing_sm"
             android:orientation="vertical">
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbWeekly10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target_min"
-                android:buttonTint="@color/brand_green"
                 android:text="@string/payment_plan_weekly_10"
                 android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body" />
+                android:textSize="@dimen/text_body"
+                app:buttonTint="@color/brand_green" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbWeekly14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target_min"
-                android:buttonTint="@color/brand_green"
                 android:text="@string/payment_plan_weekly_14"
                 android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body" />
+                android:textSize="@dimen/text_body"
+                app:buttonTint="@color/brand_green" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbMonthly12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target_min"
-                android:buttonTint="@color/brand_green"
                 android:text="@string/payment_plan_monthly_12"
                 android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body" />
+                android:textSize="@dimen/text_body"
+                app:buttonTint="@color/brand_green" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbOneTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target_min"
-                android:buttonTint="@color/brand_green"
                 android:text="@string/payment_plan_one_time"
                 android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body" />
+                android:textSize="@dimen/text_body"
+                app:buttonTint="@color/brand_green" />
 
         </RadioGroup>
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cbAutoPay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
-            android:buttonTint="@color/brand_green"
             android:minHeight="@dimen/touch_target_min"
             android:text="@string/enable_auto_pay"
             android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_body" />
+            android:textSize="@dimen/text_body"
+            app:buttonTint="@color/brand_green" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitLoan"
@@ -158,6 +172,7 @@
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="@dimen/spacing_lg"
             android:text="@string/submit_loan_request"
+            android:textColor="@color/text_primary"
             android:textSize="@dimen/text_body"
             app:backgroundTint="@color/brand_green"
             app:cornerRadius="@dimen/button_corner_radius"

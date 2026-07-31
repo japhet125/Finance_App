@@ -2,13 +2,13 @@
 <resources>
 
     <!-- Base -->
-    <color name="black">#FF000000</color>
+    <color name="black">#BE000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
     <!-- Brand -->
     <color name="brand_green">#8CBF5A</color>
-    <color name="brand_green_dark">#5F8F35</color>
+    <color name="brand_green_dark">#DA4F8F35</color>
     <color name="brand_green_light">#B7DA91</color>
 
     <color name="brand_gold">#C9A227</color>
@@ -16,40 +16,38 @@
     <color name="brand_gold_light">#E3CA72</color>
 
     <!-- Backgrounds -->
-    <color name="background_primary">#0D0F0D</color>
-    <color name="background_secondary">#121510</color>
+    <color name="background_primary">#B80D0F0D</color>
+    <color name="background_secondary">#67121510</color>f
 
     <!-- Surfaces -->
-    <color name="surface_card">#171A16</color>
-    <color name="surface_card_elevated">#1D211B</color>
-    <color name="surface_input">#20241E</color>
-    <color name="surface_stroke">#2D342A</color>
-    <color name="surface_divider">#30352E</color>
+    <color name="surface_card">#A6161A16</color>
+    <color name="surface_card_elevated">#6D1C211B</color>
+    <color name="surface_stroke">#802B342A</color>
+    <color name="surface_divider">#622E3530</color>
 
     <!-- Text -->
-    <color name="text_primary">#F8F8F8</color>
+    <color name="text_primary">#F5F7F5</color>
     <color name="text_secondary">#A9A9A9</color>
     <color name="text_muted">#777C74</color>
-    <color name="text_on_brand">#0D0F0D</color>
+    <color name="text_on_brand">#6F0D0F0E</color>
     <color name="text_disabled">#5F645D</color>
 
     <!-- Status -->
     <color name="status_success">#69B96B</color>
-    <color name="status_success_background">#17351D</color>
+    <color name="status_success_background">#80173520</color>
 
     <color name="status_warning">#E1B84B</color>
-    <color name="status_warning_background">#3B3012</color>
+    <color name="status_warning_background">#A63B3012</color>
 
     <color name="status_error">#E57373</color>
-    <color name="status_error_background">#3C1919</color>
+    <color name="status_error_background">#3C2919</color>
 
     <color name="status_info">#70A7D8</color>
-    <color name="status_info_background">#172B3D</color>
+    <color name="status_info_background">#17263D</color>
 
     <!-- Controls -->
-    <color name="control_disabled">#41463F</color>
+    <color name="control_disabled">#D140463F</color>
     <color name="control_pressed">#6FA03F</color>
-    <color name="input_hint">#777C74</color>
     <color name="input_cursor">#8CBF5A</color>
 
     <!-- Navigation -->
@@ -59,6 +57,17 @@
 
     <!-- Overlay -->
     <color name="overlay_scrim">#99000000</color>
+
+    <color name="surface_input">#8D1C211D</color>
+    <color name="surface_input_focused">#AD232A27</color>
+
+    <color name="input_text">#F4F6F4</color>
+    <color name="input_hint">#A8AFA9</color>
+    <color name="input_hint_disabled">#737A74</color>
+
+    <color name="dropdown_text">#FFFFFFFF</color>
+    <color name="dropdown_background">#5D211E1C</color>
+
 
 
 

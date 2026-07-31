@@ -83,5 +83,6 @@
 
     <dimen name="welcome_logo_size">150dp</dimen>
     <dimen name="spacing_2xl">40dp</dimen>
+    <dimen name="input_height">56dp</dimen>
 
 </resources>
