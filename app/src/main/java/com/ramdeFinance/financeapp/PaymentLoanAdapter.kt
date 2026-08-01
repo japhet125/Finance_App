@@ -165,11 +165,11 @@ class PaymentLoanAdapter(
             holder.payButton.alpha = 0.5f
             val paymentText = holder.payAmount.text.toString().trim()
 
-            val paymentValue = parseMoney(paymentText)
+            val paymentValue =
+                String.format("%.2f", parseMoney(paymentText)).toDouble()
 
-            val currentBalance = parseMoney(
-                loan.remainingBalance
-            )
+            val currentBalance =
+                String.format("%.2f", parseMoney(loan.remainingBalance)).toDouble()
 
             if (paymentValue <= 0.0) {
 

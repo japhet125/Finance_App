@@ -426,6 +426,16 @@
     <string name="user_role_default">Role:</string>
     <string name="user_credit_default">Credit Score:</string>
     <string name="user_risk_default">Risk:</string>
+    <string name="currency_input_prefix">F CFA</string>
+
+    <string name="enter_email_and_password">Please enter email and password</string>
+    <string name="login_failed_message">Login failed: %1$s</string>
+    <string name="user_not_found">User not found</string>
+    <string name="verify_email_before_login">Please verify your email before logging in.</string>
+    <string name="account_suspended">Your account has been suspended. Please contact support.</string>
+    <string name="login_successful">Login successful</string>
+
+    <string name="auto_pay_failed">Auto Pay failed: %1$s</string>
 
 
 

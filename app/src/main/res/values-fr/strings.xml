@@ -412,6 +412,16 @@
     <string name="user_role_default">Rôle :</string>
     <string name="user_credit_default">Cote de crédit :</string>
     <string name="user_risk_default">Risque :</string>
+    <string name="currency_input_prefix">F CFA</string>
+
+    <string name="enter_email_and_password">Veuillez saisir votre adresse e-mail et votre mot de passe</string>
+    <string name="login_failed_message">Échec de la connexion : %1$s</string>
+    <string name="user_not_found">Utilisateur introuvable</string>
+    <string name="verify_email_before_login">Veuillez vérifier votre adresse e-mail avant de vous connecter.</string>
+    <string name="account_suspended">Votre compte a été suspendu. Veuillez contacter le service d’assistance.</string>
+    <string name="login_successful">Connexion réussie</string>
+
+    <string name="auto_pay_failed">Échec du paiement automatique : %1$s</string>
 
 
 

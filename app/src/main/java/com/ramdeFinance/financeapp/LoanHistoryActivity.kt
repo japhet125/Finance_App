@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class LoanHistoryActivity : AppCompatActivity() {
 
@@ -34,6 +35,9 @@ class LoanHistoryActivity : AppCompatActivity() {
     private var selectedFilter = FILTER_ALL
     private var selectedSort = SORT_NEWEST
     private var searchQuery = ""
+
+
+    private var loanListener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -252,44 +256,39 @@ class LoanHistoryActivity : AppCompatActivity() {
             FirebaseAuth.getInstance().currentUser?.uid
 
         if (userId == null) {
-            ListStateHelper.showError(
-                recyclerView = recyclerView,
-                progressBar = progressBar,
-                emptyText = emptyText,
-                message = getString(
-                    R.string.loan_history_load_failed
-                )
-            )
-
+            finish()
             return
         }
 
         val db = FirebaseFirestore.getInstance()
+        loanListener?.remove()
 
-        db.collection("loan_requests")
-            .whereEqualTo("userId", userId)
-            .addSnapshotListener { snapshots, error ->
+        loanListener =
+            db.collection("loan_requests")
+                .whereEqualTo("userId", userId)
+                .addSnapshotListener { snapshots, error ->
 
-                if (error != null) {
-                    ListStateHelper.showError(
-                        recyclerView = recyclerView,
-                        progressBar = progressBar,
-                        emptyText = emptyText,
-                        message = getString(
-                            R.string.loan_history_load_failed
+                    if (error != null) {
+
+                        if (FirebaseAuth.getInstance().currentUser == null) {
+                            return@addSnapshotListener
+                        }
+
+                        ListStateHelper.showError(
+                            recyclerView = recyclerView,
+                            progressBar = progressBar,
+                            emptyText = emptyText,
+                            message = getString(R.string.loan_history_load_failed)
                         )
-                    )
 
-                    Toast.makeText(
-                        this,
-                        getString(
-                            R.string.loan_history_load_failed
-                        ),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.makeText(
+                            this,
+                            getString(R.string.loan_history_load_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    return@addSnapshotListener
-                }
+                        return@addSnapshotListener
+                    }
 
                 allLoans.clear()
 
@@ -540,6 +539,13 @@ class LoanHistoryActivity : AppCompatActivity() {
                 selectedItemId = R.id.navigationLoans
             )
         }
+
+        if (
+            loanListener == null &&
+            FirebaseAuth.getInstance().currentUser != null
+        ) {
+            loadLoans()
+        }
     }
 
     private fun parseMoney(value: String): Double {
@@ -570,5 +576,11 @@ class LoanHistoryActivity : AppCompatActivity() {
 
         const val DEFAULT_CREDIT_SCORE = 500L
         const val OVERDUE_SCORE_PENALTY = 25L
+    }
+    override fun onStop() {
+        super.onStop()
+
+        loanListener?.remove()
+        loanListener = null
     }
 }

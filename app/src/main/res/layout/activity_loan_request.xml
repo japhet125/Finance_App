@@ -51,7 +51,7 @@
             app:boxCornerRadiusTopStart="@dimen/button_corner_radius"
             app:boxStrokeColor="@color/brand_green"
             app:hintTextColor="@color/input_hint"
-            app:prefixText="$ "
+            app:prefixText="@string/currency_input_prefix"
             app:prefixTextColor="@color/input_text">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -18,102 +18,186 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val backButton = findViewById<Button>(R.id.btnBack)
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        val backButton =
+            findViewById<Button>(R.id.btnBack)
+
+        val emailInput =
+            findViewById<EditText>(R.id.etLoginEmail)
+
+        val passwordInput =
+            findViewById<EditText>(R.id.etLoginPassword)
+
+        val loginButton =
+            findViewById<Button>(R.id.btnLoginNow)
+
+        val forgotPasswordButton =
+            findViewById<Button>(R.id.btnForgotPassword)
 
         backButton.setOnClickListener {
             finish()
         }
 
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-
-        val email = findViewById<EditText>(R.id.etLoginEmail)
-        val password = findViewById<EditText>(R.id.etLoginPassword)
-        val loginButton = findViewById<Button>(R.id.btnLoginNow)
+        forgotPasswordButton.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ForgotPasswordActivity::class.java
+                )
+            )
+        }
 
         loginButton.setOnClickListener {
+            val email =
+                emailInput.text.toString().trim()
 
-            val emailText = email.text.toString().trim()
-            val passwordText = password.text.toString().trim()
+            val password =
+                passwordInput.text.toString().trim()
 
-            if (emailText.isBlank() || passwordText.isBlank()) {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            if (email.isBlank() || password.isBlank()) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.enter_email_and_password),
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 return@setOnClickListener
             }
 
-            auth.signInWithEmailAndPassword(emailText, passwordText)
-                .addOnCompleteListener(this) { task ->
-
-                    if (!task.isSuccessful) {
-                        Toast.makeText(
-                            this,
-                            "Login failed: ${task.exception?.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        return@addOnCompleteListener
-                    }
-
-                    val user = auth.currentUser
-
-                    if (user == null) {
-                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
-                        return@addOnCompleteListener
-                    }
-
-                    user.reload().addOnSuccessListener {
-
-                        if (!user.isEmailVerified) {
-                            Toast.makeText(
-                                this,
-                                "Please verify your email before logging in.",
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                            auth.signOut()
-                            return@addOnSuccessListener
-                        }
-
-                        db.collection("users")
-                            .document(user.uid)
-                            .get()
-                            .addOnSuccessListener { document ->
-
-                                val accountStatus =
-                                    document.getString("accountStatus") ?: "active"
-
-                                if (accountStatus == "suspended") {
-                                    Toast.makeText(
-                                        this,
-                                        "Your account has been suspended. Please contact support.",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-                                    auth.signOut()
-                                } else {
-                                    db.collection("users")
-                                        .document(user.uid)
-                                        .update("emailVerified", true)
-
-                                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-
-                                    startActivity(Intent(this, DashboardActivity::class.java))
-                                    finish()
-                                }
-                            }
-                    }
-                }
-            val forgotPasswordButton =
-                findViewById<Button>(R.id.btnForgotPassword)
-
-            forgotPasswordButton.setOnClickListener {
-
-                startActivity(
-                    Intent(
-                        this,
-                        ForgotPasswordActivity::class.java
-                    )
-                )
-            }
+            loginUser(
+                email = email,
+                password = password
+            )
         }
+    }
+
+    private fun loginUser(
+        email: String,
+        password: String
+    ) {
+        auth.signInWithEmailAndPassword(
+            email,
+            password
+        ).addOnCompleteListener(this) { task ->
+
+            if (!task.isSuccessful) {
+                Toast.makeText(
+                    this,
+                    getString(
+                        R.string.login_failed_message,
+                        task.exception?.message.orEmpty()
+                    ),
+                    Toast.LENGTH_LONG
+                ).show()
+
+                return@addOnCompleteListener
+            }
+
+            val user = auth.currentUser
+
+            if (user == null) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.user_not_found),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                return@addOnCompleteListener
+            }
+
+            user.reload()
+                .addOnSuccessListener {
+                    validateSignedInUser()
+                }
+                .addOnFailureListener { error ->
+                    Toast.makeText(
+                        this,
+                        getString(
+                            R.string.login_failed_message,
+                            error.message.orEmpty()
+                        ),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+        }
+    }
+
+    private fun validateSignedInUser() {
+        val user = auth.currentUser
+
+        if (user == null) {
+            return
+        }
+
+        if (!user.isEmailVerified) {
+            Toast.makeText(
+                this,
+                getString(R.string.verify_email_before_login),
+                Toast.LENGTH_LONG
+            ).show()
+
+            auth.signOut()
+            return
+        }
+
+        db.collection("users")
+            .document(user.uid)
+            .get()
+            .addOnSuccessListener { document ->
+
+                val accountStatus =
+                    document.getString("accountStatus")
+                        ?: "active"
+
+                if (accountStatus == "suspended") {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.account_suspended),
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    auth.signOut()
+                    return@addOnSuccessListener
+                }
+
+                db.collection("users")
+                    .document(user.uid)
+                    .update("emailVerified", true)
+
+                Toast.makeText(
+                    this,
+                    getString(R.string.login_successful),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                openDashboard()
+            }
+            .addOnFailureListener { error ->
+                Toast.makeText(
+                    this,
+                    getString(
+                        R.string.login_failed_message,
+                        error.message.orEmpty()
+                    ),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+    }
+
+    private fun openDashboard() {
+        val intent =
+            Intent(
+                this,
+                DashboardActivity::class.java
+            ).apply {
+                flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+        startActivity(intent)
+        finish()
     }
 }

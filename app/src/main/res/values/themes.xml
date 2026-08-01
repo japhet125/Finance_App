@@ -6,4 +6,5 @@
     </style>
 
     <style name="Theme.Finance_App" parent="Base.Theme.Finance_App" />
+
 </resources>

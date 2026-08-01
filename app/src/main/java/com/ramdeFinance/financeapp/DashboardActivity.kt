@@ -20,16 +20,22 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.google.firebase.firestore.ListenerRegistration
 
 
 class DashboardActivity : AppCompatActivity() {
 
     private var userLanguage = "en"
     private var isAdminUser = false
+    private var isLoggingOut = false
+    private var unreadNotificationsListener: ListenerRegistration? = null
+    private var autoPayListener: ListenerRegistration? = null
+    private var loanStatsListener: ListenerRegistration? = null
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
     private lateinit var bottomNavigation: BottomNavigationView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -411,9 +417,24 @@ class DashboardActivity : AppCompatActivity() {
                 }
 
                 logoutText -> {
-                    auth.signOut()
-                    startActivity(Intent(this, MainActivity::class.java))
+                    isLoggingOut = true
+                    removeFirestoreListeners()
+
+                    val intent =
+                        Intent(
+                            this,
+                            MainActivity::class.java
+                        ).apply {
+                            flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+
+                    startActivity(intent)
                     finish()
+
+                    auth.signOut()
+
                     true
                 }
 
@@ -442,20 +463,25 @@ class DashboardActivity : AppCompatActivity() {
         userId: String,
         unreadNotificationsText: TextView
     ) {
-        db.collection("notifications")
-            .whereEqualTo("userId", userId)
-            .whereEqualTo("isRead", false)
-            .addSnapshotListener { snapshots, error ->
+        unreadNotificationsListener?.remove()
 
-                if (error != null) {
-                    return@addSnapshotListener
+        unreadNotificationsListener =
+            db.collection("notifications")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("isRead", false)
+                .addSnapshotListener { snapshots, error ->
+
+                    if (error != null) {
+                        if (auth.currentUser == null) {
+                            return@addSnapshotListener
+                        }
+
+                        return@addSnapshotListener
+                    }
+
+                    unreadNotificationsText.text =
+                        (snapshots?.size() ?: 0).toString()
                 }
-
-                val unreadCount = snapshots?.size() ?: 0
-
-                unreadNotificationsText.text =
-                    unreadCount.toString()
-            }
     }
 
     private fun listenForAutoPayStatus(
@@ -464,16 +490,23 @@ class DashboardActivity : AppCompatActivity() {
         autoPayNextDateText: TextView,
         autoPayAmountText: TextView
     ) {
-        db.collection("loan_requests")
-            .whereEqualTo("userId", userId)
-            .whereEqualTo("autoPayEnabled", true)
-            .whereEqualTo("autoPayStatus", "scheduled")
-            .limit(1)
-            .addSnapshotListener { snapshots, error ->
+        autoPayListener?.remove()
 
-                if (error != null) {
-                    return@addSnapshotListener
-                }
+        autoPayListener =
+            db.collection("loan_requests")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("autoPayEnabled", true)
+                .whereEqualTo("autoPayStatus", "scheduled")
+                .limit(1)
+                .addSnapshotListener { snapshots, error ->
+
+                    if (error != null) {
+                        if (auth.currentUser == null) {
+                            return@addSnapshotListener
+                        }
+
+                        return@addSnapshotListener
+                    }
 
                 val loan = snapshots?.documents?.firstOrNull()
 
@@ -554,13 +587,20 @@ class DashboardActivity : AppCompatActivity() {
     ) {
 
 
-        db.collection("loan_requests")
-            .whereEqualTo("userId", userId)
-            .addSnapshotListener { snapshots, error ->
+        loanStatsListener?.remove()
 
-                if (error != null) {
-                    return@addSnapshotListener
-                }
+        loanStatsListener =
+            db.collection("loan_requests")
+                .whereEqualTo("userId", userId)
+                .addSnapshotListener { snapshots, error ->
+
+                    if (error != null) {
+                        if (auth.currentUser == null) {
+                            return@addSnapshotListener
+                        }
+
+                        return@addSnapshotListener
+                    }
 
                 var totalRequested = 0.0
                 var approvedAmount = 0.0
@@ -614,21 +654,30 @@ class DashboardActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { loans ->
 
-                for (document in loans.documents) {
-                    val dueDate = document.getLong("nextPaymentDate") ?: 0L
-                    val reminderSent = document.getBoolean("reminderSent") ?: false
-                    val remainingBalance =
-                        parseMoney(document.getString("remainingBalance") ?: "0")
-                    val paymentAmount =
-                        document.getString("nextPaymentAmount") ?: "0.00"
-                    val numericPaymentAmount =
-                        parseMoney(paymentAmount)
+                if (
+                    isLoggingOut ||
+                    auth.currentUser?.uid != userId
+                ) {
+                    return@addOnSuccessListener
+                }
 
-                    val formattedPaymentAmount =
-                        CurrencyFormatter.format(
-                            amount = numericPaymentAmount,
-                            currencyCode = "XOF",
-                            languageCode = userLanguage
+                for (document in loans.documents) {
+                    val dueDate =
+                        document.getLong("nextPaymentDate") ?: 0L
+
+                    val reminderSent =
+                        document.getBoolean("reminderSent") ?: false
+
+                    val remainingBalance =
+                        parseMoney(
+                            document.getString("remainingBalance")
+                                ?: "0"
+                        )
+
+                    val paymentAmount =
+                        parseMoney(
+                            document.getString("nextPaymentAmount")
+                                ?: "0"
                         )
 
                     val shouldSendReminder =
@@ -638,36 +687,55 @@ class DashboardActivity : AppCompatActivity() {
                                 dueDate - now <= oneDayMillis &&
                                 dueDate > now
 
-                    if (shouldSendReminder) {
-                        val notification =
-                            if (userLanguage == "fr") {
-                                hashMapOf(
-                                    "userId" to userId,
-                                    "title" to "Rappel de paiement",
-                                    "message" to
-                                            "Votre paiement de $formattedPaymentAmount est dû demain.",
-                                    "timestamp" to now,
-                                    "isRead" to false
-                                )
-                            } else {
-                                hashMapOf(
-                                    "userId" to userId,
-                                    "title" to "Payment Reminder",
-                                    "message" to
-                                            "Your payment of $formattedPaymentAmount is due tomorrow.",
-                                    "timestamp" to now,
-                                    "isRead" to false
-                                )
+                    if (!shouldSendReminder) {
+                        continue
+                    }
+
+                    val formattedPaymentAmount =
+                        CurrencyFormatter.format(
+                            amount = paymentAmount,
+                            currencyCode = "XOF",
+                            languageCode = userLanguage
+                        )
+
+                    val notification =
+                        if (userLanguage == "fr") {
+                            hashMapOf(
+                                "userId" to userId,
+                                "title" to "Rappel de paiement",
+                                "message" to
+                                        "Votre paiement de " +
+                                        "$formattedPaymentAmount est dû demain.",
+                                "timestamp" to now,
+                                "isRead" to false
+                            )
+                        } else {
+                            hashMapOf(
+                                "userId" to userId,
+                                "title" to "Payment Reminder",
+                                "message" to
+                                        "Your payment of " +
+                                        "$formattedPaymentAmount is due tomorrow.",
+                                "timestamp" to now,
+                                "isRead" to false
+                            )
+                        }
+
+                    db.collection("notifications")
+                        .add(notification)
+                        .addOnSuccessListener {
+
+                            if (
+                                isLoggingOut ||
+                                auth.currentUser?.uid != userId
+                            ) {
+                                return@addOnSuccessListener
                             }
 
-                        db.collection("notifications")
-                            .add(notification)
-                            .addOnSuccessListener {
-                                db.collection("loan_requests")
-                                    .document(document.id)
-                                    .update("reminderSent", true)
-                            }
-                    }
+                            db.collection("loan_requests")
+                                .document(document.id)
+                                .update("reminderSent", true)
+                        }
                 }
             }
     }
@@ -683,29 +751,47 @@ class DashboardActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { loans ->
 
+                if (
+                    isLoggingOut ||
+                    auth.currentUser?.uid != userId
+                ) {
+                    return@addOnSuccessListener
+                }
+
                 for (document in loans.documents) {
-                    val nextPaymentDate = document.getLong("nextPaymentDate") ?: 0L
+                    val nextPaymentDate =
+                        document.getLong("nextPaymentDate") ?: 0L
 
                     if (nextPaymentDate > now) {
                         continue
                     }
 
                     val remainingBalance =
-                        parseMoney(document.getString("remainingBalance") ?: "0")
+                        parseMoney(
+                            document.getString("remainingBalance")
+                                ?: "0"
+                        )
 
                     val paymentAmount =
-                        parseMoney(document.getString("nextPaymentAmount") ?: "0")
+                        parseMoney(
+                            document.getString("nextPaymentAmount")
+                                ?: "0"
+                        )
 
-                    if (remainingBalance <= 0.0 || paymentAmount <= 0.0) {
+                    if (
+                        remainingBalance <= 0.0 ||
+                        paymentAmount <= 0.0
+                    ) {
                         continue
                     }
 
                     val actualPayment =
-                        if (paymentAmount > remainingBalance) {
-                            remainingBalance
-                        } else {
-                            paymentAmount
-                        }
+                        paymentAmount.coerceAtMost(remainingBalance)
+
+                    val newBalance =
+                        (remainingBalance - actualPayment)
+                            .coerceAtLeast(0.0)
+
                     val formattedActualPayment =
                         CurrencyFormatter.format(
                             amount = actualPayment,
@@ -713,10 +799,9 @@ class DashboardActivity : AppCompatActivity() {
                             languageCode = userLanguage
                         )
 
-                    val newBalance = remainingBalance - actualPayment
-
                     val paymentFrequency =
-                        document.getString("paymentFrequency") ?: "weekly"
+                        document.getString("paymentFrequency")
+                            ?: "weekly"
 
                     val nextDate =
                         when (paymentFrequency) {
@@ -726,11 +811,16 @@ class DashboardActivity : AppCompatActivity() {
                             else -> addDays(now, 7)
                         }
 
-                    val updates = hashMapOf<String, Any>(
-                        "remainingBalance" to String.format(Locale.US, "%.2f", newBalance),
-                        "lastAutoPaymentAt" to now,
-                        "reminderSent" to false
-                    )
+                    val updates =
+                        hashMapOf<String, Any>(
+                            "remainingBalance" to String.format(
+                                Locale.US,
+                                "%.2f",
+                                newBalance
+                            ),
+                            "lastAutoPaymentAt" to now,
+                            "reminderSent" to false
+                        )
 
                     if (newBalance <= 0.0) {
                         updates["remainingBalance"] = "0.00"
@@ -745,28 +835,38 @@ class DashboardActivity : AppCompatActivity() {
                     db.collection("loan_requests")
                         .document(document.id)
                         .update(updates)
-                        .addOnFailureListener { e ->
-                            Toast.makeText(
-                                this,
-                                "Auto Pay failed: ${e.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
                         .addOnSuccessListener {
-                            val transaction = hashMapOf(
-                                "userId" to userId,
-                                "loanId" to document.id,
-                                "paymentAmount" to String.format(Locale.US, "%.2f", actualPayment),
-                                "previousBalance" to String.format(Locale.US, "%.2f", remainingBalance),
-                                "newBalance" to String.format(
-                                    Locale.US,
-                                    "%.2f",
-                                    newBalance.coerceAtLeast(0.0)
-                                ),
-                                "paymentDate" to now,
-                                "paymentType" to "auto_pay",
-                                "status" to "completed"
-                            )
+
+                            if (
+                                isLoggingOut ||
+                                auth.currentUser?.uid != userId
+                            ) {
+                                return@addOnSuccessListener
+                            }
+
+                            val transaction =
+                                hashMapOf(
+                                    "userId" to userId,
+                                    "loanId" to document.id,
+                                    "paymentAmount" to String.format(
+                                        Locale.US,
+                                        "%.2f",
+                                        actualPayment
+                                    ),
+                                    "previousBalance" to String.format(
+                                        Locale.US,
+                                        "%.2f",
+                                        remainingBalance
+                                    ),
+                                    "newBalance" to String.format(
+                                        Locale.US,
+                                        "%.2f",
+                                        newBalance
+                                    ),
+                                    "paymentDate" to now,
+                                    "paymentType" to "auto_pay",
+                                    "status" to "completed"
+                                )
 
                             db.collection("transactions")
                                 .add(transaction)
@@ -775,16 +875,22 @@ class DashboardActivity : AppCompatActivity() {
                                 if (userLanguage == "fr") {
                                     hashMapOf(
                                         "userId" to userId,
-                                        "title" to "Paiement automatique traité",
-                                        "message" to "Votre paiement automatique de $formattedActualPayment a été traité.",
+                                        "title" to
+                                                "Paiement automatique traité",
+                                        "message" to
+                                                "Votre paiement automatique de " +
+                                                "$formattedActualPayment a été traité.",
                                         "timestamp" to now,
                                         "isRead" to false
                                     )
                                 } else {
                                     hashMapOf(
                                         "userId" to userId,
-                                        "title" to "Auto Pay Processed",
-                                        "message" to "Your automatic payment of $formattedActualPayment was processed.",
+                                        "title" to
+                                                "Auto Pay Processed",
+                                        "message" to
+                                                "Your automatic payment of " +
+                                                "$formattedActualPayment was processed.",
                                         "timestamp" to now,
                                         "isRead" to false
                                     )
@@ -793,7 +899,47 @@ class DashboardActivity : AppCompatActivity() {
                             db.collection("notifications")
                                 .add(notification)
                         }
+                        .addOnFailureListener { error ->
+
+                            if (
+                                isLoggingOut ||
+                                auth.currentUser == null ||
+                                isFinishing ||
+                                isDestroyed
+                            ) {
+                                return@addOnFailureListener
+                            }
+
+                            Toast.makeText(
+                                this,
+                                getString(
+                                    R.string.auto_pay_failed,
+                                    error.message.orEmpty()
+                                ),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                 }
+            }
+            .addOnFailureListener { error ->
+
+                if (
+                    isLoggingOut ||
+                    auth.currentUser == null ||
+                    isFinishing ||
+                    isDestroyed
+                ) {
+                    return@addOnFailureListener
+                }
+
+                Toast.makeText(
+                    this,
+                    getString(
+                        R.string.auto_pay_failed,
+                        error.message.orEmpty()
+                    ),
+                    Toast.LENGTH_LONG
+                ).show()
             }
     }
 
@@ -969,6 +1115,20 @@ class DashboardActivity : AppCompatActivity() {
             else -> borrowerLevel
         }
 
+    }
+    private fun removeFirestoreListeners() {
+        unreadNotificationsListener?.remove()
+        unreadNotificationsListener = null
+
+        autoPayListener?.remove()
+        autoPayListener = null
+
+        loanStatsListener?.remove()
+        loanStatsListener = null
+    }
+    override fun onDestroy() {
+        removeFirestoreListeners()
+        super.onDestroy()
     }
 
 
