@@ -114,9 +114,14 @@ Email Notifications
 ![Screen](screenshots/screen_view.png)
 ## SignUp
 ![SignUp](screenshots/signup.png)
+## Updated
+![SignUp](screenshots/signUpScreen.png)
+
 ### Login Screen
 
 ![Login Screen](screenshots/login.png)
+## Updated
+![Dashboard](screenshots/dasboardviewScreen.png)
 
 ### Dashboard
 
@@ -127,14 +132,21 @@ Email Notifications
 ### Loan Request Screen
 
 ![Loan Request Screen](screenshots/loan_request.png)
+## Updated
+![LoanHistory](screenshots/loanHistoryScreen.png)
 
 ### Languages
 
 ![Language](screenshots/language_setting.png)
 
+## Updated 
+![Profile](screenshots/profileScreen.png)
+
 ### Admin Dashboard
 
 ![Admin Dashboard](screenshots/admin_dashboard.png)
+## Updated
+![Admin Analytics](screenshots/adminAnalyticScreen.png)
 
 ### Analytics Dashboard
 
